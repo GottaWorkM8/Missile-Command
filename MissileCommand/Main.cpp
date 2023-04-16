@@ -1,20 +1,14 @@
-#include <iostream>
 #include "Window.h"
 
 int main() {
-
-	std::cout << "Creating Window\n";
 
 	Window* window = new Window();
 	bool running = true;
 
 	while (running) {
 
-		if (window->ProcessMessages()) {
-
-			std::cout << "Closing Window\n";
-			running = false;	
-		}
+		if (window->ProcessMessages())
+			running = false;
 
 		Sleep(10);
 	}

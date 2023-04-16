@@ -1,4 +1,5 @@
 #include "Graphics.h"
+#include <iostream>
 
 Graphics::Graphics() {
 	
@@ -55,11 +56,13 @@ bool Graphics::Init() {
 	
 	if (b.Init()) {
 
-		groundBitmap = bitmapper->GetBitmap(L"mountains.jpg", renderTarget);
-		launcherBitmap = bitmapper->GetBitmap(L"barracks.png", renderTarget);
+		mapBitmap = bitmapper->GetBitmap(L"mountains.jpg", renderTarget);
+		launcherBitmap = bitmapper->GetBitmap(L"dome.png", renderTarget);
 		buildingBitmap = bitmapper->GetBitmap(L"building.png", renderTarget);
 		missileBitmap = bitmapper->GetBitmap(L"missile.png", renderTarget);
 		bombBitmap = bitmapper->GetBitmap(L"bomb.png", renderTarget);
+		missileExplosionBitmap = bitmapper->GetBitmap(L"blue-explosion.png", renderTarget);
+		bombExplosionBitmap = bitmapper->GetBitmap(L"red-explosion.png", renderTarget);
 
 		return true;
 	}
@@ -79,7 +82,7 @@ void Graphics::DrawGame(Game game) {
 	D2D1_RECT_F rect;
 
 	rect = D2D1::RectF(0, 0, Game::maxX, Game::maxY);
-	renderTarget->DrawBitmap(groundBitmap, rect, 0.85f,
+	renderTarget->DrawBitmap(mapBitmap, rect, 0.85f,
 		D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 
 	Launcher launcher = ItemManager::GetLauncher();
@@ -127,8 +130,30 @@ void Graphics::DrawGame(Game game) {
 		renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 	}
 
-	for (Explosion explosion : ItemManager::GetExplosions()) {
+	for (Explosion explosion : ItemManager::GetMissileExplosions()) {
 
+		rect = D2D1::RectF(explosion.GetCenter().x - explosion.GetRadius(),
+			explosion.GetCenter().y - explosion.GetRadius(),
+			explosion.GetCenter().x + explosion.GetRadius(),
+			explosion.GetCenter().y + explosion.GetRadius());
+		renderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(Calculator::GetRandomUniform(0.0f, 360.0f),
+			D2D1::Point2F(explosion.GetCenter().x, explosion.GetCenter().y)));
+		renderTarget->DrawBitmap(missileExplosionBitmap, rect, 1.0f,
+			D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+		renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+	}
+
+	for (Explosion explosion : ItemManager::GetBombExplosions()) {
+
+		rect = D2D1::RectF(explosion.GetCenter().x - explosion.GetRadius(),
+			explosion.GetCenter().y - explosion.GetRadius(),
+			explosion.GetCenter().x + explosion.GetRadius(),
+			explosion.GetCenter().y + explosion.GetRadius());
+		renderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(Calculator::GetRandomUniform(0.0f, 360.0f),
+			D2D1::Point2F(explosion.GetCenter().x, explosion.GetCenter().y)));
+		renderTarget->DrawBitmap(bombExplosionBitmap, rect, 1.0f,
+			D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+		renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 	}
 }
 

@@ -172,11 +172,14 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="barracks.png" />
+    <Image Include="blue-explosion.png" />
     <Image Include="building.png" />
     <Image Include="cartoon-missile.ico" />
+    <Image Include="dome.png" />
     <Image Include="missile.png" />
     <Image Include="bomb.png" />
     <Image Include="mountains.jpg" />
+    <Image Include="red-explosion.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

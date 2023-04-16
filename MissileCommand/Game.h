@@ -41,6 +41,7 @@ public:
 	static const float bombOriginY;
 	static const float bombOriginMinX;
 	static const float bombOriginMaxX;
+	static const float bombTargetY;
 	static const float bombHalfWidth;
 	static const float bombHalfHeight;
 	static const float bombSpeed;
@@ -52,6 +53,8 @@ public:
 	static const float explosionInitialRadius;
 	static const float explosionFinalRadius;
 	static const int explosionStages;
+	static const float explosionRadiusGrowth;
+	static const float explosionStageTime;
 
 	static void Run();
 	static void MoveMissile(Missile& missile);

@@ -13,7 +13,8 @@ std::list<Building> ItemManager::buildings = {
 	Building(Point(Game::maxX / 12 * 11, Game::groundY - Game::buildingHalfHeight))};
 std::list<Missile> ItemManager::missiles = {};
 std::list<Bomb> ItemManager::bombs = {};
-std::list<Explosion> ItemManager::explosions = {};
+std::list<Explosion> ItemManager::missileExplosions = {};
+std::list<Explosion> ItemManager::bombExplosions = {};
 
 Launcher& ItemManager::GetLauncher() {
 	return launcher;
@@ -35,8 +36,12 @@ std::list<Bomb>& ItemManager::GetBombs() {
 	return bombs;
 }
 
-std::list<Explosion>& ItemManager::GetExplosions() {
-	return explosions;
+std::list<Explosion>& ItemManager::GetMissileExplosions() {
+	return missileExplosions;
+}
+
+std::list<Explosion>& ItemManager::GetBombExplosions() {
+	return bombExplosions;
 }
 
 void ItemManager::AddBuilding(Building building) {
@@ -59,9 +64,14 @@ void ItemManager::AddBombs(std::list<Bomb> newBombs) {
 	bombs.splice(bombs.end(), newBombs);
 }
 
-void ItemManager::AddExplosion(Explosion explosion) {
+void ItemManager::AddMissileExplosion(Explosion explosion) {
 
-	explosions.push_back(explosion);
+	missileExplosions.push_back(explosion);
+}
+
+void ItemManager::AddBombExplosion(Explosion explosion) {
+
+	bombExplosions.push_back(explosion);
 }
 
 void ItemManager::RemoveBuilding(Building building) {
@@ -79,9 +89,14 @@ void ItemManager::RemoveBomb(Bomb bomb) {
 	bombs.remove(bomb);
 }
 
-void ItemManager::RemoveExplosion(Explosion explosion) {
+void ItemManager::RemoveMissileExplosion(Explosion explosion) {
 
-	explosions.remove(explosion);
+	missileExplosions.remove(explosion);
+}
+
+void ItemManager::RemoveBombExplosion(Explosion explosion) {
+
+	bombExplosions.remove(explosion);
 }
 
 void ItemManager::RemoveAllItems() {
@@ -89,5 +104,6 @@ void ItemManager::RemoveAllItems() {
 	buildings.clear();
 	missiles.clear();
 	bombs.clear();
-	explosions.clear();
+	missileExplosions.clear();
+	bombExplosions.clear();
 }

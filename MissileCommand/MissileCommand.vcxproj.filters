@@ -150,5 +150,14 @@
     <Image Include="mountains.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="red-explosion.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="blue-explosion.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="dome.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

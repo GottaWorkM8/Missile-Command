@@ -1,5 +1,4 @@
 #include "Generator.h"
-#include <iostream>
 
 std::list<Bomb> Generator::GenerateBombs(int count) {
 

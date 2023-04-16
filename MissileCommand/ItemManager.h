@@ -14,7 +14,8 @@ class ItemManager {
 	static std::list<Building> buildings;
 	static std::list<Missile> missiles;
 	static std::list<Bomb> bombs;
-	static std::list<Explosion> explosions;
+	static std::list<Explosion> missileExplosions;
+	static std::list<Explosion> bombExplosions;
 	
 public:
 
@@ -23,17 +24,20 @@ public:
 	static std::list<Building>& GetBuildings();
 	static std::list<Missile>& GetMissiles();
 	static std::list<Bomb>& GetBombs();
-	static std::list<Explosion>& GetExplosions();
+	static std::list<Explosion>& GetMissileExplosions();
+	static std::list<Explosion>& GetBombExplosions();
 	
 	static void AddBuilding(Building building);
 	static void AddMissile(Missile missile);
 	static void AddBomb(Bomb bomb);
 	static void AddBombs(std::list<Bomb> bombs);
-	static void AddExplosion(Explosion explosion);
+	static void AddMissileExplosion(Explosion explosion);
+	static void AddBombExplosion(Explosion explosion);
 	static void RemoveBuilding(Building building);
 	static void RemoveMissile(Missile missile);
 	static void RemoveBomb(Bomb bomb);
-	static void RemoveExplosion(Explosion explosion);
+	static void RemoveMissileExplosion(Explosion explosion);
+	static void RemoveBombExplosion(Explosion explosion);
 	static void RemoveAllItems();
 };
 

@@ -1,4 +1,5 @@
 #include "Window.h"
+#include <iostream>
 
 const wchar_t* Window::CLASS_NAME = L"Window";
 
@@ -16,10 +17,13 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 
 	case WM_DESTROY:
 		PostQuitMessage(0);
-		return 0;
+		break;
+
+	default:
+		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	}
 
-	return DefWindowProc(hWnd, uMsg, wParam, lParam);
+	return 0;
 }
 
 Window::Window(): hInstance(GetModuleHandle(nullptr)) {
@@ -33,10 +37,10 @@ Window::Window(): hInstance(GetModuleHandle(nullptr)) {
 
 	RegisterClass(&wndClass);
 	
-	DWORD style = WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU;
+	DWORD style = WS_POPUP | WS_VISIBLE;
 
-	float width = 700;
-	float height = 700;
+	int width = 1600;
+	int height = 900;
 	
 	RECT rect;
 	rect.left = (GetSystemMetrics(SM_CXSCREEN) - width) / 2;
@@ -46,12 +50,17 @@ Window::Window(): hInstance(GetModuleHandle(nullptr)) {
 
 	AdjustWindowRect(&rect, style, false);
 
+	HDC hDC = ::GetWindowDC(NULL);
+	SetWindowPos(hWnd, NULL, 0, 0, GetDeviceCaps(hDC, HORZRES), 
+		GetDeviceCaps(hDC, VERTRES), SWP_FRAMECHANGED);
+
 	hWnd = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, CLASS_NAME, L"Missile Command", style,
 		rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, NULL, NULL, hInstance, NULL);
 
 	graphics = Graphics(&hWnd);
 	graphics.Init();
 
+	ShowWindow(GetConsoleWindow(), SW_HIDE);
 	ShowWindow(hWnd, SW_SHOW);
 
 	std::thread gameThread = std::thread(Game::Run);

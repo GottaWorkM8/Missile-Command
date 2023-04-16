@@ -12,11 +12,13 @@ class Graphics {
 	HWND* hWnd;
 	ID2D1Factory* factory;
 	ID2D1HwndRenderTarget* renderTarget;
-	ID2D1Bitmap* groundBitmap;
+	ID2D1Bitmap* mapBitmap;
 	ID2D1Bitmap* launcherBitmap;
 	ID2D1Bitmap* buildingBitmap;
 	ID2D1Bitmap* missileBitmap;
 	ID2D1Bitmap* bombBitmap;
+	ID2D1Bitmap* missileExplosionBitmap;
+	ID2D1Bitmap* bombExplosionBitmap;
 
 public:
 
