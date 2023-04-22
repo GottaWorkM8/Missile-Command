@@ -1,8 +1,5 @@
 #include "Calculator.h"
 
-std::random_device Calculator::device;
-std::mt19937 Calculator::generator(device());
-
 float Calculator::GetRadians(Point point1, Point point2) {
 
     return atan2f(point1.y - point2.y, point1.x - point2.x);
@@ -27,16 +24,12 @@ Point Calculator::GetNextPos(Point point, float angleRad, float speed) {
     return newPoint;
 }
 
-float Calculator::GetRandomUniform(float min, float max) {
+float Calculator::GetDistanceSq(Point point1, Point point2) {
 
-    std::uniform_real_distribution<> distribution(min, max);
-
-    return distribution(generator);
+    return powf(point1.x - point2.x, 2) + powf(point1.y - point2.y, 2);
 }
 
-float Calculator::GetRandomNormal(float min, float max) {
+float Calculator::GetDistance(Point point1, Point point2) {
 
-    std::normal_distribution<> distribution(min, max);
-
-    return distribution(generator);
+    return sqrtf(GetDistanceSq(point1, point2));
 }

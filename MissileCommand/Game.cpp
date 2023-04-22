@@ -1,42 +1,42 @@
 #include "Game.h"
-#include <iostream>
 
-const float Game::maxX = 1600.0f;
-const float Game::maxY = 900.0f;
-const float Game::groundY = maxY - (maxY / 7);
-const float Game::gameFrameTime = 100 / 12; // 120 fps
+const float Game::MAX_X = 1600.0f;
+const float Game::MAX_Y = 900.0f;
+const float Game::GROUND_Y = MAX_Y - (MAX_Y / 7);
+const float Game::FRAME_TIME = 100 / 12; // 120 fps
 Timer Game::gameTimer = Timer();
-const int Game::maxAmmo = 5;
-int Game::ammo = maxAmmo;
-const float Game::ammoLoadTime = 0.5f;
+const int Game::MAX_AMMO = 5;
+int Game::ammo = MAX_AMMO;
+const float Game::AMMO_LOAD_TIME = 0.5f;
 Timer Game::ammoTimer = Timer();
-const float Game::launcherHalfWidth = 35.0f;
-const float Game::launcherHalfHeight = 30.0f;
-const float Game::buildingHalfWidth = 25.0f;
-const float Game::buildingHalfHeight = 25.0f;
-const Point Game::missileOrigin = Point(maxX / 2, groundY - launcherHalfWidth * 2);
+const float Game::LAUNCHER_HALF_WIDTH = 35.0f;
+const float Game::LAUNCHER_HALF_HEIGHT = 30.0f;
+const float Game::BUILDING_HALF_WIDTH = 25.0f;
+const float Game::BUILDING_HALF_HEIGHT = 25.0f;
+const Point Game::missileOrigin = Point(MAX_X / 2, GROUND_Y - LAUNCHER_HALF_WIDTH * 2);
 Point Game::missileTarget = Point(350.0f, 100.0f);
-const float Game::missileHalfWidth = 10.0f;
-const float Game::missileHalfHeight = 10.0f;
-const float Game::missileSpeed = 10.0f;
-const float Game::missileLoadTime = 0.1f;
+const float Game::MISSILE_HALF_WIDTH = 10.0f;
+const float Game::MISSILE_HALF_HEIGHT = 10.0f;
+const float Game::MISSILE_SPEED = 10.0f;
+const float Game::MISSILE_LOAD_TIME = 0.1f;
 Timer Game::missileTimer = Timer();
-const float Game::bombOriginY = 0.0f;
-const float Game::bombOriginMinX = maxX / 20;
-const float Game::bombOriginMaxX = maxX - bombOriginMinX;
-const float Game::bombHalfWidth = 10.0f;
-const float Game::bombHalfHeight = 10.0f;
-const float Game::bombTargetY = groundY - bombHalfHeight;
-const float Game::bombSpeed = 1.5f;
-const float Game::bombLoadTime = 1.0f;
+const float Game::BOMB_ORIGIN_Y = 0.0f;
+const float Game::BOMB_ORIGIN_MIN_X = MAX_X / 20;
+const float Game::BOMB_ORIGIN_MAX_X = MAX_X - BOMB_ORIGIN_MIN_X;
+const float Game::BOMB_HALF_WIDTH = 10.0f;
+const float Game::BOMB_HALF_HEIGHT = 10.0f;
+const float Game::BOMB_TARGET_Y = GROUND_Y - BOMB_HALF_HEIGHT;
+const float Game::BOMB_SPEED = 1.5f;
+const float Game::BOMB_LOAD_TIME = 1.0f;
 Timer Game::bombTimer = Timer();
-const float Game::explosionTime = 0.5f;
-const float Game::explosionFinalTime = 0.25f;
-const float Game::explosionInitialRadius = 20.0f;
-const float Game::explosionFinalRadius = 80.0f;
-const int Game::explosionStages = 20;
-const float Game::explosionRadiusGrowth = (explosionFinalRadius - explosionInitialRadius) / explosionStages;
-const float Game::explosionStageTime = explosionTime / explosionStages;
+const float Game::EXPLOSION_PROPAGATION_TIME = 0.5f;
+const float Game::EXPLOSION_FINAL_TIME = 0.2f;
+const float Game::EXPLOSION_INITIAL_RADIUS = 20.0f;
+const float Game::EXPLOSION_FINAL_RADIUS = 80.0f;
+const int Game::EXPLOSION_STAGES = 20;
+const float Game::EXPLOSION_RADIUS_GROWTH = (EXPLOSION_FINAL_RADIUS 
+	- EXPLOSION_INITIAL_RADIUS) / EXPLOSION_STAGES;
+const float Game::EXPLOSION_STAGE_TIME = EXPLOSION_PROPAGATION_TIME / EXPLOSION_STAGES;
 
 void Game::Run() {
 
@@ -54,8 +54,8 @@ void Game::Run() {
 		
 			if (i->GetCenter().y <= i->GetTarget().y) {
 			
-				ItemManager::AddMissileExplosion(Explosion(i->GetCenter(), 
-					Game::explosionInitialRadius));
+				ItemManager::AddExplosion(Explosion(i->GetCenter(), 
+					Game::EXPLOSION_INITIAL_RADIUS, missile));
 				missiles.erase(i++);
 			}
 
@@ -66,87 +66,110 @@ void Game::Run() {
 			}
 		}
 
+		Launcher& launcher = ItemManager::GetLauncher();
 		std::list<Bomb>& bombs = ItemManager::GetBombs();
-		std::list<Bomb>::iterator j = bombs.begin();
+		std::list<Building>& buildings = ItemManager::GetBuildings();
+		std::list<Explosion>& explosions = ItemManager::GetExplosions();
+		std::list<Explosion>::iterator j = explosions.begin();
 
-		while (j != bombs.end()) {
+		while (j != explosions.end()) {
 
-			if (j->GetCenter().y >= Game::bombTargetY) {
+			std::list<Bomb>::iterator k = bombs.begin();
 
-				ItemManager::AddBombExplosion(Explosion(j->GetCenter(),
-					Game::explosionInitialRadius));
-				bombs.erase(j++);
+			while (k != bombs.end()) {
+
+				if (Verifier::IsBombHit(*k, *j)) {
+
+					ItemManager::AddExplosion(Explosion(k->GetCenter(),
+						Game::EXPLOSION_INITIAL_RADIUS, normal));
+					bombs.erase(k++);
+				}
+
+				else k++;
+			}
+
+			std::list<Building>::iterator l = buildings.begin();
+
+			while (l != buildings.end()) {
+
+				if (Verifier::IsBuildingHit(*l, *j))
+					buildings.erase(l++);
+
+				else l++;
+			}
+
+			if (j->GetStage() == Game::EXPLOSION_STAGES)
+				explosions.erase(j++);
+
+			else if (j->GetStage() == Game::EXPLOSION_STAGES - 1) {
+			
+				AdvanceExplosionFinal(*j);
+				j++;
 			}
 
 			else {
 
-				MoveBomb(*j);
+				AdvanceExplosion(*j);
 				j++;
 			}
 		}
 
-		std::list<Explosion>& missileExplosions = ItemManager::GetMissileExplosions();
-		std::list<Explosion>::iterator k = missileExplosions.begin();
+		std::list<Bomb>::iterator k = bombs.begin();
 
-		while (k != missileExplosions.end()) {
+		while (k != bombs.end()) {
 
-			if (k->GetStage() == Game::explosionStages)
-				missileExplosions.erase(k++);
+			if (k->GetCenter().y >= Game::BOMB_TARGET_Y) {
+
+				ItemManager::AddExplosion(Explosion(k->GetCenter(),
+					Game::EXPLOSION_INITIAL_RADIUS, normal));
+				bombs.erase(k++);
+			}
 
 			else {
 
-				AdvanceExplosion(*k);
+				MoveBomb(*k);
 				k++;
 			}
 		}
 
-		std::list<Explosion>& bombExplosions = ItemManager::GetBombExplosions();
-		std::list<Explosion>::iterator l = bombExplosions.begin();
-
-		while (l != bombExplosions.end()) {
-
-			if (l->GetStage() == Game::explosionStages)
-				bombExplosions.erase(l++);
-
-			else {
-
-				AdvanceExplosion(*l);
-				l++;
-			}
-		}
-
-		if (ammoTimer.GetElapsedTime() > ammoLoadTime)
+		if (ammoTimer.GetElapsedTime() > AMMO_LOAD_TIME)
 			AddAmmo();
 
-		if (bombTimer.GetElapsedTime() > bombLoadTime)
+		if (bombTimer.GetElapsedTime() > BOMB_LOAD_TIME)
 			DropBombs();
 
 		float time = gameTimer.GetDeltaTime();
 
-		if (time < gameFrameTime)
-			Sleep(gameFrameTime - time);
+		if (time < FRAME_TIME)
+			Sleep(FRAME_TIME - time);
 	}
 }
 
 void Game::MoveMissile(Missile& missile) {
 
-	missile.SetCenter(Calculator::GetNextPos(missile.GetCenter(), missile.GetAngleRad(), missileSpeed));
+	missile.SetCenter(Calculator::GetNextPos(missile.GetCenter(), missile.GetAngleRad(), MISSILE_SPEED));
 }
 
 void Game::MoveBomb(Bomb& bomb) {
 
-	bomb.SetCenter(Calculator::GetNextPos(bomb.GetCenter(), bomb.GetAngleRad(), bombSpeed));
+	bomb.SetCenter(Calculator::GetNextPos(bomb.GetCenter(), bomb.GetAngleRad(), BOMB_SPEED));
 }
 
 void Game::AdvanceExplosion(Explosion& explosion) {
 
-	if (explosion.GetStageTimer().GetElapsedTime() > explosionStageTime) {
+	if (explosion.GetStageTimer().GetElapsedTime() > EXPLOSION_STAGE_TIME) {
 
 		explosion.GetStageTimer().Restart();
 		explosion.GetStage()++;
-		float newRadius = explosion.GetRadius() + explosionRadiusGrowth;
+		float newRadius = explosion.GetRadius() + EXPLOSION_RADIUS_GROWTH;
 		explosion.SetRadius(newRadius);
 	}
+}
+
+void Game::AdvanceExplosionFinal(Explosion& explosion) {
+
+	if (explosion.GetStageTimer().GetElapsedTime() > EXPLOSION_FINAL_TIME)
+		explosion.GetStage()++;
 }
 
 void Game::ChooseTarget(HWND& hWnd) {
@@ -166,7 +189,7 @@ void Game::AddAmmo() {
 
 	ammoTimer.Restart();
 
-	if (ammo < maxAmmo)
+	if (ammo < MAX_AMMO)
 		ammo++;
 }
 
@@ -180,7 +203,7 @@ void Game::LaunchMissile() {
 
 			ammo--;
 
-			if (ammo == maxAmmo - 1)
+			if (ammo == MAX_AMMO - 1)
 				ammoTimer.Restart();
 
 			angleRad -= M_PI_2;

@@ -4,12 +4,13 @@ Explosion::Explosion() {
 
 }
 
-Explosion::Explosion(Point center, float radius) {
+Explosion::Explosion(Point center, float radius, Source source) {
 
 	this->center = center;
 	this->radius = radius;
-	this->stage = 1;
+	this->stage = 0;
 	this->stageTimer = Timer();
+	this->source = source;
 }
 
 Point& Explosion::GetCenter() {
@@ -32,7 +33,12 @@ Timer& Explosion::GetStageTimer() {
 	return stageTimer;
 }
 
+Source& Explosion::GetSource() {
+	return source;
+}
+
 bool Explosion::operator==(const Explosion& e) const {
 
-	return this->center == e.center && this->radius == e.radius && this->stage == e.stage;
+	return this->center == e.center && this->radius == e.radius && 
+		this->stage == e.stage && this->source == e.source;
 }

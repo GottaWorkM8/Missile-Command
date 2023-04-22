@@ -145,6 +145,7 @@
     <ClCompile Include="Propagation.cpp" />
     <ClCompile Include="Bitmapper.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Verifier.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +154,7 @@
     <ClInclude Include="Calculator.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Generator.h" />
+    <ClInclude Include="Source.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemManager.h" />
     <ClInclude Include="Explosion.h" />
@@ -165,6 +167,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Bitmapper.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Verifier.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
