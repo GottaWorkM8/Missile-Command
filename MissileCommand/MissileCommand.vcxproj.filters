@@ -72,6 +72,12 @@
     <ClCompile Include="Verifier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StartWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StartButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -134,6 +140,12 @@
     <ClInclude Include="Source.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="StartWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StartButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MissileCommand.rc">
@@ -166,6 +178,15 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="dome.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Image.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Image2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="start_win1.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

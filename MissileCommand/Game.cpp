@@ -11,6 +11,10 @@ const float Game::AMMO_LOAD_TIME = 0.5f;
 Timer Game::ammoTimer = Timer();
 const float Game::LAUNCHER_HALF_WIDTH = 35.0f;
 const float Game::LAUNCHER_HALF_HEIGHT = 30.0f;
+
+const float Game::START_BUTTON_HALF_WIDTH = 190.0f;
+const float Game::START_BUTTON_HALF_HEIGHT = 70.0f;
+
 const float Game::BUILDING_HALF_WIDTH = 25.0f;
 const float Game::BUILDING_HALF_HEIGHT = 25.0f;
 const Point Game::missileOrigin = Point(MAX_X / 2, GROUND_Y - LAUNCHER_HALF_WIDTH * 2);
@@ -37,10 +41,9 @@ const int Game::EXPLOSION_STAGES = 20;
 const float Game::EXPLOSION_RADIUS_GROWTH = (EXPLOSION_FINAL_RADIUS 
 	- EXPLOSION_INITIAL_RADIUS) / EXPLOSION_STAGES;
 const float Game::EXPLOSION_STAGE_TIME = EXPLOSION_PROPAGATION_TIME / EXPLOSION_STAGES;
+bool Game::running = true;
 
 void Game::Run() {
-
-	bool running = true;
 	gameTimer.Restart();
 	bombTimer.Restart();
 	ammoTimer.Restart();
@@ -142,6 +145,10 @@ void Game::Run() {
 
 		if (time < FRAME_TIME)
 			Sleep(FRAME_TIME - time);
+
+		if (buildings.empty()) {
+			running = false;
+		}
 	}
 }
 
@@ -183,6 +190,23 @@ void Game::ChooseTarget(HWND& hWnd) {
 	missileTarget.y = target.y;
 
 	LaunchMissile();
+}
+
+bool Game::ChooseOption(HWND& hWnd) {
+
+	POINT option;
+
+	GetCursorPos(&option);
+	ScreenToClient(hWnd, &option);
+
+	Point startButton = Point(Game::MAX_X / 2, Game::GROUND_Y - Game::LAUNCHER_HALF_HEIGHT);
+
+	if( (option.x >= ( startButton.x - Game::START_BUTTON_HALF_WIDTH )) && (option.x <= (startButton.x + Game::START_BUTTON_HALF_WIDTH))
+		&& (option.y >= (startButton.x - Game::START_BUTTON_HALF_HEIGHT)) && (option.y <= (startButton.x + Game::START_BUTTON_HALF_HEIGHT))) {
+		return true;
+	}
+
+	return false;
 }
 
 void Game::AddAmmo() {
