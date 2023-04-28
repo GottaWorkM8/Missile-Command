@@ -6,7 +6,6 @@
 #include "Graphics.h"
 #include "Game.h"
 #include "resource.h"
-#include "StartWindow.h"
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -16,9 +15,7 @@ class Window {
 	HINSTANCE hInstance;
 	HWND hWnd;
 	Graphics graphics;
-	StartWindow startWindow;
 	Game game;
-	std::thread gameThread;
 
 public:
 
@@ -29,6 +26,5 @@ public:
 	Window& operator = (const Window&) = delete;
 
 	bool ProcessMessages();
-	void StartGame();
 };
 

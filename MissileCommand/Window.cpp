@@ -2,31 +2,13 @@
 #include <iostream>
 
 const wchar_t* Window::CLASS_NAME = L"Window";
-static bool gameStart = false;
-static unsigned int first = 0;
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 	switch (uMsg) {
 
-	case WM_KEYDOWN:
-		if (wParam == VK_RETURN) {
-			gameStart = true;
-			if (first == 0) first++;
-		}
-		break;
-
 	case WM_LBUTTONDOWN:
-		if (gameStart == true) {
-			Game::ChooseTarget(hWnd);
-		}
-		else {
-			bool result = Game::ChooseOption(hWnd);
-			if (result) {
-				gameStart = true;
-				if (first == 0) first++;
-			}
-		}
+		Game::ChooseTarget(hWnd);
 		break;
 
 	case WM_CLOSE:
@@ -44,7 +26,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 	return 0;
 }
 
-Window::Window(): hInstance(GetModuleHandle(nullptr)){
+Window::Window(): hInstance(GetModuleHandle(nullptr)) {
 
 	WNDCLASS wndClass = {};
 	wndClass.lpszClassName = CLASS_NAME;
@@ -75,25 +57,19 @@ Window::Window(): hInstance(GetModuleHandle(nullptr)){
 	hWnd = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, CLASS_NAME, L"Missile Command", style,
 		rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top, NULL, NULL, hInstance, NULL);
 
-
-	startWindow = StartWindow(&hWnd);
-	startWindow.Init();
-
 	graphics = Graphics(&hWnd);
 	graphics.Init();
 
 	ShowWindow(GetConsoleWindow(), SW_HIDE);
 	ShowWindow(hWnd, SW_SHOW);
+
+	std::thread gameThread = std::thread(Game::Run);
+	gameThread.detach();
 }
  
 Window::~Window() {
 
 	UnregisterClass(CLASS_NAME, hInstance);
-}
-
-void Window::StartGame() {
-	Window::gameThread = std::thread(Game::Run);
-	Window::gameThread.detach();
 }
 
 bool Window::ProcessMessages() {
@@ -109,28 +85,10 @@ bool Window::ProcessMessages() {
 		}
 
 		else {
-			if (gameStart) {
-				if (first == 1) {
-					Window::StartGame();
-					first++;
-				}
-				graphics.BeginDraw();
-				graphics.DrawGame(game);
-				graphics.EndDraw();
-			}
 
-			else {
-
-				startWindow.BeginDraw();
-				startWindow.DrawGame(game);
-				startWindow.EndDraw();
-
-			}
-			if (Game::running == false) {
-				DestroyWindow(hWnd);
-			}
-
-
+			graphics.BeginDraw();
+			graphics.DrawGame(game);
+			graphics.EndDraw();
 		}
 	}
 

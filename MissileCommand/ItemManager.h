@@ -7,12 +7,10 @@
 #include "Explosion.h"
 #include "Launcher.h"
 #include "Game.h"
-#include "startButton.h"
 
 class ItemManager {
 
 	static Launcher launcher;
-	static StartButton startButton;
 	static std::list<Building> buildings;
 	static std::list<Missile> missiles;
 	static std::list<Bomb> bombs;
@@ -20,9 +18,8 @@ class ItemManager {
 	
 public:
 
-	static Launcher& GetLauncher(); 
-	static void SetLauncher(Launcher launcher); 
-	static StartButton& GetStartButton();
+	static Launcher& GetLauncher();
+	static void SetLauncher(Launcher launcher);
 	static std::list<Building>& GetBuildings();
 	static std::list<Missile>& GetMissiles();
 	static std::list<Bomb>& GetBombs();

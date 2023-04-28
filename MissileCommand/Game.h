@@ -29,10 +29,6 @@ public:
 	static const float LAUNCHER_HALF_WIDTH;
 	static const float LAUNCHER_HALF_HEIGHT;
 
-	static const float START_BUTTON_HALF_WIDTH;
-	static const float START_BUTTON_HALF_HEIGHT;
-	static Point optionTarget;
-
 	static const float BUILDING_HALF_WIDTH;
 	static const float BUILDING_HALF_HEIGHT;
 
@@ -62,16 +58,12 @@ public:
 	static const float EXPLOSION_RADIUS_GROWTH;
 	static const float EXPLOSION_STAGE_TIME;
 
-	static bool running;
-
 	static void Run();
-	static void MenuOption();
 	static void MoveMissile(Missile& missile);
 	static void MoveBomb(Bomb& bomb);
 	static void AdvanceExplosion(Explosion& explosion);
 	static void AdvanceExplosionFinal(Explosion& explosion);
 	static void ChooseTarget(HWND& hWnd);
-	static bool ChooseOption(HWND& hWnd);
 	static void AddAmmo();
 	static void LaunchMissile();
 	//static void ExplodeMissile(Missile& missile);

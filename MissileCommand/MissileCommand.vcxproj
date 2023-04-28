@@ -144,8 +144,6 @@
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Propagation.cpp" />
     <ClCompile Include="Bitmapper.cpp" />
-    <ClCompile Include="StartButton.cpp" />
-    <ClCompile Include="StartWindow.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Verifier.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -168,8 +166,6 @@
     <ClInclude Include="Propagation.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Bitmapper.h" />
-    <ClInclude Include="StartButton.h" />
-    <ClInclude Include="StartWindow.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Verifier.h" />
     <ClInclude Include="Window.h" />
@@ -183,15 +179,10 @@
     <Image Include="building.png" />
     <Image Include="cartoon-missile.ico" />
     <Image Include="dome.png" />
-    <Image Include="Image.png">
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
-    </Image>
-    <Image Include="Image2.png" />
     <Image Include="missile.png" />
     <Image Include="bomb.png" />
     <Image Include="mountains.jpg" />
     <Image Include="red-explosion.png" />
-    <Image Include="start_win1.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

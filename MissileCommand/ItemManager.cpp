@@ -2,8 +2,6 @@
 
 Launcher ItemManager::launcher = Launcher(Point(Game::MAX_X / 2, 
 	Game::GROUND_Y - Game::LAUNCHER_HALF_HEIGHT), 0.0f);
-StartButton ItemManager::startButton = StartButton(Point(Game::MAX_X / 2,
-	Game::GROUND_Y - Game::LAUNCHER_HALF_HEIGHT));
 std::list<Building> ItemManager::buildings = {
 	Building(Point(Game::MAX_X / 12, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT)),
 	Building(Point(Game::MAX_X / 12 * 2, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT)),
@@ -23,10 +21,6 @@ Launcher& ItemManager::GetLauncher() {
 
 void ItemManager::SetLauncher(Launcher launch) {
 	launcher = launch;
-}
-
-StartButton& ItemManager::GetStartButton() {
-	return startButton;
 }
 
 std::list<Building>& ItemManager::GetBuildings() {
