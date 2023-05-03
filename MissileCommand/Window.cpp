@@ -1,5 +1,4 @@
 #include "Window.h"
-#include <iostream>
 
 const wchar_t* Window::CLASS_NAME = L"Window";
 
@@ -7,20 +6,24 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 
 	switch (uMsg) {
 
-	case WM_LBUTTONDOWN:
-		Game::ChooseTarget(hWnd);
-		break;
+		case WM_LBUTTONDOWN:
+			Game::UpdateTarget(hWnd);
+			break;
 
-	case WM_CLOSE:
-		DestroyWindow(hWnd);
-		break;
+		case WM_MOUSEMOVE:
+			Game::UpdateLauncherCannon(hWnd);
+			break;
 
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
+		case WM_CLOSE:
+			DestroyWindow(hWnd);
+			break;
 
-	default:
-		return DefWindowProc(hWnd, uMsg, wParam, lParam);
+		case WM_DESTROY:
+			PostQuitMessage(0);
+			break;
+
+		default:
+			return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	}
 
 	return 0;
@@ -63,8 +66,7 @@ Window::Window(): hInstance(GetModuleHandle(nullptr)) {
 	ShowWindow(GetConsoleWindow(), SW_HIDE);
 	ShowWindow(hWnd, SW_SHOW);
 
-	std::thread gameThread = std::thread(Game::Run);
-	gameThread.detach();
+	StartGame();
 }
  
 Window::~Window() {
@@ -93,4 +95,10 @@ bool Window::ProcessMessages() {
 	}
 
 	return true;
+}
+
+void Window::StartGame() {
+
+	std::thread gameThread = std::thread(Game::Run);
+	gameThread.detach();
 }

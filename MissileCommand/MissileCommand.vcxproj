@@ -108,7 +108,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);d2d1.lib;windowscodecs.lib</AdditionalDependencies>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);d2d1.lib;windowscodecs.lib;gdiplus.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -132,6 +132,7 @@
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="Calculator.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Flash.cpp" />
     <ClCompile Include="Generator.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemManager.cpp" />
@@ -140,9 +141,9 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Launcher.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="Point.cpp" />
-    <ClCompile Include="Propagation.cpp" />
     <ClCompile Include="Bitmapper.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Verifier.cpp" />
@@ -153,7 +154,9 @@
     <ClInclude Include="Building.h" />
     <ClInclude Include="Calculator.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Flash.h" />
     <ClInclude Include="Generator.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="Source.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemManager.h" />
@@ -163,7 +166,6 @@
     <ClInclude Include="Launcher.h" />
     <ClInclude Include="Missile.h" />
     <ClInclude Include="Point.h" />
-    <ClInclude Include="Propagation.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Bitmapper.h" />
     <ClInclude Include="Timer.h" />
@@ -177,11 +179,15 @@
     <Image Include="barracks.png" />
     <Image Include="blue-explosion.png" />
     <Image Include="building.png" />
+    <Image Include="cannon.png" />
     <Image Include="cartoon-missile.ico" />
     <Image Include="dome.png" />
+    <Image Include="flash.png" />
+    <Image Include="menu-background.jpg" />
     <Image Include="missile.png" />
     <Image Include="bomb.png" />
     <Image Include="mountains.jpg" />
+    <Image Include="nuke-button.png" />
     <Image Include="red-explosion.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -6,6 +6,7 @@
 #include "Building.h"
 #include "Explosion.h"
 #include "Launcher.h"
+#include "Flash.h"
 #include "Game.h"
 
 class ItemManager {
@@ -15,6 +16,7 @@ class ItemManager {
 	static std::list<Missile> missiles;
 	static std::list<Bomb> bombs;
 	static std::list<Explosion> explosions;
+	static std::list<Flash> flashes;
 	
 public:
 
@@ -24,12 +26,14 @@ public:
 	static std::list<Missile>& GetMissiles();
 	static std::list<Bomb>& GetBombs();
 	static std::list<Explosion>& GetExplosions();
+	static std::list<Flash>& GetFlashes();
 	
 	static void AddBuilding(Building building);
 	static void AddMissile(Missile missile);
 	static void AddBomb(Bomb bomb);
 	static void AddBombs(std::list<Bomb> bombs);
 	static void AddExplosion(Explosion explosion);
+	static void AddFlash(Flash flash);
 	static void RemoveBuilding(Building building);
 	static void RemoveMissile(Missile missile);
 	static void RemoveBomb(Bomb bomb);

@@ -16,6 +16,7 @@ class Window {
 	HWND hWnd;
 	Graphics graphics;
 	Game game;
+	bool gameStarted;
 
 public:
 
@@ -26,5 +27,6 @@ public:
 	Window& operator = (const Window&) = delete;
 
 	bool ProcessMessages();
+	void StartGame();
 };
 

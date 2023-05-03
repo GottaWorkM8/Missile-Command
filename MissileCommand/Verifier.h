@@ -8,8 +8,9 @@ public:
 
 	static bool Intersect(Point center, float halfWidth, float halfHeight,
 		Point circleCenter, float circleRadius);
-	static bool IsBombHit(Bomb bomb, Explosion explosion);
-	static bool IsBuildingHit(Building building, Explosion explosion);
-	static bool IsLauncherHit(Launcher launcher, Explosion explosion);
+	static bool BombHit(Bomb bomb, Explosion explosion);
+	static bool BuildingHit(Building building, Explosion explosion);
+	static bool LauncherHit(Launcher launcher, Explosion explosion);
+	static bool GameLost(Launcher launcher, std::list<Building> buildings);
 };
 
