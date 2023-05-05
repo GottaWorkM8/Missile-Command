@@ -1,6 +1,32 @@
 #include "Verifier.h"
 
-bool Verifier::Intersect(Point center, float halfWidth, float halfHeight, 
+bool Verifier::Within(Point point, Point center, float halfWidth, float halfHeight) {
+
+    float left = center.x - halfWidth;
+    float right = center.x + halfWidth;
+    float top = center.y - halfHeight;
+    float bottom = center.y + halfHeight;
+
+    if (point.x >= left && point.x <= right && point.y >= top && point.y <= bottom)
+        return true;
+
+    else return false;
+}
+
+bool Verifier::WithinAlt(Point point, Point topLeft, float width, float height) {
+
+    float left = topLeft.x;
+    float right = topLeft.x + width;
+    float top = topLeft.y;
+    float bottom = topLeft.y + height;
+
+    if (point.x >= left && point.x <= right && point.y >= top && point.y <= bottom)
+        return true;
+
+    else return false;
+}
+
+bool Verifier::Intersect(Point center, float halfWidth, float halfHeight,
     Point circleCenter, float circleRadius) {
 
     float distanceX = abs(circleCenter.x - center.x);

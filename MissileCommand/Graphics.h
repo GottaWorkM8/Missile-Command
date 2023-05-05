@@ -3,8 +3,10 @@
 #include <Windows.h>
 #include <d2d1.h>
 #include <wincodec.h>
+#include <dwrite.h>
 #include "Color.h"
 #include "Bitmapper.h"
+#include "TextRenderer.h"
 #include "Game.h"
 #include "Menu.h"
 
@@ -13,6 +15,11 @@ class Graphics {
 	HWND* hWnd;
 	ID2D1Factory* factory;
 	ID2D1HwndRenderTarget* renderTarget;
+	ID2D1SolidColorBrush* brush;
+	IDWriteTextLayout* newText;
+	IDWriteTextLayout* exitText;
+	ID2D1Bitmap* menuBitmap;
+	ID2D1Bitmap* titleBitmap;
 	ID2D1Bitmap* mapBitmap;
 	ID2D1Bitmap* cannonBitmap;
 	ID2D1Bitmap* launcherBitmap;
@@ -30,10 +37,10 @@ public:
 	~Graphics();
 
 	bool Init();
-	void BeginDraw() { renderTarget->BeginDraw(); }
-	void EndDraw() { renderTarget->EndDraw(); }
+	void BeginDraw();
+	void EndDraw();
 	void ClearScreen(Color color);
-	void DrawMenu(Menu menu);
-	void DrawGame(Game game);
+	void DrawMenu();
+	void DrawGame();
 };
 

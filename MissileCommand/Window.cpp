@@ -7,11 +7,15 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 	switch (uMsg) {
 
 		case WM_LBUTTONDOWN:
-			Game::UpdateTarget(hWnd);
+			if (Menu::gameRunning)
+				Game::UpdateTarget(hWnd);
+			else Menu::HandlePress(hWnd);
 			break;
 
 		case WM_MOUSEMOVE:
-			Game::UpdateLauncherCannon(hWnd);
+			if (Menu::gameRunning)
+				Game::UpdateLauncherCannon(hWnd);
+			else Menu::HandleMove(hWnd);
 			break;
 
 		case WM_CLOSE:
@@ -65,8 +69,6 @@ Window::Window(): hInstance(GetModuleHandle(nullptr)) {
 
 	ShowWindow(GetConsoleWindow(), SW_HIDE);
 	ShowWindow(hWnd, SW_SHOW);
-
-	StartGame();
 }
  
 Window::~Window() {
@@ -89,16 +91,15 @@ bool Window::ProcessMessages() {
 		else {
 
 			graphics.BeginDraw();
-			graphics.DrawGame(game);
+
+			if (Menu::gameRunning)
+				graphics.DrawGame();
+
+			else graphics.DrawMenu();
+
 			graphics.EndDraw();
 		}
 	}
 
 	return true;
-}
-
-void Window::StartGame() {
-
-	std::thread gameThread = std::thread(Game::Run);
-	gameThread.detach();
 }

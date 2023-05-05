@@ -75,6 +75,9 @@
     <ClCompile Include="Flash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -140,6 +143,9 @@
     <ClInclude Include="Flash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MissileCommand.rc">
@@ -184,6 +190,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="flash.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="title.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

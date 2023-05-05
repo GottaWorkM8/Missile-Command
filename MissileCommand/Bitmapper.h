@@ -5,15 +5,16 @@
 
 class Bitmapper {
 
+	ID2D1HwndRenderTarget* renderTarget;
 	IWICImagingFactory* factory;
 
 public:
 
-	Bitmapper();
+	Bitmapper(ID2D1HwndRenderTarget* renderTarget);
 	~Bitmapper();
 
 	bool Init();
-	ID2D1Bitmap* GetBitmap(const wchar_t* filename, ID2D1HwndRenderTarget* renderTarget);
+	ID2D1Bitmap* GetBitmap(const wchar_t* filename);
 };
 
 

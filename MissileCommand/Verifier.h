@@ -6,6 +6,8 @@ class Verifier {
 
 public:
 
+	static bool Within(Point point, Point center, float halfWidth, float halfHeight);
+	static bool WithinAlt(Point point, Point topLeft, float width, float height);
 	static bool Intersect(Point center, float halfWidth, float halfHeight,
 		Point circleCenter, float circleRadius);
 	static bool BombHit(Bomb bomb, Explosion explosion);
