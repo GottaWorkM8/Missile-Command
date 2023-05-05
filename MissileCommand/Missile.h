@@ -9,7 +9,7 @@ class Missile : public Item {
 public: 
 
 	Missile();
-	Missile(Point center, Point target, float angle);
+	Missile(Point center, Point target, float angleRad);
 
 	Point& GetTarget();
 };

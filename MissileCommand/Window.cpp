@@ -1,5 +1,4 @@
 #include "Window.h"
-#include <iostream>
 
 const wchar_t* Window::CLASS_NAME = L"Window";
 
@@ -7,20 +6,28 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 
 	switch (uMsg) {
 
-	case WM_LBUTTONDOWN:
-		Game::ChooseTarget(hWnd);
-		break;
+		case WM_LBUTTONDOWN:
+			if (Menu::gameRunning)
+				Game::UpdateTarget(hWnd);
+			else Menu::HandlePress(hWnd);
+			break;
 
-	case WM_CLOSE:
-		DestroyWindow(hWnd);
-		break;
+		case WM_MOUSEMOVE:
+			if (Menu::gameRunning)
+				Game::UpdateLauncherCannon(hWnd);
+			else Menu::HandleMove(hWnd);
+			break;
 
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
+		case WM_CLOSE:
+			DestroyWindow(hWnd);
+			break;
 
-	default:
-		return DefWindowProc(hWnd, uMsg, wParam, lParam);
+		case WM_DESTROY:
+			PostQuitMessage(0);
+			break;
+
+		default:
+			return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	}
 
 	return 0;
@@ -62,9 +69,6 @@ Window::Window(): hInstance(GetModuleHandle(nullptr)) {
 
 	ShowWindow(GetConsoleWindow(), SW_HIDE);
 	ShowWindow(hWnd, SW_SHOW);
-
-	std::thread gameThread = std::thread(Game::Run);
-	gameThread.detach();
 }
  
 Window::~Window() {
@@ -87,7 +91,12 @@ bool Window::ProcessMessages() {
 		else {
 
 			graphics.BeginDraw();
-			graphics.DrawGame(game);
+
+			if (Menu::gameRunning)
+				graphics.DrawGame();
+
+			else graphics.DrawMenu();
+
 			graphics.EndDraw();
 		}
 	}
