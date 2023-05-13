@@ -4,16 +4,21 @@ Launcher::Launcher() {
 
 }
 
-Launcher::Launcher(Point center, float angle) {
+Launcher::Launcher(Point center, float angleRad, float hp) {
 
 	this->center = center;
-	this->angle = angle;
+	this->angleRad = angleRad;
+	this->angleDeg = Calculator::GetDegrees(angleRad);
+	this->hp = hp;
 }
 
-Point Launcher::GetCenter() {
-	return center;
+float& Launcher::GetHP() {
+	return hp;
 }
 
-float Launcher::GetAngle() {
-	return angle;
+void Launcher::SetAngle(float angleRad) {
+
+	this->angleRad = angleRad;
+	this->angleDeg = Calculator::GetDegrees(angleRad);
 }
+

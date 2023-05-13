@@ -1,18 +1,18 @@
 #pragma once
 
-#include "Point.h"
+#include "Item.h"
 
-class Launcher {
+class Launcher : public Item {
 
-	Point center;
-	float angle;
+	float hp;
 
 public:
 
 	Launcher();
-	Launcher(Point center, float angle);
+	Launcher(Point center, float angleRad, float hp);
 
-	Point GetCenter();
-	float GetAngle();
+	float& GetHP();
+
+	void SetAngle(float angleRad);
 };
 

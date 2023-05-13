@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Propagation.h"
 #include "Point.h"
 #include "Timer.h"
 #include "Source.h"

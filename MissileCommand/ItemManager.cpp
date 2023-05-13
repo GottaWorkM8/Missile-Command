@@ -1,19 +1,20 @@
 #include "ItemManager.h"
 
-Launcher ItemManager::launcher = Launcher(Point(Game::MAX_X / 2, 
-	Game::GROUND_Y - Game::LAUNCHER_HALF_HEIGHT), 0.0f);
+Launcher ItemManager::launcher = Launcher(Point(Game::MAX_X / 2, Game::GROUND_Y - Game::LAUNCHER_HALF_HEIGHT), 
+	0.0f, Game::LAUNCHER_HP);
 std::list<Building> ItemManager::buildings = {
-	Building(Point(Game::MAX_X / 12, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT)),
-	Building(Point(Game::MAX_X / 12 * 2, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT)),
-	Building(Point(Game::MAX_X / 12 * 3, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT)),
-	Building(Point(Game::MAX_X / 12 * 4, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT)),
-	Building(Point(Game::MAX_X / 12 * 8, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT)),
-	Building(Point(Game::MAX_X / 12 * 9, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT)),
-	Building(Point(Game::MAX_X / 12 * 10, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT)),
-	Building(Point(Game::MAX_X / 12 * 11, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT))};
+	Building(Point(Game::MAX_X / 12, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT), Game::BUILDING_HP),
+	Building(Point(Game::MAX_X / 12 * 2, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT), Game::BUILDING_HP),
+	Building(Point(Game::MAX_X / 12 * 3, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT), Game::BUILDING_HP),
+	Building(Point(Game::MAX_X / 12 * 4, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT), Game::BUILDING_HP),
+	Building(Point(Game::MAX_X / 12 * 8, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT), Game::BUILDING_HP),
+	Building(Point(Game::MAX_X / 12 * 9, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT), Game::BUILDING_HP),
+	Building(Point(Game::MAX_X / 12 * 10, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT), Game::BUILDING_HP),
+	Building(Point(Game::MAX_X / 12 * 11, Game::GROUND_Y - Game::BUILDING_HALF_HEIGHT), Game::BUILDING_HP)};
 std::list<Missile> ItemManager::missiles = {};
 std::list<Bomb> ItemManager::bombs = {};
 std::list<Explosion> ItemManager::explosions = {};
+std::list<Flash> ItemManager::flashes = {};
 
 Launcher& ItemManager::GetLauncher() {
 	return launcher;
@@ -39,6 +40,10 @@ std::list<Explosion>& ItemManager::GetExplosions() {
 	return explosions;
 }
 
+std::list<Flash>& ItemManager::GetFlashes() {
+	return flashes;
+}
+
 void ItemManager::AddBuilding(Building building) {
 
 	buildings.push_back(building);
@@ -62,6 +67,11 @@ void ItemManager::AddBombs(std::list<Bomb> newBombs) {
 void ItemManager::AddExplosion(Explosion explosion) {
 
 	explosions.push_back(explosion);
+}
+
+void ItemManager::AddFlash(Flash flash) {
+
+	flashes.push_back(flash);
 }
 
 void ItemManager::RemoveBuilding(Building building) {
@@ -90,4 +100,5 @@ void ItemManager::RemoveAllItems() {
 	missiles.clear();
 	bombs.clear();
 	explosions.clear();
+	flashes.clear();
 }

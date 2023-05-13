@@ -1,7 +1,8 @@
 #include "Bitmapper.h"
 
-Bitmapper::Bitmapper() {
+Bitmapper::Bitmapper(ID2D1HwndRenderTarget* renderTarget) {
 
+	this->renderTarget = renderTarget;
 	factory = NULL;
 }
 
@@ -27,44 +28,38 @@ bool Bitmapper::Init() {
 	return true;
 }
 
-ID2D1Bitmap* Bitmapper::GetBitmap(const wchar_t* filename, ID2D1HwndRenderTarget* renderTarget) {
-	
-	/*IWICStream* stream = NULL;
-	IWICBitmapScaler* scaler = NULL;*/
+ID2D1Bitmap* Bitmapper::GetBitmap(const wchar_t* filename) {
 
-	IWICBitmapDecoder* decoder = NULL;
+	IWICBitmapDecoder* decoder;
 	HRESULT hR = factory->CreateDecoderFromFilename(filename, NULL, GENERIC_READ,
 		WICDecodeMetadataCacheOnLoad, &decoder);
 
 	if (!SUCCEEDED(hR))
 		return NULL;
 
-	IWICBitmapFrameDecode* frame = NULL;
+	IWICBitmapFrameDecode* frame;
 	hR = decoder->GetFrame(0, &frame);
 
 	if (!SUCCEEDED(hR))
 		return NULL;
 
-	IWICFormatConverter* converter = NULL;
+	IWICFormatConverter* converter;
 	hR = factory->CreateFormatConverter(&converter);
 
 	if (!SUCCEEDED(hR))
 		return NULL;
 
 	hR = converter->Initialize(frame, GUID_WICPixelFormat32bppPBGRA, WICBitmapDitherTypeNone, 
-		NULL, 0.f, WICBitmapPaletteTypeMedianCut);
+		NULL, 0.0f, WICBitmapPaletteTypeMedianCut);
 
 	if (!SUCCEEDED(hR))
 		return NULL;
 
-	ID2D1Bitmap* bitmap = NULL;
+	ID2D1Bitmap* bitmap;
 	hR = renderTarget->CreateBitmapFromWicBitmap(converter, NULL, &bitmap);
-	
-	/*decoder->Release();
-	frame->Release();
-	stream->Release();
-	converter->Release();
-	scaler->Release();*/
+
+	if (!SUCCEEDED(hR))
+		return NULL;
 
 	return bitmap;
 }
