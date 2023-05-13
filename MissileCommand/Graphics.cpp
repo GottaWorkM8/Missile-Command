@@ -58,13 +58,14 @@ bool Graphics::Init() {
 	// necessary for creating text that is drawn later
 	TextRenderer textRenderer = TextRenderer(renderTarget);
 
-	if (textRenderer.Init()) {
+	if (textRenderer.Init())
+		for (MenuButton& button : Menu::GetButtons()) {
 
-		newText = textRenderer.GetAdjustedTextLayout(L"NEW GAME", L"Arial", true, Menu::NEW_HEIGHT);
-		Menu::newWidth = newText->GetMaxWidth();
-		exitText = textRenderer.GetAdjustedTextLayout(L"EXIT", L"Arial", true, Menu::EXIT_HEIGHT);
-		Menu::exitWidth = exitText->GetMaxWidth();
-	}
+			IDWriteTextLayout* textLayout = textRenderer.GetAdjustedTextLayout(button.GetText(),
+				L"Arial", true, button.GetHeight());
+			button.SetTextLayout(textLayout);
+			button.SetWidth(textLayout->GetMaxWidth());
+		}
 
 	// necessary for creating bitmaps of image files that are drawn later
 	Bitmapper bitmapper = Bitmapper(renderTarget);
@@ -117,10 +118,24 @@ void Graphics::DrawMenu() {
 	rect = D2D1::RectF(Menu::TITLE_TOP_LEFT.x, Menu::TITLE_TOP_LEFT.y, 
 		Menu::TITLE_TOP_LEFT.x + Menu::TITLE_WIDTH, Menu::TITLE_TOP_LEFT.y + Menu::TITLE_HEIGHT);
 	renderTarget->DrawBitmap(titleBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
-	renderTarget->DrawTextLayout(D2D1::Point2F(Menu::newTopLeft.x, Menu::newTopLeft.y), 
-		newText, brush);
-	renderTarget->DrawTextLayout(D2D1::Point2F(Menu::exitTopLeft.x, Menu::exitTopLeft.y),
-		exitText, brush);
+
+	for (MenuButton& button : Menu::GetButtons()) {
+	
+		if (button.IsHovered())
+			renderTarget->DrawTextLayout(D2D1::Point2F(button.GetTopLeft().x, button.GetTopLeft().y),
+				button.GetTextLayout(), brush);
+
+		else {
+
+			D2D1_COLOR_F color = brush->GetColor();
+			color.a = 0.8f;
+			brush->SetColor(color);
+			renderTarget->DrawTextLayout(D2D1::Point2F(button.GetTopLeft().x, button.GetTopLeft().y),
+				button.GetTextLayout(), brush);
+			color.a = 1.0f;
+			brush->SetColor(color);
+		}
+	}
 }
 
 void Graphics::DrawGame() {

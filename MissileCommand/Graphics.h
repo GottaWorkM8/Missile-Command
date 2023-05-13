@@ -16,8 +16,6 @@ class Graphics {
 	ID2D1Factory* factory;
 	ID2D1HwndRenderTarget* renderTarget;
 	ID2D1SolidColorBrush* brush;
-	IDWriteTextLayout* newText;
-	IDWriteTextLayout* exitText;
 	ID2D1Bitmap* menuBitmap;
 	ID2D1Bitmap* titleBitmap;
 	ID2D1Bitmap* mapBitmap;
