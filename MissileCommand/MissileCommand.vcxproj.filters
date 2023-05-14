@@ -78,6 +78,9 @@
     <ClCompile Include="TextRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Music.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -146,6 +149,9 @@
     <ClInclude Include="TextRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Music.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MissileCommand.rc">
@@ -195,5 +201,19 @@
     <Image Include="title.png">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="musicMenu.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="musicLevel.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="musicMissile.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="musicExploxion.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>

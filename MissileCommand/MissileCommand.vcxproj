@@ -143,6 +143,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Missile.cpp" />
+    <ClCompile Include="Music.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Bitmapper.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="Flash.h" />
     <ClInclude Include="Generator.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Music.h" />
     <ClInclude Include="Source.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemManager.h" />
@@ -192,6 +194,12 @@
     <Image Include="nuke-button.png" />
     <Image Include="red-explosion.png" />
     <Image Include="title.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="musicExploxion.wav" />
+    <Media Include="musicMissile.wav" />
+    <Media Include="musicLevel.wav" />
+    <Media Include="musicMenu.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

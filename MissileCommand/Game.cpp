@@ -77,7 +77,7 @@ void Game::Run() {
 		while (i != missiles.end()) {
 		
 			if (i->GetCenter().y <= i->GetTarget().y) {
-			
+				Music::musicExploxion();
 				ItemManager::AddExplosion(Explosion(i->GetCenter(), 
 					Game::EXPLOSION_INITIAL_RADIUS, missile));
 				missiles.erase(i++);
@@ -143,7 +143,7 @@ void Game::Run() {
 		while (k != bombs.end()) {
 
 			if (k->GetCenter().y >= Game::BOMB_TARGET_Y) {
-
+				Music::musicExploxion();
 				ItemManager::AddExplosion(Explosion(k->GetCenter(),
 					Game::EXPLOSION_INITIAL_RADIUS, normal));
 				bombs.erase(k++);
@@ -283,7 +283,7 @@ void Game::LaunchMissile() {
 			float angleRad = Calculator::GetRadians(missileOrigin, missileTarget);
 
 			if (angleRad >= 0.0f) {
-
+				Music::musicMissle();
 				ammo--;
 
 				if (ammo == MAX_AMMO - 1)

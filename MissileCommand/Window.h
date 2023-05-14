@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "Menu.h"
 #include "resource.h"
+#include "Music.h"
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 

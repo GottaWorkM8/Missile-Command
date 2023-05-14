@@ -10,6 +10,7 @@
 #include "Generator.h"
 #include "Verifier.h"
 #include "Source.h"
+#include "Music.h"
 
 class Game {
 

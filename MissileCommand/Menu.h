@@ -5,6 +5,7 @@
 #include <functional>
 #include "Point.h"
 #include "Verifier.h"
+#include "Music.h"
 
 class Menu {
 
