@@ -17,26 +17,35 @@ float Generator::GetRandomNormal(float min, float max) {
 	return (float) distribution(generator);
 }
 
-std::list<Bomb> Generator::GenerateBombs(int count) {
+Bomb Generator::GenerateBomb(Source source) {
+
+	float bombOriginX = GetRandomUniform(Globals::BOMB_ORIGIN_MIN_X, Globals::BOMB_ORIGIN_MAX_X);
+	float bombTargetX = GetRandomUniform(Globals::BOMB_ORIGIN_MIN_X, Globals::BOMB_ORIGIN_MAX_X);
+	Point bombOrigin = Point(bombOriginX, Globals::BOMB_ORIGIN_Y);
+	Point bombTarget = Point(bombTargetX, Globals::GROUND_Y);
+	float angleRad = Calculator::GetRadians(bombOrigin, bombTarget);
+	angleRad -= (float)M_PI_2;
+	
+	switch (source) {
+
+		case NORMAL:
+		case NUCLEAR:
+		case CLUSTER:
+		case NAPALM:
+		case RODOFGOD:
+			return Bomb(bombOrigin, angleRad, source);
+
+		default:
+			return Bomb(bombOrigin, angleRad, NORMAL);
+	}
+}
+
+std::list<Bomb> Generator::GenerateBombs(Source source, int count) {
 
 	std::list<Bomb> list;
-	float bombOriginX;
-	float bombTargetX;
-	Point bombOrigin;
-	Point bombTarget;
-	float angleRad;
 
-	for (int i = 0; i < count; i++) {
-
-		bombOriginX = GetRandomUniform(Game::BOMB_ORIGIN_MIN_X, Game::BOMB_ORIGIN_MAX_X);
-		bombOrigin = Point(bombOriginX, Game::BOMB_ORIGIN_Y);
-		bombTargetX = GetRandomUniform(Game::BOMB_ORIGIN_MIN_X, Game::BOMB_ORIGIN_MAX_X);
-		bombTarget = Point(bombTargetX, Game::GROUND_Y);
-		angleRad = Calculator::GetRadians(bombOrigin, bombTarget);
-		angleRad -= (float) M_PI_2;
-
-		list.push_back(Bomb(Point(bombOriginX, Game::BOMB_ORIGIN_Y), angleRad));
-	}
+	for (int i = 0; i < count; i++)
+		list.push_back(GenerateBomb(source));
 	
 	return list;
 }

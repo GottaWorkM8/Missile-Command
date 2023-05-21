@@ -1,13 +1,13 @@
 #pragma once
 
 #include <list>
+#include "Globals.h"
 #include "Bomb.h"
 #include "Missile.h"
 #include "Building.h"
 #include "Explosion.h"
 #include "Launcher.h"
 #include "Flash.h"
-#include "Game.h"
 
 class ItemManager {
 

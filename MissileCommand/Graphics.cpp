@@ -112,11 +112,11 @@ void Graphics::DrawMenu() {
 
 	D2D1_RECT_F rect;
 
-	rect = D2D1::RectF(0, 0, Game::MAX_X, Game::MAX_Y);
+	rect = D2D1::RectF(0, 0, Globals::MAX_X, Globals::MAX_Y);
 	renderTarget->DrawBitmap(menuBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 
-	rect = D2D1::RectF(Menu::TITLE_TOP_LEFT.x, Menu::TITLE_TOP_LEFT.y, 
-		Menu::TITLE_TOP_LEFT.x + Menu::TITLE_WIDTH, Menu::TITLE_TOP_LEFT.y + Menu::TITLE_HEIGHT);
+	rect = D2D1::RectF(Globals::TITLE_TOP_LEFT.x, Globals::TITLE_TOP_LEFT.y,
+		Globals::TITLE_TOP_LEFT.x + Globals::TITLE_WIDTH, Globals::TITLE_TOP_LEFT.y + Globals::TITLE_HEIGHT);
 	renderTarget->DrawBitmap(titleBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 
 	for (MenuButton& button : Menu::GetButtons()) {
@@ -144,7 +144,7 @@ void Graphics::DrawGame() {
 
 	D2D1_RECT_F rect;
 
-	rect = D2D1::RectF(0, 0, Game::MAX_X, Game::MAX_Y);
+	rect = D2D1::RectF(0, 0, Globals::MAX_X, Globals::MAX_Y);
 	renderTarget->DrawBitmap(mapBitmap, rect, 0.85f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 
 	for (Flash flash : ItemManager::GetFlashes()) {
@@ -161,36 +161,36 @@ void Graphics::DrawGame() {
 
 	Launcher launcher = ItemManager::GetLauncher();
 
-	rect = D2D1::RectF(Game::LAUNCHER_CANNON_BOTTOM_CENTER.x - Game::LAUNCHER_CANNON_HALF_WIDTH, 
-		Game::LAUNCHER_CANNON_BOTTOM_CENTER.y - Game::LAUNCHER_CANNON_HALF_HEIGHT * 2, 
-		Game::LAUNCHER_CANNON_BOTTOM_CENTER.x + Game::LAUNCHER_CANNON_HALF_WIDTH, 
-		Game::LAUNCHER_CANNON_BOTTOM_CENTER.y);
+	rect = D2D1::RectF(Globals::LAUNCHER_CANNON_BOTTOM_CENTER.x - Globals::LAUNCHER_CANNON_HALF_WIDTH,
+		Globals::LAUNCHER_CANNON_BOTTOM_CENTER.y - Globals::LAUNCHER_CANNON_HALF_HEIGHT * 2,
+		Globals::LAUNCHER_CANNON_BOTTOM_CENTER.x + Globals::LAUNCHER_CANNON_HALF_WIDTH,
+		Globals::LAUNCHER_CANNON_BOTTOM_CENTER.y);
 	renderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(launcher.GetAngleDeg(),
-		D2D1::Point2F(Game::LAUNCHER_CANNON_BOTTOM_CENTER.x, Game::LAUNCHER_CANNON_BOTTOM_CENTER.y)));
+		D2D1::Point2F(Globals::LAUNCHER_CANNON_BOTTOM_CENTER.x, Globals::LAUNCHER_CANNON_BOTTOM_CENTER.y)));
 	renderTarget->DrawBitmap(cannonBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 	renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 
-	rect = D2D1::RectF(launcher.GetCenter().x - Game::LAUNCHER_HALF_WIDTH,
-		launcher.GetCenter().y - Game::LAUNCHER_HALF_HEIGHT,
-		launcher.GetCenter().x + Game::LAUNCHER_HALF_WIDTH,
-		launcher.GetCenter().y + Game::LAUNCHER_HALF_HEIGHT);
+	rect = D2D1::RectF(launcher.GetCenter().x - Globals::LAUNCHER_HALF_WIDTH,
+		launcher.GetCenter().y - Globals::LAUNCHER_HALF_HEIGHT,
+		launcher.GetCenter().x + Globals::LAUNCHER_HALF_WIDTH,
+		launcher.GetCenter().y + Globals::LAUNCHER_HALF_HEIGHT);
 	renderTarget->DrawBitmap(launcherBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 
 	for (Building building : ItemManager::GetBuildings()) {
 
-		rect = D2D1::RectF(building.GetCenter().x - Game::BUILDING_HALF_WIDTH,
-			building.GetCenter().y - Game::BUILDING_HALF_HEIGHT,
-			building.GetCenter().x + Game::BUILDING_HALF_WIDTH,
-			building.GetCenter().y + Game::BUILDING_HALF_HEIGHT);
+		rect = D2D1::RectF(building.GetCenter().x - Globals::BUILDING_HALF_WIDTH,
+			building.GetCenter().y - Globals::BUILDING_HALF_HEIGHT,
+			building.GetCenter().x + Globals::BUILDING_HALF_WIDTH,
+			building.GetCenter().y + Globals::BUILDING_HALF_HEIGHT);
 		renderTarget->DrawBitmap(buildingBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 	}
 
 	for (Missile missile : ItemManager::GetMissiles()) {
 
-		rect = D2D1::RectF(missile.GetCenter().x - Game::MISSILE_HALF_WIDTH,
-			missile.GetCenter().y - Game::MISSILE_HALF_HEIGHT,
-			missile.GetCenter().x + Game::MISSILE_HALF_WIDTH,
-			missile.GetCenter().y + Game::MISSILE_HALF_HEIGHT);
+		rect = D2D1::RectF(missile.GetCenter().x - Globals::MISSILE_HALF_WIDTH,
+			missile.GetCenter().y - Globals::MISSILE_HALF_HEIGHT,
+			missile.GetCenter().x + Globals::MISSILE_HALF_WIDTH,
+			missile.GetCenter().y + Globals::MISSILE_HALF_HEIGHT);
 		renderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(missile.GetAngleDeg(), 
 			D2D1::Point2F(missile.GetCenter().x, missile.GetCenter().y)));
 		renderTarget->DrawBitmap(missileBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
@@ -199,10 +199,10 @@ void Graphics::DrawGame() {
 
 	for (Bomb bomb : ItemManager::GetBombs()) {
 
-		rect = D2D1::RectF(bomb.GetCenter().x - Game::BOMB_HALF_WIDTH,
-			bomb.GetCenter().y - Game::BOMB_HALF_HEIGHT,
-			bomb.GetCenter().x + Game::BOMB_HALF_WIDTH,
-			bomb.GetCenter().y + Game::BOMB_HALF_HEIGHT);
+		rect = D2D1::RectF(bomb.GetCenter().x - Globals::BOMB_HALF_WIDTH,
+			bomb.GetCenter().y - Globals::BOMB_HALF_HEIGHT,
+			bomb.GetCenter().x + Globals::BOMB_HALF_WIDTH,
+			bomb.GetCenter().y + Globals::BOMB_HALF_HEIGHT);
 		renderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(bomb.GetAngleDeg() + 180.0f,
 			D2D1::Point2F(bomb.GetCenter().x, bomb.GetCenter().y)));
 		renderTarget->DrawBitmap(bombBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
@@ -215,16 +215,16 @@ void Graphics::DrawGame() {
 			explosion.GetCenter().y - explosion.GetRadius(),
 			explosion.GetCenter().x + explosion.GetRadius(),
 			explosion.GetCenter().y + explosion.GetRadius());
-		renderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(Generator::GetRandomUniform(0.0f, 360.0f),
+		renderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(explosion.GetAngleDeg(),
 			D2D1::Point2F(explosion.GetCenter().x, explosion.GetCenter().y)));
 		
 		switch (explosion.GetSource()) {
 		
-			case missile: renderTarget->DrawBitmap(missileExplosionBitmap, rect, 1.0f, 
+			case MISSILE: renderTarget->DrawBitmap(missileExplosionBitmap, rect, 1.0f, 
 				D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 				break;
 
-			case normal: renderTarget->DrawBitmap(bombExplosionBitmap, rect, 1.0f,
+			case NORMAL: renderTarget->DrawBitmap(bombExplosionBitmap, rect, 1.0f,
 				D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 				break;
 		}

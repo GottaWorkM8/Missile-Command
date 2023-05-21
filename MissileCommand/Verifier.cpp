@@ -51,19 +51,19 @@ bool Verifier::Intersect(Point center, float halfWidth, float halfHeight,
 
 bool Verifier::BombHit(Bomb bomb, Explosion explosion) {
 
-    return Intersect(bomb.GetCenter(), Game::BOMB_HALF_WIDTH, Game::BOMB_HALF_HEIGHT, 
+    return Intersect(bomb.GetCenter(), Globals::BOMB_HALF_WIDTH, Globals::BOMB_HALF_HEIGHT,
         explosion.GetCenter(), explosion.GetRadius());
 }
 
 bool Verifier::BuildingHit(Building building, Explosion explosion) {
 
-    return Intersect(building.GetCenter(), Game::BUILDING_HALF_WIDTH, Game::BUILDING_HALF_HEIGHT,
+    return Intersect(building.GetCenter(), Globals::BUILDING_HALF_WIDTH, Globals::BUILDING_HALF_HEIGHT,
         explosion.GetCenter(), explosion.GetRadius());
 }
 
 bool Verifier::LauncherHit(Launcher launcher, Explosion explosion) {
 
-    return Intersect(launcher.GetCenter(), Game::LAUNCHER_HALF_WIDTH, Game::LAUNCHER_HALF_HEIGHT,
+    return Intersect(launcher.GetCenter(), Globals::LAUNCHER_HALF_WIDTH, Globals::LAUNCHER_HALF_HEIGHT,
         explosion.GetCenter(), explosion.GetRadius());
 }
 

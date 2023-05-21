@@ -2,10 +2,10 @@
 
 enum Source {
 
-	missile,
-	normal,
-	nuclear,
-	cluster,
-	napalm,
-	rodofgod
+	MISSILE,
+	NORMAL,
+	NUCLEAR,
+	CLUSTER,
+	NAPALM,
+	RODOFGOD
 };

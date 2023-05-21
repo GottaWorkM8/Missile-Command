@@ -1,12 +1,11 @@
 #pragma once
 
-#include "Point.h"
+#include "Item.h"
 #include "Timer.h"
 #include "Source.h"
 
-class Explosion {
+class Explosion : public Item {
 
-	Point center;
 	float radius;
 	int stage;
 	Timer stageTimer;
@@ -17,7 +16,6 @@ public:
 	Explosion();
 	Explosion(Point center, float radius, Source source);
 
-	Point& GetCenter();
 	float& GetRadius();
 	void SetRadius(float& radius);
 	int& GetStage();

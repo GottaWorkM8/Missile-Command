@@ -10,7 +10,7 @@ int main() {
 		if (window->ProcessMessages())
 			running = false;
 
-		Sleep(10);
+		Sleep(1);
 	}
 
 	delete window;

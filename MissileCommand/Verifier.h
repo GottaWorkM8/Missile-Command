@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Game.h"
+#include "Globals.h"
+#include "ItemManager.h"
 
 class Verifier {
 

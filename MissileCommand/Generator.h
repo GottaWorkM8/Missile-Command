@@ -4,7 +4,7 @@
 
 #include <random>
 #include <list>
-#include "Game.h"
+#include "Globals.h"
 #include "Bomb.h"
 
 class Generator {
@@ -16,6 +16,7 @@ public:
 
 	static float GetRandomUniform(float min, float max);
 	static float GetRandomNormal(float min, float max);
-	static std::list<Bomb> GenerateBombs(int count);
+	static Bomb GenerateBomb(Source source);
+	static std::list<Bomb> GenerateBombs(Source source, int count);
 };
 

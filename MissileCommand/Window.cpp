@@ -2,7 +2,7 @@
 
 const wchar_t* Window::CLASS_NAME = L"Window";
 
-LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 	switch (uMsg) {
 

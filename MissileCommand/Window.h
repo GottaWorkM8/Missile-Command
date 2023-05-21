@@ -4,11 +4,7 @@
 #include <thread>
 #include <atomic>
 #include "Graphics.h"
-#include "Game.h"
-#include "Menu.h"
 #include "resource.h"
-
-LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 class Window {
 
@@ -16,7 +12,8 @@ class Window {
 	HINSTANCE hInstance;
 	HWND hWnd;
 	Graphics graphics;
-	Game game;
+
+	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 public:
 

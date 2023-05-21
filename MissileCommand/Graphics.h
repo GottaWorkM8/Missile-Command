@@ -4,10 +4,11 @@
 #include <d2d1.h>
 #include <wincodec.h>
 #include <dwrite.h>
+#include "Globals.h"
 #include "Color.h"
 #include "Bitmapper.h"
 #include "TextRenderer.h"
-#include "Game.h"
+#include "ItemManager.h"
 #include "Menu.h"
 
 class Graphics {
