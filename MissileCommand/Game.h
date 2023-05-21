@@ -7,6 +7,7 @@
 #include "Verifier.h"
 #include "Generator.h"
 #include "ItemManager.h"
+#include "Level.h"
 
 class Game {
 
@@ -16,18 +17,19 @@ class Game {
 	static Timer levelTimer;
 	static Timer ammoTimer;
 	static Timer missileTimer;
-	static Timer bombTimer;
 	static Point missileOrigin;
 	static Point missileTarget;
 
 	static void MoveMissile(Missile& missile);
 	static void MoveBomb(Bomb& bomb);
+	static void RotateExplosion(Explosion& explosion);
 	static void AdvanceExplosion(Explosion& explosion);
 	static void AdvanceExplosionFinal(Explosion& explosion);
 	static void AdvanceFlash(Flash& flash);
 	static void AddAmmo();
 	static void LaunchMissile();
-	static void DropBombs();
+	static void DropBombs(Schedule& schedule);
+	static void DropSpecificBombs(Source source, std::list<float>& drops);
 
 public:
 

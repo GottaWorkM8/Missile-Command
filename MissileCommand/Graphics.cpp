@@ -80,7 +80,11 @@ bool Graphics::Init() {
 		launcherBitmap = bitmapper.GetBitmap(L"dome.png");
 		buildingBitmap = bitmapper.GetBitmap(L"building.png");
 		missileBitmap = bitmapper.GetBitmap(L"missile.png");
-		bombBitmap = bitmapper.GetBitmap(L"bomb.png");
+		normalBombBitmap = bitmapper.GetBitmap(L"normal.png");
+		nuclearBombBitmap = bitmapper.GetBitmap(L"nuclear.png");
+		clusterBombBitmap = bitmapper.GetBitmap(L"cluster.png");
+		napalmBombBitmap = bitmapper.GetBitmap(L"napalm.png");
+		rodBombBitmap = bitmapper.GetBitmap(L"rod-of-god.png");
 		missileExplosionBitmap = bitmapper.GetBitmap(L"blue-explosion.png");
 		bombExplosionBitmap = bitmapper.GetBitmap(L"red-explosion.png");
 		flashBitmap = bitmapper.GetBitmap(L"flash.png");
@@ -205,7 +209,34 @@ void Graphics::DrawGame() {
 			bomb.GetCenter().y + Globals::BOMB_HALF_HEIGHT);
 		renderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(bomb.GetAngleDeg() + 180.0f,
 			D2D1::Point2F(bomb.GetCenter().x, bomb.GetCenter().y)));
-		renderTarget->DrawBitmap(bombBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+
+		switch (bomb.GetSource()) {
+
+			case NORMAL:
+				renderTarget->DrawBitmap(normalBombBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+				break;
+
+			case NUCLEAR:
+				renderTarget->DrawBitmap(nuclearBombBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+				break;
+
+			case CLUSTER:
+				renderTarget->DrawBitmap(clusterBombBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+				break;
+
+			case NAPALM:
+				renderTarget->DrawBitmap(napalmBombBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+				break;
+
+			case RODOFGOD:
+				renderTarget->DrawBitmap(rodBombBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+				break;
+
+			default:
+				renderTarget->DrawBitmap(normalBombBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+				break;
+		}
+
 		renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 	}
 
@@ -220,12 +251,23 @@ void Graphics::DrawGame() {
 		
 		switch (explosion.GetSource()) {
 		
-			case MISSILE: renderTarget->DrawBitmap(missileExplosionBitmap, rect, 1.0f, 
+			case MISSILE: 
+				renderTarget->DrawBitmap(missileExplosionBitmap, rect, 1.0f, 
 				D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 				break;
 
-			case NORMAL: renderTarget->DrawBitmap(bombExplosionBitmap, rect, 1.0f,
+			case NORMAL: 
+			case NUCLEAR:
+			case CLUSTER:
+			case NAPALM:
+			case RODOFGOD: 
+				renderTarget->DrawBitmap(bombExplosionBitmap, rect, 1.0f,
 				D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+				break;
+
+			default:
+				renderTarget->DrawBitmap(missileExplosionBitmap, rect, 1.0f,
+					D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 				break;
 		}
 

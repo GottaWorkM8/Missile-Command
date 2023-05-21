@@ -24,7 +24,11 @@ class Graphics {
 	ID2D1Bitmap* launcherBitmap;
 	ID2D1Bitmap* buildingBitmap;
 	ID2D1Bitmap* missileBitmap;
-	ID2D1Bitmap* bombBitmap;
+	ID2D1Bitmap* normalBombBitmap;
+	ID2D1Bitmap* nuclearBombBitmap;
+	ID2D1Bitmap* clusterBombBitmap;
+	ID2D1Bitmap* napalmBombBitmap;
+	ID2D1Bitmap* rodBombBitmap;
 	ID2D1Bitmap* missileExplosionBitmap;
 	ID2D1Bitmap* bombExplosionBitmap;
 	ID2D1Bitmap* flashBitmap;

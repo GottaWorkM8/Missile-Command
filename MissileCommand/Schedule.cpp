@@ -2,76 +2,75 @@
 
 void Schedule::ScheduleNormalDrops(int count, float duration) {
 
-	std::list<float> list;
+	std::list<float> drops;
 	float minGap = duration / (count * 2);
-	float maxGap = duration / count * 2;
 
-	while (list.size() < count) {
+	while (drops.size() < count) {
 
-		float value = Generator::GetRandomUniform(0, duration);
+		float newDrop = Generator::GetRandomUniform(0, duration);
 		bool valid = true;
 
-		for (float existingValue : list)
-			if (std::abs(value - existingValue) < minGap || std::abs(value - existingValue) > maxGap) {
-
+		for (float drop : drops)
+			if (Verifier::TooClose(newDrop, drop, minGap)) {
+			
 				valid = false;
 				break;
 			}
 
 		if (valid)
-			list.push_back(value);
+			drops.push_back(newDrop);
 	}
 
-	list.sort();
-	normalDrops = list;
+	drops.sort();
+	normalDrops = drops;
 }
 
 void Schedule::ScheduleNuclearDrops(int count, float duration) {
 
-	std::list<float> list;
+	std::list<float> drops;
 	float minTime = duration / 10;
 
-	while (list.size() < count)
-		list.push_back(Generator::GetRandomUniform(minTime, duration));
+	while (drops.size() < count)
+		drops.push_back(Generator::GetRandomUniform(minTime, duration));
 
-	list.sort();
-	nuclearDrops = list;
+	drops.sort();
+	nuclearDrops = drops;
 }
 
 void Schedule::ScheduleClusterDrops(int count, float duration) {
 
-	std::list<float> list;
+	std::list<float> drops;
 	float minTime = duration / 10;
 
-	while (list.size() < count)
-		list.push_back(Generator::GetRandomUniform(minTime, duration));
+	while (drops.size() < count)
+		drops.push_back(Generator::GetRandomUniform(minTime, duration));
 
-	list.sort();
-	clusterDrops = list;
+	drops.sort();
+	clusterDrops = drops;
 }
 
 void Schedule::ScheduleNapalmDrops(int count, float duration) {
 
-	std::list<float> list;
+	std::list<float> drops;
 	float minTime = duration / 10;
 
-	while (list.size() < count)
-		list.push_back(Generator::GetRandomUniform(minTime, duration));
+	while (drops.size() < count)
+		drops.push_back(Generator::GetRandomUniform(minTime, duration));
 
-	list.sort();
-	napalmDrops = list;
+	drops.sort();
+	napalmDrops = drops;
 }
 
 void Schedule::ScheduleRodDrops(int count, float duration) {
 
-	std::list<float> list;
+	std::list<float> drops;
 	float minTime = duration / 2;
 
-	while (list.size() < count)
-		list.push_back(Generator::GetRandomUniform(minTime, duration));
+	while (drops.size() < count)
+		drops.push_back(Generator::GetRandomUniform(minTime, duration));
 
-	list.sort();
-	rodDrops = list;
+	drops.sort();
+	rodDrops = drops;
 }
 
 void Schedule::ScheduleAllBombDrops(int normalNum, int nuclearNum, int clusterNum, int napalmNum, 
@@ -126,6 +125,11 @@ void Schedule::ScheduleAllBombDrops(std::list<Bomb> bombs, float duration) {
 
 Schedule::Schedule() {
 
+	normalDrops = {};
+	nuclearDrops = {};
+	clusterDrops = {};
+	napalmDrops = {};
+	rodDrops = {};
 }
 
 Schedule::Schedule(int normalNum, int nuclearNum, int clusterNum, int napalmNum, int rodNum, float duration) {

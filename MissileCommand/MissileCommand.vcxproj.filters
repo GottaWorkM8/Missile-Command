@@ -189,9 +189,6 @@
     <Image Include="missile.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="bomb.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="mountains.jpg">
       <Filter>Resource Files</Filter>
     </Image>
@@ -217,6 +214,21 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="title.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="rod-of-god.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="nuclear.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="napalm.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="cluster.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

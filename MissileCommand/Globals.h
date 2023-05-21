@@ -74,7 +74,11 @@ public:
 	static const float BOMB_TARGET_Y;
 	static const float BOMB_HALF_WIDTH;
 	static const float BOMB_HALF_HEIGHT;
-	static const float BOMB_SPEED;
+	static const float NORMAL_BOMB_SPEED;
+	static const float NUCLEAR_BOMB_SPEED;
+	static const float CLUSTER_BOMB_SPEED;
+	static const float NAPALM_BOMB_SPEED;
+	static const float ROD_BOMB_SPEED;
 	static const float BOMB_LOAD_TIME;
 
 	static const float EXPLOSION_PROPAGATION_TIME;

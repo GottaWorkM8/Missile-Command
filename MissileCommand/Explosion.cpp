@@ -22,6 +22,14 @@ Explosion::Explosion(Point center, float radius, Source source) {
 	this->source = source;
 }
 
+void Explosion::SetAngleRad(float& angleRad) {
+	this->angleRad = angleRad;
+}
+
+void Explosion::SetAngleDeg(float& angleDeg) {
+	this->angleDeg = angleDeg;
+}
+
 float& Explosion::GetRadius() {
 	return radius;
 }

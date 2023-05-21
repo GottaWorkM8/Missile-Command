@@ -2,6 +2,7 @@
 
 #include <list>
 #include "Generator.h"
+#include "Verifier.h"
 
 class Schedule {
 

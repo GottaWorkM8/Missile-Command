@@ -16,6 +16,8 @@ public:
 	Explosion();
 	Explosion(Point center, float radius, Source source);
 
+	void SetAngleRad(float& angleRad);
+	void SetAngleDeg(float& angleDeg);
 	float& GetRadius();
 	void SetRadius(float& radius);
 	int& GetStage();

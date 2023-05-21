@@ -191,14 +191,18 @@
     <Image Include="building.png" />
     <Image Include="cannon.png" />
     <Image Include="cartoon-missile.ico" />
+    <Image Include="cluster.png" />
     <Image Include="dome.png" />
     <Image Include="flash.png" />
     <Image Include="menu-background.jpg" />
     <Image Include="missile.png" />
-    <Image Include="bomb.png" />
     <Image Include="mountains.jpg" />
+    <Image Include="napalm.png" />
+    <Image Include="normal.png" />
+    <Image Include="nuclear.png" />
     <Image Include="nuke-button.png" />
     <Image Include="red-explosion.png" />
+    <Image Include="rod-of-god.png" />
     <Image Include="title.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -94,11 +94,21 @@ void ItemManager::RemoveExplosion(Explosion explosion) {
 	explosions.remove(explosion);
 }
 
-void ItemManager::RemoveAllItems() {
+void ItemManager::Reset() {
 
-	buildings.clear();
-	missiles.clear();
-	bombs.clear();
-	explosions.clear();
-	flashes.clear();
+	launcher = Launcher(Point(Globals::MAX_X / 2, Globals::GROUND_Y - Globals::LAUNCHER_HALF_HEIGHT),
+		0.0f, Globals::LAUNCHER_HP);
+	buildings = {
+		Building(Point(Globals::MAX_X / 12, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
+		Building(Point(Globals::MAX_X / 12 * 2, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
+		Building(Point(Globals::MAX_X / 12 * 3, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
+		Building(Point(Globals::MAX_X / 12 * 4, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
+		Building(Point(Globals::MAX_X / 12 * 8, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
+		Building(Point(Globals::MAX_X / 12 * 9, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
+		Building(Point(Globals::MAX_X / 12 * 10, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
+		Building(Point(Globals::MAX_X / 12 * 11, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP) };
+	missiles = {};
+	bombs = {};
+	explosions = {};
+	flashes = {};
 }

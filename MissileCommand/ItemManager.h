@@ -38,6 +38,6 @@ public:
 	static void RemoveMissile(Missile missile);
 	static void RemoveBomb(Bomb bomb);
 	static void RemoveExplosion(Explosion explosion);
-	static void RemoveAllItems();
+	static void Reset();
 };
 

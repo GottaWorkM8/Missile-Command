@@ -39,7 +39,7 @@ const int Globals::LEVEL5 = 5;
 const float Globals::GROUND_Y = MAX_Y - (MAX_Y / 7);
 
 const float Globals::FRAME_TIME = 100 / 12; // 120 fps
-const float Globals::GAME_TIME = 20.0f; // 60 second turn
+const float Globals::GAME_TIME = 60.0f; // 60 second turn
 
 const int Globals::MAX_AMMO = 5;
 const float Globals::AMMO_LOAD_TIME = 0.5f;
@@ -67,7 +67,11 @@ const float Globals::BOMB_ORIGIN_MAX_X = MAX_X - BOMB_ORIGIN_MIN_X;
 const float Globals::BOMB_HALF_WIDTH = 10.0f;
 const float Globals::BOMB_HALF_HEIGHT = 10.0f;
 const float Globals::BOMB_TARGET_Y = GROUND_Y - BOMB_HALF_HEIGHT;
-const float Globals::BOMB_SPEED = 1.5f;
+const float Globals::NORMAL_BOMB_SPEED = 1.5f;
+const float Globals::NUCLEAR_BOMB_SPEED = 1.0f;
+const float Globals::CLUSTER_BOMB_SPEED = 1.2f;
+const float Globals::NAPALM_BOMB_SPEED = 1.2f;
+const float Globals::ROD_BOMB_SPEED = 2.5f;
 const float Globals::BOMB_LOAD_TIME = 1.0f;
 
 const float Globals::EXPLOSION_PROPAGATION_TIME = 0.5f;

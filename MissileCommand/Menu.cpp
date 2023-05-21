@@ -103,7 +103,7 @@ void Menu::ContinueGame() {
 
 void Menu::StartNewGame() {
 
-	std::thread gameThread = std::thread(Game::Run, Globals::LEVEL1);
+	std::thread gameThread = std::thread(Game::Run, Globals::LEVEL5);
 	gameThread.detach();
 	gameRunning = true;
 }

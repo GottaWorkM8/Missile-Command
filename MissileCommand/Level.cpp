@@ -8,55 +8,55 @@ void Level::SetLevelOne() {
 	clusterNum = 0;
 	napalmNum = 0;
 	rodNum = 0;
-	duration = 60.0f;
+	duration = Globals::GAME_TIME;
 	schedule = Schedule(normalNum, nuclearNum, clusterNum, napalmNum, rodNum, duration);
 }
 
 void Level::SetLevelTwo() {
 
 	difficulty = Globals::LEVEL2;
-	normalNum = 200;
-	nuclearNum = 10;
+	normalNum = 100;
+	nuclearNum = 15;
 	clusterNum = 0;
 	napalmNum = 0;
 	rodNum = 0;
-	duration = 60.0f;
+	duration = Globals::GAME_TIME;
 	schedule = Schedule(normalNum, nuclearNum, clusterNum, napalmNum, rodNum, duration);
 }
 
 void Level::SetLevelThree() {
 
 	difficulty = Globals::LEVEL3;
-	normalNum = 220;
-	nuclearNum = 20;
-	clusterNum = 10;
+	normalNum = 100;
+	nuclearNum = 25;
+	clusterNum = 15;
 	napalmNum = 0;
 	rodNum = 0;
-	duration = 60.0f;
+	duration = Globals::GAME_TIME;
 	schedule = Schedule(normalNum, nuclearNum, clusterNum, napalmNum, rodNum, duration);
 }
 
 void Level::SetLevelFour() {
 
 	difficulty = Globals::LEVEL4;
-	normalNum = 230;
+	normalNum = 100;
 	nuclearNum = 25;
-	clusterNum = 20;
+	clusterNum = 25;
 	napalmNum = 10;
 	rodNum = 0;
-	duration = 60.0f;
+	duration = Globals::GAME_TIME;
 	schedule = Schedule(normalNum, nuclearNum, clusterNum, napalmNum, rodNum, duration);
 }
 
 void Level::SetLevelFive() {
 
 	difficulty = Globals::LEVEL5;
-	normalNum = 250;
-	nuclearNum = 30;
+	normalNum = 100;
+	nuclearNum = 25;
 	clusterNum = 25;
 	napalmNum = 20;
 	rodNum = 10;
-	duration = 60.0f;
+	duration = Globals::GAME_TIME;
 	schedule = Schedule(normalNum, nuclearNum, clusterNum, napalmNum, rodNum, duration);
 }
 

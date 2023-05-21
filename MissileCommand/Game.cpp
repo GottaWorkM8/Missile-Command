@@ -6,17 +6,15 @@ int Game::ammo = Globals::MAX_AMMO;
 Timer Game::levelTimer = Timer();
 Timer Game::ammoTimer = Timer();
 Timer Game::missileTimer = Timer();
-Timer Game::bombTimer = Timer();
 Point Game::missileOrigin = Point();
 Point Game::missileTarget = Point();
 
 void Game::Run(int difficulty) {
 
-	/*Level level = Level(difficulty);*/
-
+	Level level = Level(difficulty);
+	ItemManager::Reset();
 	levelTimer.Restart();
 	ammoTimer.Restart();
-	bombTimer.Restart();
 
 	while (true) {
 
@@ -126,18 +124,16 @@ void Game::Run(int difficulty) {
 		float time = levelTimer.GetElapsedTime();
 
 		if (time <= Globals::GAME_TIME)
-			if (bombTimer.GetElapsedTime() > Globals::BOMB_LOAD_TIME)
-				DropBombs();
+			DropBombs(level.GetSchedule());
 
 		if (Verifier::GameLost(launcher, buildings))
 			finished = true;
 
-		if (time > Globals::GAME_TIME)
-			if (bombs.empty() && !finished) {
-
-				finished = true;
-				won = true;
-			}
+		if (Verifier::GameWon(bombs, time, finished)) {
+		
+			finished = true;
+			won = true;
+		}
 
 		float deltaTime = levelTimer.GetDeltaTime();
 
@@ -153,7 +149,48 @@ void Game::MoveMissile(Missile& missile) {
 
 void Game::MoveBomb(Bomb& bomb) {
 
-	bomb.SetCenter(Calculator::GetNextPos(bomb.GetCenter(), bomb.GetAngleRad(), Globals::BOMB_SPEED));
+	float speed;
+
+	switch (bomb.GetSource()) {
+
+		case NORMAL: 
+			speed = Globals::NORMAL_BOMB_SPEED;
+			break;
+
+		case NUCLEAR: 
+			speed = Globals::NUCLEAR_BOMB_SPEED;
+			break;
+
+		case CLUSTER: 
+			speed = Globals::CLUSTER_BOMB_SPEED;
+			break;
+
+		case NAPALM: 
+			speed = Globals::NAPALM_BOMB_SPEED;
+			break;
+
+		case RODOFGOD: 
+			speed = Globals::ROD_BOMB_SPEED;
+			break;
+
+		default: 
+			speed = Globals::NORMAL_BOMB_SPEED;
+			break;
+	}
+
+	bomb.SetCenter(Calculator::GetNextPos(bomb.GetCenter(), bomb.GetAngleRad(), speed));
+}
+
+void Game::RotateExplosion(Explosion& explosion) {
+
+	float newAngleDeg = explosion.GetAngleDeg() + Generator::GetRandomUniform(0, 180.0f);
+
+	if (newAngleDeg > 360.0f)
+		newAngleDeg -= 360.0f;
+
+	float newAngleRad = Calculator::GetRadians(newAngleDeg);
+	explosion.SetAngleDeg(newAngleDeg);
+	explosion.SetAngleRad(newAngleRad);
 }
 
 void Game::AdvanceExplosion(Explosion& explosion) {
@@ -165,12 +202,16 @@ void Game::AdvanceExplosion(Explosion& explosion) {
 		float newRadius = explosion.GetRadius() + Globals::EXPLOSION_RADIUS_GROWTH;
 		explosion.SetRadius(newRadius);
 	}
+
+	RotateExplosion(explosion);
 }
 
 void Game::AdvanceExplosionFinal(Explosion& explosion) {
 
 	if (explosion.GetStageTimer().GetElapsedTime() > Globals::EXPLOSION_FINAL_TIME)
 		explosion.GetStage()++;
+
+	RotateExplosion(explosion);
 }
 
 void Game::AdvanceFlash(Flash& flash) {
@@ -245,8 +286,36 @@ void Game::LaunchMissile() {
 		}
 }
 
-void Game::DropBombs() {
+void Game::DropBombs(Schedule& schedule) {
 
-	bombTimer.Restart();
-	ItemManager::AddBombs(Generator::GenerateBombs(NORMAL, 2));
+	DropSpecificBombs(NORMAL, schedule.GetNormalDrops());
+	DropSpecificBombs(NUCLEAR, schedule.GetNuclearDrops());
+	DropSpecificBombs(CLUSTER, schedule.GetClusterDrops());
+	DropSpecificBombs(NAPALM, schedule.GetNapalmDrops());
+	DropSpecificBombs(RODOFGOD, schedule.GetRodDrops());
+}
+
+void Game::DropSpecificBombs(Source source, std::list<float>& drops) {
+
+	switch (source) {
+
+		case NORMAL:
+		case NUCLEAR:
+		case CLUSTER:
+		case NAPALM:
+		case RODOFGOD: {
+			std::list<float>::iterator i = drops.begin();
+			while (i != drops.end()) {
+				if (*i <= levelTimer.GetElapsedTime()) {
+					ItemManager::AddBomb(Generator::GenerateBomb(source));
+					drops.erase(i++);
+				}
+				else break;
+			}
+			break;
+		}
+
+		default:
+			break;
+	}
 }
