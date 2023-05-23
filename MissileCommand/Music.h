@@ -9,6 +9,7 @@ public:
 	static const LPCWSTR playLevel;
 	static const LPCWSTR playMissile;
 	static const LPCWSTR playExplosion;
+	static const LPCWSTR playBomb;
 	static const LPCWSTR stopMenu;
 
 
@@ -16,6 +17,7 @@ public:
 	static void musicLevel();
 	static void musicClear();
 	static void musicExploxion();
+	static void musicBomb();
 	static void musicMissle();
 };
 

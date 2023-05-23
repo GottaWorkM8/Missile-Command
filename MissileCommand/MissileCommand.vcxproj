@@ -196,6 +196,7 @@
     <Image Include="title.png" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="musicBomb.wav" />
     <Media Include="musicExploxion.wav" />
     <Media Include="musicMissile.wav" />
     <Media Include="musicLevel.wav" />

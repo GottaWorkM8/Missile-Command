@@ -5,6 +5,7 @@ const LPCWSTR Music::stopMenu = L"stop musicMenu.wav";
 const LPCWSTR Music::playLevel = L"play musicLevel.wav";
 const LPCWSTR Music::playMissile = L"play musicMissile.wav";
 const LPCWSTR Music::playExplosion = L"play musicExploxion.wav";
+const LPCWSTR Music::playBomb = L"play musicBomb.wav";
 
 void Music::musicMenu() 
 {
@@ -24,6 +25,11 @@ void Music::musicClear()
 void Music::musicExploxion()
 {
 	mciSendString(Music::playExplosion, NULL, 0, 0);
+}
+
+void Music::musicBomb()
+{
+	mciSendString(Music::playBomb, NULL, 0, 0);
 }
 
 void Music::musicMissle()
