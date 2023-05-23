@@ -8,8 +8,9 @@ public:
 	static const LPCWSTR playMenu;
 	static const LPCWSTR playLevel;
 	static const LPCWSTR playMissile;
-	static const LPCWSTR playExploxion;
+	static const LPCWSTR playExplosion;
 	static const LPCWSTR stopMenu;
+
 
 	static void musicMenu();
 	static void musicLevel();
