@@ -14,6 +14,7 @@ std::list<Building> ItemManager::buildings = {
 std::list<Missile> ItemManager::missiles = {};
 std::list<Bomb> ItemManager::bombs = {};
 std::list<Explosion> ItemManager::explosions = {};
+std::list<Destruction> ItemManager::destructions = {};
 std::list<Flash> ItemManager::flashes = {};
 
 Launcher& ItemManager::GetLauncher() {
@@ -38,6 +39,10 @@ std::list<Bomb>& ItemManager::GetBombs() {
 
 std::list<Explosion>& ItemManager::GetExplosions() {
 	return explosions;
+}
+
+std::list<Destruction>& ItemManager::GetDestructions() {
+	return destructions;
 }
 
 std::list<Flash>& ItemManager::GetFlashes() {
@@ -67,6 +72,11 @@ void ItemManager::AddBombs(std::list<Bomb> newBombs) {
 void ItemManager::AddExplosion(Explosion explosion) {
 
 	explosions.push_back(explosion);
+}
+
+void ItemManager::AddDestruction(Destruction destruction) {
+
+	destructions.push_back(destruction);
 }
 
 void ItemManager::AddFlash(Flash flash) {
@@ -110,5 +120,6 @@ void ItemManager::Reset() {
 	missiles = {};
 	bombs = {};
 	explosions = {};
+	destructions = {};
 	flashes = {};
 }

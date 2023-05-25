@@ -5,6 +5,7 @@
 
 class Level {
 
+	const wchar_t* location;
 	int difficulty;
 	int normalNum;
 	int nuclearNum;
@@ -25,6 +26,7 @@ public:
 	Level();
 	Level(int difficulty);
 
+	const wchar_t* GetLocation();
 	int GetDifficulty();
 	int GetNormalNum();
 	int GetNuclearNum();

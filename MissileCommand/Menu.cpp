@@ -79,7 +79,7 @@ void Menu::AnimateButton(Point& topLeft, bool& hovered) {
 
 	while (hovered) {
 
-		if (stage < 10) {
+		if (stage < Globals::ANIMATION_STAGES) {
 		
 			float elapsedTime = animationTimer.GetElapsedTime();
 

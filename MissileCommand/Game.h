@@ -8,11 +8,14 @@
 #include "Generator.h"
 #include "ItemManager.h"
 #include "Level.h"
+#include "Popup.h"
 
 class Game {
 
+	static bool intro;
 	static bool won;
 	static bool finished;
+	static const wchar_t* location;
 	static int ammo;
 	static int score;
 	static int diff;
@@ -33,6 +36,8 @@ class Game {
 	static void AdvanceExplosion(Explosion& explosion);
 	static void AdvanceExplosionFinal(Explosion& explosion);
 	static void AdvanceFlash(Flash& flash);
+	static void RotateDestruction(Destruction& destruction);
+	static void AdvanceDestruction(Destruction& destruction);
 	static void AddAmmo();
 	static void LaunchMissile();
 	static void DropBombs(Schedule& schedule);
@@ -43,6 +48,8 @@ class Game {
 
 public:
 
+	static bool GetIntro();
+	static const wchar_t* GetLocation();
 	static int GetAmmo();
 	static int GetScore();
 	static int GetDiff();

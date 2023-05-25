@@ -1,7 +1,9 @@
 #include "Game.h"
 
+bool Game::intro = true;
 bool Game::won = false;
-bool Game::finished = false;
+bool Game::finished = true;
+const wchar_t* Game::location = L"";
 int Game::ammo = Globals::MAX_AMMO;
 int Game::score = 0;
 int Game::diff = 0;
@@ -15,6 +17,14 @@ Timer Game::ammoTimer = Timer();
 Timer Game::missileTimer = Timer();
 Point Game::missileOrigin = Point();
 Point Game::missileTarget = Point();
+
+bool Game::GetIntro() {
+	return intro;
+}
+
+const wchar_t* Game::GetLocation() {
+	return location;
+}
 
 int Game::GetAmmo() {
 	return ammo;
@@ -51,6 +61,7 @@ int Game::GetRodNum() {
 void Game::Run(int difficulty) {
 
 	Level level = Level(difficulty);
+	location = level.GetLocation();
 	score = 0;
 	diff = level.GetDifficulty();
 	normalNum = level.GetNormalNum();
@@ -59,6 +70,12 @@ void Game::Run(int difficulty) {
 	napalmNum = level.GetNapalmNum();
 	rodNum = level.GetRodNum();
 	ItemManager::Reset();
+
+	Popup::CreateIntroThread();
+	Sleep(Globals::INTRO_TIME * 1000);
+	intro = false;
+	finished = false;
+
 	levelTimer.Restart();
 	ammoTimer.Restart();
 
@@ -111,8 +128,12 @@ void Game::Run(int difficulty) {
 
 			while (l != buildings.end()) {
 
-				if (Verifier::BuildingHit(*l, *j))
+				if (Verifier::BuildingHit(*l, *j)) {
+				
+					ItemManager::AddDestruction(Destruction(l->GetCenter(),
+						Globals::DESTRUCTION_INITIAL_RADIUS));
 					buildings.erase(l++);
+				}
 
 				else l++;
 			}
@@ -165,6 +186,21 @@ void Game::Run(int difficulty) {
 
 				AdvanceFlash(*m);
 				m++;
+			}
+		}
+
+		std::list<Destruction>& destructions = ItemManager::GetDestructions();
+		std::list<Destruction>::iterator n = destructions.begin();
+
+		while (n != destructions.end()) {
+
+			if (n->GetStage() == Globals::DESTRUCTION_STAGES)
+				destructions.erase(n++);
+
+			else {
+
+				AdvanceDestruction(*n);
+				n++;
 			}
 		}
 
@@ -289,6 +325,31 @@ void Game::AdvanceFlash(Flash& flash) {
 		float newRadius = flash.GetRadius() + Globals::FLASH_RADIUS_GROWTH;
 		flash.SetRadius(newRadius);
 	}
+}
+
+void Game::RotateDestruction(Destruction& destruction) {
+
+	float newAngleDeg = destruction.GetAngleDeg() + Generator::GetRandomUniform(0, 5.0f);
+
+	if (newAngleDeg > 360.0f)
+		newAngleDeg -= 360.0f;
+
+	float newAngleRad = Calculator::GetRadians(newAngleDeg);
+	destruction.SetAngleDeg(newAngleDeg);
+	destruction.SetAngleRad(newAngleRad);
+}
+
+void Game::AdvanceDestruction(Destruction& destruction) {
+
+	if (destruction.GetStageTimer().GetElapsedTime() > Globals::DESTRUCTION_STAGE_TIME) {
+
+		destruction.GetStageTimer().Restart();
+		destruction.GetStage()++;
+		float newRadius = destruction.GetRadius() + Globals::DESTRUCTION_RADIUS_GROWTH;
+		destruction.SetRadius(newRadius);
+	}
+
+	RotateDestruction(destruction);
 }
 
 void Game::UpdateTarget(HWND& hWnd) {

@@ -6,12 +6,13 @@
 #include <dwrite.h>
 #include <sstream>
 #include <string>
+#include <thread>
 #include "Globals.h"
-#include "Color.h"
 #include "Bitmapper.h"
 #include "TextRenderer.h"
 #include "ItemManager.h"
 #include "Menu.h"
+#include "Popup.h"
 
 class Graphics {
 
@@ -22,9 +23,14 @@ class Graphics {
 	ID2D1SolidColorBrush* brush;
 	ID2D1Bitmap* menuBitmap;
 	ID2D1Bitmap* titleBitmap;
-	ID2D1Bitmap* mapBitmap;
-	ID2D1Bitmap* cannonBitmap;
+	ID2D1Bitmap* mapBitmap1;
+	ID2D1Bitmap* mapBitmap2;
+	ID2D1Bitmap* mapBitmap3;
+	ID2D1Bitmap* mapBitmap4;
+	ID2D1Bitmap* mapBitmap5;
 	ID2D1Bitmap* launcherBitmap;
+	ID2D1Bitmap* cannonBitmap;
+	ID2D1Bitmap* flashBitmap;
 	ID2D1Bitmap* buildingBitmap;
 	ID2D1Bitmap* missileBitmap;
 	ID2D1Bitmap* normalBombBitmap;
@@ -38,7 +44,7 @@ class Graphics {
 	ID2D1Bitmap* clusterExplosionBitmap;
 	ID2D1Bitmap* napalmExplosionBitmap;
 	ID2D1Bitmap* rodExplosionBitmap;
-	ID2D1Bitmap* flashBitmap;
+	ID2D1Bitmap* destructionBitmap;
 	ID2D1Bitmap* ammoBitmap;
 
 public:
@@ -50,10 +56,12 @@ public:
 	bool Init();
 	void BeginDraw();
 	void EndDraw();
-	void ClearScreen(Color color);
+	void ClearScreen();
 	void DrawMenu();
 	void DrawGame();
+	void DrawIntro();
 	void DrawBar();
-	void DrawInt(int num, float height, Point topCenter);
+	void DrawInt(int num, const wchar_t* font, float height, Point topCenter, bool bold);
+	void DrawLabel(const wchar_t* text, const wchar_t* font, float height, Point topCenter, bool bold);
 };
 

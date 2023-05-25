@@ -1,6 +1,9 @@
 #pragma once
 
+#include <list>
 #include "Item.h"
+#include "Bomb.h"
+#include "Building.h"
 #include "Timer.h"
 #include "Source.h"
 
@@ -10,6 +13,9 @@ class Explosion : public Item {
 	int stage;
 	Timer stageTimer;
 	Source source;
+	std::list<Bomb> bombsHit;
+	std::list<Building> buildingsHit;
+	bool launcherHit;
 
 public:
 
@@ -23,7 +29,13 @@ public:
 	int& GetStage();
 	Timer& GetStageTimer();
 	Source& GetSource();
-
+	std::list<Bomb>& GetBombsHit();
+	void SetBombsHit(std::list<Bomb>& bombsHit);
+	std::list<Building>& GetBuildingsHit();
+	void SetBuildingsHit(std::list<Building>& buildingsHit);
+	bool& IsLauncherHit();
+	void SetLauncherHit(bool& launcherHit);
+	
 	bool operator==(const Explosion& e) const;
 };
 

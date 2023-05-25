@@ -1,5 +1,6 @@
 #pragma once
 
+#include <d2d1.h>
 #include "Point.h"
 
 class Globals {
@@ -11,6 +12,8 @@ public:
 	static const float MAX_X;
 	static const float CENTER_X;
 	static const float MAX_Y;
+	static const D2D1_COLOR_F BRUSH_DEFAULT_COLOR;
+	static const D2D1_COLOR_F PROMPT_BACKGROUND_COLOR;
 
 	// Menu
 
@@ -43,8 +46,19 @@ public:
 	static const int LEVEL5;
 
 	static const float GROUND_Y;
-	static const float BAR_Y;
 
+	static const float INTRO_BAR_Y;
+	static const float INTRO_BAR_BOTTOM;
+	static const float INTRO_BAR_HEIGHT;
+	static const float INTRO_Y;
+	static const float INTRO_HEIGHT;
+	static const float INTRO_TIME;
+	static const int INTRO_STAGES;
+	static const float INTRO_STAGE_TIME;
+	static const float INTRO_BACKGROUND_SHIFT;
+	static const float INTRO_TEXT_SHIFT;
+
+	static const float BAR_Y;
 	static const float BAR_ICON_Y;
 	static const float BAR_ICON_BOTTOM;
 	static const float BAR_ICON_HEIGHT;
@@ -144,8 +158,15 @@ public:
 	static const float FLASH_PROPAGATION_TIME;
 	static const float FLASH_INITIAL_RADIUS;
 	static const float FLASH_FINAL_RADIUS;
-	static const float FLASH_STAGES;
+	static const int FLASH_STAGES;
 	static const float FLASH_RADIUS_GROWTH;
 	static const float FLASH_STAGE_TIME;
+
+	static const float DESTRUCTION_PROPAGATION_TIME;
+	static const float DESTRUCTION_INITIAL_RADIUS;
+	static const float DESTRUCTION_FINAL_RADIUS;
+	static const int DESTRUCTION_STAGES;
+	static const float DESTRUCTION_RADIUS_GROWTH;
+	static const float DESTRUCTION_STAGE_TIME;
 };
 

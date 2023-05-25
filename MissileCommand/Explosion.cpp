@@ -9,17 +9,23 @@ Explosion::Explosion() {
 	stage = 0;
 	stageTimer = Timer();
 	source = NORMAL;
+	bombsHit = {};
+	buildingsHit = {};
+	launcherHit = false;
 }
 
 Explosion::Explosion(Point center, float radius, Source source) {
 
 	this->center = center;
-	this->angleRad = 0;
-	this->angleDeg = Calculator::GetDegrees(angleRad);
+	angleRad = 0;
+	angleDeg = Calculator::GetDegrees(angleRad);
 	this->radius = radius;
-	this->stage = 0;
-	this->stageTimer = Timer();
+	stage = 0;
+	stageTimer = Timer();
 	this->source = source;
+	bombsHit = {};
+	buildingsHit = {};
+	launcherHit = false;
 }
 
 void Explosion::SetAngleRad(float& angleRad) {
@@ -48,6 +54,30 @@ Timer& Explosion::GetStageTimer() {
 
 Source& Explosion::GetSource() {
 	return source;
+}
+
+std::list<Bomb>& Explosion::GetBombsHit() {
+	return bombsHit;
+}
+
+void Explosion::SetBombsHit(std::list<Bomb>& bombsHit) {
+	this->bombsHit = bombsHit;
+}
+
+std::list<Building>& Explosion::GetBuildingsHit() {
+	return buildingsHit;
+}
+
+void Explosion::SetBuildingsHit(std::list<Building>& buildingsHit) {
+	this->buildingsHit = buildingsHit;
+}
+
+bool& Explosion::IsLauncherHit() {
+	return launcherHit;
+}
+
+void Explosion::SetLauncherHit(bool& launcherHit) {
+	this->launcherHit = launcherHit;
 }
 
 bool Explosion::operator==(const Explosion& e) const {

@@ -5,6 +5,8 @@
 const float Globals::MAX_X = 1600.0f;
 const float Globals::CENTER_X = MAX_X / 2;
 const float Globals::MAX_Y = 900.0f;
+const D2D1_COLOR_F Globals::BRUSH_DEFAULT_COLOR = D2D1::ColorF(1.0f, 1.0f, 1.0f, 1.0f);
+const D2D1_COLOR_F Globals::PROMPT_BACKGROUND_COLOR = D2D1::ColorF(0.0f, 0.0f, 0.0f, 0.5f);
 
 // Menu
 
@@ -24,7 +26,7 @@ const Point Globals::HELP_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y + 3 * BUTTON
 const Point Globals::EXIT_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y + 4 * BUTTON_SPACE);;
 
 const float Globals::ANIMATION_TIME = 0.3f;
-const int Globals::ANIMATION_STAGES = 20;
+const int Globals::ANIMATION_STAGES = 10;
 const float Globals::ANIMATION_STAGE_TIME = ANIMATION_TIME / ANIMATION_STAGES;
 const float Globals::ANIMATION_SHIFT_X = 1;
 
@@ -36,9 +38,20 @@ const int Globals::LEVEL3 = 3;
 const int Globals::LEVEL4 = 4;
 const int Globals::LEVEL5 = 5;
 
-const float Globals::GROUND_Y = MAX_Y - (MAX_Y / 7);
-const float Globals::BAR_Y = MAX_Y - (MAX_Y / 12);
+const float Globals::GROUND_Y = MAX_Y - (MAX_Y / 9);
 
+const float Globals::INTRO_BAR_HEIGHT = MAX_Y / 12;
+const float Globals::INTRO_BAR_Y = MAX_Y / 5;
+const float Globals::INTRO_BAR_BOTTOM = INTRO_BAR_Y + INTRO_BAR_HEIGHT;
+const float Globals::INTRO_Y = INTRO_BAR_Y + (MAX_Y / 50);
+const float Globals::INTRO_HEIGHT = MAX_Y / 20;
+const float Globals::INTRO_TIME = 3.5f;
+const int Globals::INTRO_STAGES = 60;
+const float Globals::INTRO_STAGE_TIME = INTRO_TIME / INTRO_STAGES;
+const float Globals::INTRO_BACKGROUND_SHIFT = PROMPT_BACKGROUND_COLOR.a / 20;
+const float Globals::INTRO_TEXT_SHIFT = BRUSH_DEFAULT_COLOR.a / 20;
+
+const float Globals::BAR_Y = MAX_Y - (MAX_Y / 12);
 const float Globals::BAR_ICON_HEIGHT = MAX_Y / 16;
 const float Globals::BAR_ICON_WIDTH = BAR_ICON_HEIGHT;
 const float Globals::BAR_ICON_Y = BAR_Y;
@@ -143,6 +156,13 @@ const float Globals::EXPLOSION_STAGE_TIME = EXPLOSION_PROPAGATION_TIME / EXPLOSI
 const float Globals::FLASH_PROPAGATION_TIME = 0.1;
 const float Globals::FLASH_INITIAL_RADIUS = 5.0f;
 const float Globals::FLASH_FINAL_RADIUS = 15.0f;
-const float Globals::FLASH_STAGES = 10;
+const int Globals::FLASH_STAGES = 10;
 const float Globals::FLASH_RADIUS_GROWTH = (FLASH_FINAL_RADIUS - FLASH_INITIAL_RADIUS) / FLASH_STAGES;
 const float Globals::FLASH_STAGE_TIME = FLASH_PROPAGATION_TIME / FLASH_STAGES;
+
+const float Globals::DESTRUCTION_PROPAGATION_TIME = 0.4f;
+const float Globals::DESTRUCTION_INITIAL_RADIUS = 10.0f;
+const float Globals::DESTRUCTION_FINAL_RADIUS = 50.0f;
+const int Globals::DESTRUCTION_STAGES = 20;
+const float Globals::DESTRUCTION_RADIUS_GROWTH = (DESTRUCTION_FINAL_RADIUS - DESTRUCTION_INITIAL_RADIUS) / DESTRUCTION_STAGES;
+const float Globals::DESTRUCTION_STAGE_TIME = DESTRUCTION_PROPAGATION_TIME / DESTRUCTION_STAGES;

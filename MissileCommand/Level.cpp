@@ -2,6 +2,7 @@
 
 void Level::SetLevelOne() {
 
+	location = L"Grassy Plains";
 	difficulty = Globals::LEVEL1;
 	normalNum = 100;
 	nuclearNum = 0;
@@ -14,6 +15,7 @@ void Level::SetLevelOne() {
 
 void Level::SetLevelTwo() {
 
+	location = L"Icy Peaks";
 	difficulty = Globals::LEVEL2;
 	normalNum = 100;
 	nuclearNum = 15;
@@ -26,6 +28,7 @@ void Level::SetLevelTwo() {
 
 void Level::SetLevelThree() {
 
+	location = L"Riverside";
 	difficulty = Globals::LEVEL3;
 	normalNum = 100;
 	nuclearNum = 25;
@@ -38,6 +41,7 @@ void Level::SetLevelThree() {
 
 void Level::SetLevelFour() {
 
+	location = L"Scorching Desert";
 	difficulty = Globals::LEVEL4;
 	normalNum = 100;
 	nuclearNum = 25;
@@ -50,6 +54,7 @@ void Level::SetLevelFour() {
 
 void Level::SetLevelFive() {
 
+	location = L"Hostile Planet";
 	difficulty = Globals::LEVEL5;
 	normalNum = 100;
 	nuclearNum = 25;
@@ -93,6 +98,10 @@ Level::Level(int difficulty) {
 			SetLevelOne();
 			break;
 	}
+}
+
+const wchar_t* Level::GetLocation() {
+	return location;
 }
 
 int Level::GetDifficulty() {
