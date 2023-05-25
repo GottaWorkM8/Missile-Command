@@ -103,7 +103,7 @@ void Game::Run() {
 			while (k != bombs.end()) {
 
 				if (Verifier::BombHit(*k, *j)) {
-
+					Music::musicBomb();
 					ItemManager::AddExplosion(Explosion(k->GetCenter(),
 						Game::EXPLOSION_INITIAL_RADIUS, normal));
 					bombs.erase(k++);
@@ -118,7 +118,6 @@ void Game::Run() {
 
 				if (Verifier::BuildingHit(*l, *j)) {
 					buildings.erase(l++);
-					Music::musicExploxion();
 				}
 				else l++;
 			}
@@ -144,7 +143,7 @@ void Game::Run() {
 		while (k != bombs.end()) {
 
 			if (k->GetCenter().y >= Game::BOMB_TARGET_Y) {
-				//Music::musicExploxion();
+				Music::musicBomb();
 				ItemManager::AddExplosion(Explosion(k->GetCenter(),
 					Game::EXPLOSION_INITIAL_RADIUS, normal));
 				bombs.erase(k++);
