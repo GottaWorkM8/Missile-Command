@@ -95,7 +95,7 @@ IDWriteTextLayout* TextRenderer::GetAdjustedTextLayout(const wchar_t* text, cons
 	float lineHeight = metrics.height;
 	float fontSize = height / lineHeight * bigFontSize;
 
-	hR = writeFactory->CreateTextFormat(L"Arial", NULL, weight,
+	hR = writeFactory->CreateTextFormat(font, NULL, weight,
 		DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, fontSize, L"", &textFormat);
 
 	if (!SUCCEEDED(hR))

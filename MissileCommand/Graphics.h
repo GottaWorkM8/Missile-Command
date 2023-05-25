@@ -4,6 +4,8 @@
 #include <d2d1.h>
 #include <wincodec.h>
 #include <dwrite.h>
+#include <sstream>
+#include <string>
 #include "Globals.h"
 #include "Color.h"
 #include "Bitmapper.h"
@@ -16,6 +18,7 @@ class Graphics {
 	HWND* hWnd;
 	ID2D1Factory* factory;
 	ID2D1HwndRenderTarget* renderTarget;
+	TextRenderer* textRenderer;
 	ID2D1SolidColorBrush* brush;
 	ID2D1Bitmap* menuBitmap;
 	ID2D1Bitmap* titleBitmap;
@@ -30,8 +33,13 @@ class Graphics {
 	ID2D1Bitmap* napalmBombBitmap;
 	ID2D1Bitmap* rodBombBitmap;
 	ID2D1Bitmap* missileExplosionBitmap;
-	ID2D1Bitmap* bombExplosionBitmap;
+	ID2D1Bitmap* normalExplosionBitmap;
+	ID2D1Bitmap* nuclearExplosionBitmap;
+	ID2D1Bitmap* clusterExplosionBitmap;
+	ID2D1Bitmap* napalmExplosionBitmap;
+	ID2D1Bitmap* rodExplosionBitmap;
 	ID2D1Bitmap* flashBitmap;
+	ID2D1Bitmap* ammoBitmap;
 
 public:
 
@@ -45,5 +53,7 @@ public:
 	void ClearScreen(Color color);
 	void DrawMenu();
 	void DrawGame();
+	void DrawBar();
+	void DrawInt(int num, float height, Point topCenter);
 };
 

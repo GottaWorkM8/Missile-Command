@@ -3,15 +3,61 @@
 bool Game::won = false;
 bool Game::finished = false;
 int Game::ammo = Globals::MAX_AMMO;
+int Game::score = 0;
+int Game::diff = 0;
+int Game::normalNum = 0;
+int Game::nuclearNum = 0;
+int Game::clusterNum = 0;
+int Game::napalmNum = 0;
+int Game::rodNum = 0;
 Timer Game::levelTimer = Timer();
 Timer Game::ammoTimer = Timer();
 Timer Game::missileTimer = Timer();
 Point Game::missileOrigin = Point();
 Point Game::missileTarget = Point();
 
+int Game::GetAmmo() {
+	return ammo;
+}
+
+int Game::GetScore() {
+	return score;
+}
+
+int Game::GetDiff() {
+	return diff;
+}
+
+int Game::GetNormalNum() {
+	return normalNum;
+}
+
+int Game::GetNuclearNum() {
+	return nuclearNum;
+}
+
+int Game::GetClusterNum() {
+	return clusterNum;
+}
+
+int Game::GetNapalmNum() {
+	return napalmNum;
+}
+
+int Game::GetRodNum() {
+	return rodNum;
+}
+
 void Game::Run(int difficulty) {
 
 	Level level = Level(difficulty);
+	score = 0;
+	diff = level.GetDifficulty();
+	normalNum = level.GetNormalNum();
+	nuclearNum = level.GetNuclearNum();
+	clusterNum = level.GetClusterNum();
+	napalmNum = level.GetNapalmNum();
+	rodNum = level.GetRodNum();
 	ItemManager::Reset();
 	levelTimer.Restart();
 	ammoTimer.Restart();
@@ -52,7 +98,9 @@ void Game::Run(int difficulty) {
 				if (Verifier::BombHit(*k, *j)) {
 
 					ItemManager::AddExplosion(Explosion(k->GetCenter(),
-						Globals::EXPLOSION_INITIAL_RADIUS, NORMAL));
+						Globals::EXPLOSION_INITIAL_RADIUS, k->GetSource()));
+					UpdateBombNum(k->GetSource());
+					AwardPoints(k->GetSource());
 					bombs.erase(k++);
 				}
 
@@ -92,7 +140,9 @@ void Game::Run(int difficulty) {
 			if (k->GetCenter().y >= Globals::BOMB_TARGET_Y) {
 
 				ItemManager::AddExplosion(Explosion(k->GetCenter(),
-					Globals::EXPLOSION_INITIAL_RADIUS, NORMAL));
+					Globals::EXPLOSION_INITIAL_RADIUS, k->GetSource()));
+				UpdateBombNum(k->GetSource());
+				CutPoints(k->GetSource());
 				bombs.erase(k++);
 			}
 
@@ -153,28 +203,22 @@ void Game::MoveBomb(Bomb& bomb) {
 
 	switch (bomb.GetSource()) {
 
-		case NORMAL: 
-			speed = Globals::NORMAL_BOMB_SPEED;
+		case NORMAL: speed = Globals::NORMAL_BOMB_SPEED;
 			break;
 
-		case NUCLEAR: 
-			speed = Globals::NUCLEAR_BOMB_SPEED;
+		case NUCLEAR: speed = Globals::NUCLEAR_BOMB_SPEED;
 			break;
 
-		case CLUSTER: 
-			speed = Globals::CLUSTER_BOMB_SPEED;
+		case CLUSTER: speed = Globals::CLUSTER_BOMB_SPEED;
 			break;
 
-		case NAPALM: 
-			speed = Globals::NAPALM_BOMB_SPEED;
+		case NAPALM: speed = Globals::NAPALM_BOMB_SPEED;
 			break;
 
-		case RODOFGOD: 
-			speed = Globals::ROD_BOMB_SPEED;
+		case RODOFGOD: speed = Globals::ROD_BOMB_SPEED;
 			break;
 
-		default: 
-			speed = Globals::NORMAL_BOMB_SPEED;
+		default: speed = Globals::NORMAL_BOMB_SPEED;
 			break;
 	}
 
@@ -199,7 +243,29 @@ void Game::AdvanceExplosion(Explosion& explosion) {
 
 		explosion.GetStageTimer().Restart();
 		explosion.GetStage()++;
-		float newRadius = explosion.GetRadius() + Globals::EXPLOSION_RADIUS_GROWTH;
+		float newRadius = explosion.GetRadius();
+
+		switch (explosion.GetSource()) {
+
+			case NORMAL: newRadius += Globals::NORMAL_EXPLOSION_RADIUS_GROWTH;
+				break;
+
+			case NUCLEAR: newRadius += Globals::NUCLEAR_EXPLOSION_RADIUS_GROWTH;
+				break;
+
+			case CLUSTER: newRadius += Globals::CLUSTER_EXPLOSION_RADIUS_GROWTH;
+				break;
+
+			case NAPALM: newRadius += Globals::NAPALM_EXPLOSION_RADIUS_GROWTH;
+				break;
+
+			case RODOFGOD: newRadius += Globals::ROD_EXPLOSION_RADIUS_GROWTH;
+				break;
+
+			default: newRadius += Globals::NORMAL_EXPLOSION_RADIUS_GROWTH;
+				break;
+		}
+
 		explosion.SetRadius(newRadius);
 	}
 
@@ -314,6 +380,78 @@ void Game::DropSpecificBombs(Source source, std::list<float>& drops) {
 			}
 			break;
 		}
+
+		default:
+			break;
+	}
+}
+
+void Game::UpdateBombNum(Source source) {
+
+	switch (source) {
+
+		case NORMAL: normalNum--;
+			break;
+
+		case NUCLEAR: nuclearNum--;
+			break;
+
+		case CLUSTER: clusterNum--;
+			break;
+
+		case NAPALM: napalmNum--;
+			break;
+
+		case RODOFGOD: rodNum--;
+			break;
+
+		default:
+			break;
+	}
+}
+
+void Game::AwardPoints(Source source) {
+
+	switch (source) {
+
+		case NORMAL: score += 10;
+			break;
+
+		case NUCLEAR: score += 30;
+			break;
+
+		case CLUSTER: score += 20;
+			break;
+
+		case NAPALM: score += 40;
+			break;
+
+		case RODOFGOD: score += 80;
+			break;
+
+		default:
+			break;
+	}
+}
+
+void Game::CutPoints(Source source) {
+
+	switch (source) {
+
+		case NORMAL: score -= 30;
+			break;
+
+		case NUCLEAR: score -= 150;
+			break;
+
+		case CLUSTER: score -= 30;
+			break;
+
+		case NAPALM: score -= 200;
+			break;
+
+		case RODOFGOD: score -= 300;
+			break;
 
 		default:
 			break;

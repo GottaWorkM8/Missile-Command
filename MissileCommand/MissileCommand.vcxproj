@@ -183,27 +183,38 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="MissileCommand.rc" />
-  </ItemGroup>
-  <ItemGroup>
+    <Image Include="ammo.png" />
     <Image Include="barracks.png" />
     <Image Include="blue-explosion.png" />
-    <Image Include="building.png" />
+    <Image Include="building-green.png" />
     <Image Include="cannon.png" />
     <Image Include="cartoon-missile.ico" />
     <Image Include="cluster.png" />
+    <Image Include="cyan-explosion.png" />
     <Image Include="dome.png" />
+    <Image Include="firebeam-explosion.png" />
     <Image Include="flash.png" />
+    <Image Include="grey-explosion.png" />
     <Image Include="menu-background.jpg" />
+    <Image Include="meteor-effect.png" />
     <Image Include="missile.png" />
     <Image Include="mountains.jpg" />
     <Image Include="napalm.png" />
     <Image Include="normal.png" />
     <Image Include="nuclear.png" />
-    <Image Include="nuke-button.png" />
+    <Image Include="purple-explosion.png" />
     <Image Include="red-explosion.png" />
     <Image Include="rod-of-god.png" />
     <Image Include="title.png" />
+    <Image Include="yellow-explosion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="radioactive-cursor.cur" />
+    <None Include="radioactive-precision.ani" />
+    <None Include="radioactive-select.ani" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

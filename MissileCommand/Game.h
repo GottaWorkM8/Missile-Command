@@ -14,6 +14,13 @@ class Game {
 	static bool won;
 	static bool finished;
 	static int ammo;
+	static int score;
+	static int diff;
+	static int normalNum;
+	static int nuclearNum;
+	static int clusterNum;
+	static int napalmNum;
+	static int rodNum;
 	static Timer levelTimer;
 	static Timer ammoTimer;
 	static Timer missileTimer;
@@ -30,8 +37,20 @@ class Game {
 	static void LaunchMissile();
 	static void DropBombs(Schedule& schedule);
 	static void DropSpecificBombs(Source source, std::list<float>& drops);
+	static void UpdateBombNum(Source source);
+	static void AwardPoints(Source source);
+	static void CutPoints(Source source);
 
 public:
+
+	static int GetAmmo();
+	static int GetScore();
+	static int GetDiff();
+	static int GetNormalNum();
+	static int GetNuclearNum();
+	static int GetClusterNum();
+	static int GetNapalmNum();
+	static int GetRodNum();
 
 	static void Run(int difficulty);
 	static void UpdateTarget(HWND& hWnd);

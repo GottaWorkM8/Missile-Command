@@ -33,7 +33,7 @@ void Menu::ApplyAnimation() {
 
 		if (Verifier::WithinAlt(cursorPos, button.GetTopLeft(), button.GetWidth(), button.GetHeight())) {
 
-			SetCursor(LoadCursor(NULL, IDC_HAND));
+			SetCursor(LoadCursorFromFile(L"radioactive-select.ani"));
 
 			if (!button.IsHovered()) {
 

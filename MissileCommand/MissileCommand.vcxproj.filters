@@ -172,18 +172,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="MissileCommand.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="cartoon-missile.ico">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="barracks.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="building.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="missile.png">
@@ -202,9 +194,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="menu-background.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="nuke-button.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="cannon.png">
@@ -231,5 +220,45 @@
     <Image Include="cluster.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="yellow-explosion.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="purple-explosion.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="grey-explosion.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="cyan-explosion.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="meteor-effect.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="firebeam-explosion.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ammo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="building-green.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="radioactive-cursor.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="radioactive-precision.ani">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="radioactive-select.ani">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

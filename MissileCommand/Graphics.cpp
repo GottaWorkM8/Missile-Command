@@ -5,6 +5,7 @@ Graphics::Graphics() {
 	hWnd = NULL;
 	factory = NULL;
 	renderTarget = NULL;
+	textRenderer = NULL;
 	brush = NULL;
 }
 
@@ -13,6 +14,7 @@ Graphics::Graphics(HWND* hWnd) {
 	this->hWnd = hWnd;
 	factory = NULL;
 	renderTarget = NULL;
+	textRenderer = NULL;
 	brush = NULL;
 }
 
@@ -23,6 +25,9 @@ Graphics::~Graphics() {
 
 	if (renderTarget)
 		renderTarget->Release();
+
+	if (textRenderer)
+		delete textRenderer;
 
 	if (brush)
 		brush->Release();
@@ -56,12 +61,12 @@ bool Graphics::Init() {
 		return false;
 
 	// necessary for creating text that is drawn later
-	TextRenderer textRenderer = TextRenderer(renderTarget);
+	textRenderer = new TextRenderer(renderTarget);
 
-	if (textRenderer.Init())
+	if (textRenderer->Init())
 		for (MenuButton& button : Menu::GetButtons()) {
 
-			IDWriteTextLayout* textLayout = textRenderer.GetAdjustedTextLayout(button.GetText(),
+			IDWriteTextLayout* textLayout = textRenderer->GetAdjustedTextLayout(button.GetText(),
 				L"Arial", true, button.GetHeight());
 			button.SetTextLayout(textLayout);
 			button.SetWidth(textLayout->GetMaxWidth());
@@ -78,7 +83,7 @@ bool Graphics::Init() {
 		mapBitmap = bitmapper.GetBitmap(L"mountains.jpg");
 		cannonBitmap = bitmapper.GetBitmap(L"cannon.png");
 		launcherBitmap = bitmapper.GetBitmap(L"dome.png");
-		buildingBitmap = bitmapper.GetBitmap(L"building.png");
+		buildingBitmap = bitmapper.GetBitmap(L"building-green.png");
 		missileBitmap = bitmapper.GetBitmap(L"missile.png");
 		normalBombBitmap = bitmapper.GetBitmap(L"normal.png");
 		nuclearBombBitmap = bitmapper.GetBitmap(L"nuclear.png");
@@ -86,8 +91,13 @@ bool Graphics::Init() {
 		napalmBombBitmap = bitmapper.GetBitmap(L"napalm.png");
 		rodBombBitmap = bitmapper.GetBitmap(L"rod-of-god.png");
 		missileExplosionBitmap = bitmapper.GetBitmap(L"blue-explosion.png");
-		bombExplosionBitmap = bitmapper.GetBitmap(L"red-explosion.png");
+		normalExplosionBitmap = bitmapper.GetBitmap(L"red-explosion.png");
+		nuclearExplosionBitmap = bitmapper.GetBitmap(L"yellow-explosion.png");
+		clusterExplosionBitmap = bitmapper.GetBitmap(L"purple-explosion.png");
+		napalmExplosionBitmap = bitmapper.GetBitmap(L"yellow-explosion.png");
+		rodExplosionBitmap = bitmapper.GetBitmap(L"cyan-explosion.png");
 		flashBitmap = bitmapper.GetBitmap(L"flash.png");
+		ammoBitmap = bitmapper.GetBitmap(L"ammo.png");
 
 		return true;
 	}
@@ -252,29 +262,116 @@ void Graphics::DrawGame() {
 		switch (explosion.GetSource()) {
 		
 			case MISSILE: 
-				renderTarget->DrawBitmap(missileExplosionBitmap, rect, 1.0f, 
-				D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+				renderTarget->DrawBitmap(missileExplosionBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 				break;
 
 			case NORMAL: 
+				renderTarget->DrawBitmap(normalExplosionBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+				break;
+
 			case NUCLEAR:
+				renderTarget->DrawBitmap(nuclearExplosionBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+				break;
+
 			case CLUSTER:
+				renderTarget->DrawBitmap(clusterExplosionBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+				break;
+
 			case NAPALM:
+				renderTarget->DrawBitmap(napalmExplosionBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+				break;
+
 			case RODOFGOD: 
-				renderTarget->DrawBitmap(bombExplosionBitmap, rect, 1.0f,
-				D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+				renderTarget->DrawBitmap(rodExplosionBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 				break;
 
 			default:
-				renderTarget->DrawBitmap(missileExplosionBitmap, rect, 1.0f,
-					D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+				renderTarget->DrawBitmap(normalExplosionBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 				break;
 		}
 
 		renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 	}
+
+	DrawBar();
 }
 
+void Graphics::DrawBar() {
 
+	D2D1_RECT_F rect = D2D1::RectF(0, Globals::BAR_Y, Globals::MAX_X, Globals::MAX_Y);
+	D2D1_COLOR_F prevColor = brush->GetColor();
+	D2D1_COLOR_F newColor = D2D1::ColorF(0.0f, 0.0f, 0.0f, 0.5f);
+	brush->SetColor(newColor);
+	renderTarget->FillRectangle(rect, brush);
+	brush->SetColor(prevColor);
 
+	float alpha = 1.0f;
+	float newAlpha = 0.3f;
 
+	rect = D2D1::RectF(Globals::FIRST_BAR_ICON_X, Globals::BAR_ICON_Y, Globals::FIRST_BAR_ICON_RIGHT, Globals::BAR_ICON_BOTTOM);
+
+	if (Game::GetAmmo() < 1)
+		alpha = newAlpha;
+
+	renderTarget->DrawBitmap(ammoBitmap, rect, alpha, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+	rect = D2D1::RectF(Globals::SECOND_BAR_ICON_X, Globals::BAR_ICON_Y, Globals::SECOND_BAR_ICON_RIGHT, Globals::BAR_ICON_BOTTOM);
+
+	if (Game::GetAmmo() < 2)
+		alpha = newAlpha;
+
+	renderTarget->DrawBitmap(ammoBitmap, rect, alpha, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+	rect = D2D1::RectF(Globals::THIRD_BAR_ICON_X, Globals::BAR_ICON_Y, Globals::THIRD_BAR_ICON_RIGHT, Globals::BAR_ICON_BOTTOM);
+
+	if (Game::GetAmmo() < 3)
+		alpha = newAlpha;
+
+	renderTarget->DrawBitmap(ammoBitmap, rect, alpha, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+	rect = D2D1::RectF(Globals::FOURTH_BAR_ICON_X, Globals::BAR_ICON_Y, Globals::FOURTH_BAR_ICON_RIGHT, Globals::BAR_ICON_BOTTOM);
+
+	if (Game::GetAmmo() < 4)
+		alpha = newAlpha;
+
+	renderTarget->DrawBitmap(ammoBitmap, rect, alpha, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+	rect = D2D1::RectF(Globals::FIFTH_BAR_ICON_X, Globals::BAR_ICON_Y, Globals::FIFTH_BAR_ICON_RIGHT, Globals::BAR_ICON_BOTTOM);
+
+	if (Game::GetAmmo() < 5)
+		alpha = newAlpha;
+
+	renderTarget->DrawBitmap(ammoBitmap, rect, alpha, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+
+	DrawInt(Game::GetScore(), Globals::BAR_SCORE_HEIGHT, Point(Globals::CENTER_X, Globals::BAR_SCORE_Y));
+
+	rect = D2D1::RectF(Globals::FIRST_BAR_BOMB_X, Globals::BAR_BOMB_Y, Globals::FIRST_BAR_BOMB_RIGHT, Globals::BAR_BOMB_BOTTOM);
+	renderTarget->DrawBitmap(normalBombBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+	DrawInt(Game::GetNormalNum(), Globals::BAR_BOMB_NUM_HEIGHT, Point(Globals::FIRST_BAR_BOMB_NUM_CENTER, Globals::BAR_BOMB_NUM_Y));
+
+	rect = D2D1::RectF(Globals::SECOND_BAR_BOMB_X, Globals::BAR_BOMB_Y, Globals::SECOND_BAR_BOMB_RIGHT, Globals::BAR_BOMB_BOTTOM);
+	renderTarget->DrawBitmap(nuclearBombBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+	DrawInt(Game::GetNuclearNum(), Globals::BAR_BOMB_NUM_HEIGHT, Point(Globals::SECOND_BAR_BOMB_NUM_CENTER, Globals::BAR_BOMB_NUM_Y));
+
+	rect = D2D1::RectF(Globals::THIRD_BAR_BOMB_X, Globals::BAR_BOMB_Y, Globals::THIRD_BAR_BOMB_RIGHT, Globals::BAR_BOMB_BOTTOM);
+	renderTarget->DrawBitmap(clusterBombBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+	DrawInt(Game::GetClusterNum(), Globals::BAR_BOMB_NUM_HEIGHT, Point(Globals::THIRD_BAR_BOMB_NUM_CENTER, Globals::BAR_BOMB_NUM_Y));
+
+	rect = D2D1::RectF(Globals::FOURTH_BAR_BOMB_X, Globals::BAR_BOMB_Y, Globals::FOURTH_BAR_BOMB_RIGHT, Globals::BAR_BOMB_BOTTOM);
+	renderTarget->DrawBitmap(napalmBombBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+	DrawInt(Game::GetNapalmNum(), Globals::BAR_BOMB_NUM_HEIGHT, Point(Globals::FOURTH_BAR_BOMB_NUM_CENTER, Globals::BAR_BOMB_NUM_Y));
+
+	rect = D2D1::RectF(Globals::FIFTH_BAR_BOMB_X, Globals::BAR_BOMB_Y, Globals::FIFTH_BAR_BOMB_RIGHT, Globals::BAR_BOMB_BOTTOM);
+	renderTarget->DrawBitmap(rodBombBitmap, rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+	DrawInt(Game::GetRodNum(), Globals::BAR_BOMB_NUM_HEIGHT, Point(Globals::FIFTH_BAR_BOMB_NUM_CENTER, Globals::BAR_BOMB_NUM_Y));
+}
+
+void Graphics::DrawInt(int num, float height, Point topCenter) {
+
+	std::wstringstream wss;
+	wss << num;
+	std::wstring ws = wss.str();
+	const wchar_t* text = ws.c_str();
+
+	IDWriteTextLayout* textLayout = textRenderer->GetAdjustedTextLayout(text, L"Times New Roman", false, height);
+	DWRITE_TEXT_METRICS textMetrics;
+	textLayout->GetMetrics(&textMetrics);
+	float width = textMetrics.width;
+	renderTarget->DrawTextLayout(D2D1::Point2F(topCenter.x - (width / 2), topCenter.y), textLayout, brush);
+}

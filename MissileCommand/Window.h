@@ -1,6 +1,8 @@
 #pragma once
 
 #include <Windows.h>
+#include <WinUser.h>
+#include <Shlwapi.h>
 #include <thread>
 #include <atomic>
 #include "Graphics.h"
@@ -9,6 +11,8 @@
 class Window {
 
 	static const wchar_t* CLASS_NAME;
+	static HCURSOR hCursor;
+	static HCURSOR hGameCursor;
 	HINSTANCE hInstance;
 	HWND hWnd;
 	Graphics graphics;

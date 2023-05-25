@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Point.h"
-#include "Timer.h"
 
 class Globals {
 
@@ -44,6 +43,51 @@ public:
 	static const int LEVEL5;
 
 	static const float GROUND_Y;
+	static const float BAR_Y;
+
+	static const float BAR_ICON_Y;
+	static const float BAR_ICON_BOTTOM;
+	static const float BAR_ICON_HEIGHT;
+	static const float BAR_ICON_WIDTH;
+	static const float BAR_ICON_SPACE;
+	static const float FIRST_BAR_ICON_X;
+	static const float FIRST_BAR_ICON_RIGHT;
+	static const float SECOND_BAR_ICON_X;
+	static const float SECOND_BAR_ICON_RIGHT;
+	static const float THIRD_BAR_ICON_X;
+	static const float THIRD_BAR_ICON_RIGHT;
+	static const float FOURTH_BAR_ICON_X;
+	static const float FOURTH_BAR_ICON_RIGHT;
+	static const float FIFTH_BAR_ICON_X;
+	static const float FIFTH_BAR_ICON_RIGHT;
+
+	static const float BAR_SCORE_Y;
+	static const float BAR_SCORE_HEIGHT;
+
+	static const float BAR_BOMB_Y;
+	static const float BAR_BOMB_BOTTOM;
+	static const float BAR_BOMB_HEIGHT;
+	static const float BAR_BOMB_WIDTH;
+	static const float BAR_BOMB_SPACE;
+	static const float FIRST_BAR_BOMB_X;
+	static const float FIRST_BAR_BOMB_RIGHT;
+	static const float SECOND_BAR_BOMB_X;
+	static const float SECOND_BAR_BOMB_RIGHT;
+	static const float THIRD_BAR_BOMB_X;
+	static const float THIRD_BAR_BOMB_RIGHT;
+	static const float FOURTH_BAR_BOMB_X;
+	static const float FOURTH_BAR_BOMB_RIGHT;
+	static const float FIFTH_BAR_BOMB_X;
+	static const float FIFTH_BAR_BOMB_RIGHT;
+
+	static const float BAR_BOMB_NUM_Y;
+	static const float BAR_BOMB_NUM_HEIGHT;
+	static const float BAR_BOMB_NUM_SPACE;
+	static const float FIRST_BAR_BOMB_NUM_CENTER;
+	static const float SECOND_BAR_BOMB_NUM_CENTER;
+	static const float THIRD_BAR_BOMB_NUM_CENTER;
+	static const float FOURTH_BAR_BOMB_NUM_CENTER;
+	static const float FIFTH_BAR_BOMB_NUM_CENTER;
 
 	static const float FRAME_TIME;
 	static const float GAME_TIME;
@@ -84,9 +128,17 @@ public:
 	static const float EXPLOSION_PROPAGATION_TIME;
 	static const float EXPLOSION_FINAL_TIME;
 	static const float EXPLOSION_INITIAL_RADIUS;
-	static const float EXPLOSION_FINAL_RADIUS;
+	static const float NORMAL_EXPLOSION_FINAL_RADIUS;
+	static const float NUCLEAR_EXPLOSION_FINAL_RADIUS;
+	static const float CLUSTER_EXPLOSION_FINAL_RADIUS;
+	static const float NAPALM_EXPLOSION_FINAL_RADIUS;
+	static const float ROD_EXPLOSION_FINAL_RADIUS;
 	static const int EXPLOSION_STAGES;
-	static const float EXPLOSION_RADIUS_GROWTH;
+	static const float NORMAL_EXPLOSION_RADIUS_GROWTH;
+	static const float NUCLEAR_EXPLOSION_RADIUS_GROWTH;
+	static const float CLUSTER_EXPLOSION_RADIUS_GROWTH;
+	static const float NAPALM_EXPLOSION_RADIUS_GROWTH;
+	static const float ROD_EXPLOSION_RADIUS_GROWTH;
 	static const float EXPLOSION_STAGE_TIME;
 
 	static const float FLASH_PROPAGATION_TIME;
