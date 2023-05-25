@@ -1,6 +1,8 @@
 #pragma once
 #include <Windows.h>
+#include <SDL_mixer.h>
 #include <mmsystem.h>
+#include <vector>
 #pragma comment(lib, "winmm.lib")
 
 class Music {
@@ -17,5 +19,14 @@ public:
 	static void musicClear();
 	static void musicExploxion();
 	static void musicMissle();
+
+
+	void addSoundEffect(const char* path);
+
+	void playSoundEffect(const int which) const;
+
+private:
+
+	std::vector<Mix_Chunk*> mSoundEffectBank;
 };
 
