@@ -70,6 +70,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ExternalIncludePath>$(ExternalIncludePath)</ExternalIncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -108,7 +112,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);d2d1.lib;windowscodecs.lib;gdiplus.lib;dwrite.lib</AdditionalDependencies>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);d2d1.lib;windowscodecs.lib;gdiplus.lib;dwrite.lib;Winmm.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,6 +151,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="Missile.cpp" />
+    <ClCompile Include="Music.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Bitmapper.cpp" />
     <ClCompile Include="Popup.cpp" />
@@ -167,6 +172,7 @@
     <ClInclude Include="Globals.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Music.h" />
     <ClInclude Include="MenuButton.h" />
     <ClInclude Include="Popup.h" />
     <ClInclude Include="Schedule.h" />
@@ -221,6 +227,13 @@
     <None Include="radioactive-cursor.cur" />
     <None Include="radioactive-precision.ani" />
     <None Include="radioactive-select.ani" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="musicBomb.wav" />
+    <Media Include="musicExploxion.wav" />
+    <Media Include="musicMissile.wav" />
+    <Media Include="musicLevel.wav" />
+    <Media Include="musicMenu.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,6 +6,7 @@
 #include <functional>
 #include "Globals.h"
 #include "Verifier.h"
+#include "Music.h"
 #include "MenuButton.h"
 #include "Game.h"
 

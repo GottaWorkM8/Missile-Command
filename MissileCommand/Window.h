@@ -7,6 +7,7 @@
 #include <atomic>
 #include "Graphics.h"
 #include "resource.h"
+#include "Music.h"
 
 class Window {
 

@@ -87,7 +87,7 @@ void Game::Run(int difficulty) {
 		while (i != missiles.end()) {
 		
 			if (i->GetCenter().y <= i->GetTarget().y) {
-			
+				Music::musicExploxion();
 				ItemManager::AddExplosion(Explosion(i->GetCenter(), 
 					Globals::EXPLOSION_INITIAL_RADIUS, MISSILE));
 				missiles.erase(i++);
@@ -113,7 +113,7 @@ void Game::Run(int difficulty) {
 			while (k != bombs.end()) {
 
 				if (Verifier::BombHit(*k, *j)) {
-
+					Music::musicExploxion();
 					ItemManager::AddExplosion(Explosion(k->GetCenter(),
 						Globals::EXPLOSION_INITIAL_RADIUS, k->GetSource()));
 					UpdateBombNum(k->GetSource());
@@ -129,12 +129,12 @@ void Game::Run(int difficulty) {
 			while (l != buildings.end()) {
 
 				if (Verifier::BuildingHit(*l, *j)) {
-				
+          
 					ItemManager::AddDestruction(Destruction(l->GetCenter(),
 						Globals::DESTRUCTION_INITIAL_RADIUS));
 					buildings.erase(l++);
 				}
-
+				
 				else l++;
 			}
 
@@ -157,9 +157,10 @@ void Game::Run(int difficulty) {
 		std::list<Bomb>::iterator k = bombs.begin();
 
 		while (k != bombs.end()) {
-
+				
 			if (k->GetCenter().y >= Globals::BOMB_TARGET_Y) {
 
+        Music::musicExploxion();
 				ItemManager::AddExplosion(Explosion(k->GetCenter(),
 					Globals::EXPLOSION_INITIAL_RADIUS, k->GetSource()));
 				UpdateBombNum(k->GetSource());
@@ -400,7 +401,7 @@ void Game::LaunchMissile() {
 			float angleRad = Calculator::GetRadians(missileOrigin, missileTarget);
 
 			if (angleRad >= 0.0f) {
-
+				Music::musicMissle();
 				ammo--;
 
 				if (ammo == Globals::MAX_AMMO - 1)

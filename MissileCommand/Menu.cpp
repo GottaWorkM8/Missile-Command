@@ -106,6 +106,8 @@ void Menu::StartNewGame() {
 	std::thread gameThread = std::thread(Game::Run, Globals::LEVEL5);
 	gameThread.detach();
 	gameRunning = true;
+	Music::musicClear();
+	Music::musicLevel();
 }
 
 void Menu::ShowOptions() {

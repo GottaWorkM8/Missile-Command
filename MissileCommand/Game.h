@@ -5,6 +5,8 @@
 #include <Windows.h>
 #include "Globals.h"
 #include "Verifier.h"
+#include "Source.h"
+#include "Music.h"
 #include "Generator.h"
 #include "ItemManager.h"
 #include "Level.h"
