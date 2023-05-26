@@ -1,77 +1,48 @@
 #include "Menu.h"
 
-const float Menu::MAX_X = Game::MAX_X;
-const float Menu::CENTER_X = Game::CENTER_X;
-const float Menu::MAX_Y = Game::MAX_Y;
-
-const float Menu::OPTION_X = MAX_X / 12;
-const float Menu::FIRST_OPTION_Y = MAX_Y / 2.5f;
-const float Menu::OPTION_HEIGHT = MAX_Y / 25;
-const float Menu::OPTION_SPACE = MAX_Y / OPTION_HEIGHT + MAX_Y / 25;
-
-const float Menu::TITLE_WIDTH = MAX_X / 2.5f;
-const float Menu::TITLE_HEIGHT = MAX_Y / 7;
-const Point Menu::TITLE_TOP_LEFT = Point(CENTER_X - TITLE_WIDTH / 2, MAX_Y / 6);
-
-const Point Menu::NEW_TOP_LEFT = Point(OPTION_X, FIRST_OPTION_Y);;
-Point Menu::newTopLeft = NEW_TOP_LEFT;
-float Menu::newWidth = 0;
-const float Menu::NEW_HEIGHT = OPTION_HEIGHT;
-bool Menu::newHovered = false;
-
-const Point Menu::EXIT_TOP_LEFT = Point(OPTION_X, FIRST_OPTION_Y + OPTION_SPACE);
-Point Menu::exitTopLeft = EXIT_TOP_LEFT;
-float Menu::exitWidth = 0;
-const float Menu::EXIT_HEIGHT = OPTION_HEIGHT;
-bool Menu::exitHovered = false;
-
-const float Menu::ANIMATION_TIME = 0.3f;
-const int Menu::ANIMATION_STAGES = 20;
-const float Menu::ANIMATION_STAGE_TIME = ANIMATION_TIME / ANIMATION_STAGES;
-const float Menu::ANIMATION_SHIFT_X = 1;
 Timer Menu::animationTimer = Timer();
 
+bool Menu::gameRunning = false;
+
+std::list<MenuButton> Menu::buttons = {
+	MenuButton(L"CONTINUE", Globals::CONTINUE_TOP_LEFT, Globals::BUTTON_HEIGHT, &ContinueGame),
+	MenuButton(L"NEW GAME", Globals::NEW_TOP_LEFT, Globals::BUTTON_HEIGHT, &StartNewGame),
+	MenuButton(L"OPTIONS", Globals::OPTIONS_TOP_LEFT, Globals::BUTTON_HEIGHT, &ShowOptions),
+	MenuButton(L"HELP", Globals::HELP_TOP_LEFT, Globals::BUTTON_HEIGHT, &ShowHelp),
+	MenuButton(L"EXIT", Globals::EXIT_TOP_LEFT, Globals::BUTTON_HEIGHT, &Exit) };
 Point Menu::pressPos = Point();
 Point Menu::cursorPos = Point();
-bool Menu::gameRunning = false;
+
+std::list<MenuButton>& Menu::GetButtons() {
+	return buttons;
+}
 
 void Menu::ApplyChoice() {
 
-	if (Verifier::WithinAlt(pressPos, NEW_TOP_LEFT, newWidth, NEW_HEIGHT))
-		StartNewGame();
+	for (MenuButton& button : buttons)
+		if (Verifier::WithinAlt(pressPos, button.GetTopLeft(), button.GetWidth(), button.GetHeight())) {
 
-	else if (Verifier::WithinAlt(pressPos, EXIT_TOP_LEFT, exitWidth, EXIT_HEIGHT))
-		Exit();
+			button.PerformTask();
+			break;
+		}
 }
 
 void Menu::ApplyAnimation() {
 
-	if (Verifier::WithinAlt(cursorPos, NEW_TOP_LEFT, newWidth, NEW_HEIGHT)) {
-		
-		exitHovered = false;
+	for (MenuButton& button : buttons) {
 
-		if (!newHovered) {
+		if (Verifier::WithinAlt(cursorPos, button.GetTopLeft(), button.GetWidth(), button.GetHeight())) {
 
-			newHovered = true;
-			CreateAnimationThread(newTopLeft, newHovered);
+			SetCursor(LoadCursorFromFile(L"radioactive-select.ani"));
+
+			if (!button.IsHovered()) {
+
+				button.SetHovered(true);
+				CreateAnimationThread(button.GetTopLeft(), button.IsHovered());
+			}
 		}
-	}
 
-	else if (Verifier::WithinAlt(cursorPos, EXIT_TOP_LEFT, exitWidth, EXIT_HEIGHT)) {
-		
-		newHovered = false;
-
-		if (!exitHovered) {
-
-			exitHovered = true;
-			CreateAnimationThread(exitTopLeft, exitHovered);
-		}
-	}
-
-	else {
-
-		newHovered = false;
-		exitHovered = false;
+		else button.SetHovered(false);
 	}
 }
 
@@ -97,24 +68,24 @@ void Menu::HandleMove(HWND& hWnd) {
 
 void Menu::CreateAnimationThread(Point& topLeft, bool& hovered) {
 
-	std::thread thread = std::thread(AnimateOption, std::ref(topLeft), std::ref(hovered));
+	std::thread thread = std::thread(AnimateButton, std::ref(topLeft), std::ref(hovered));
 	thread.detach();
 }
 
-void Menu::AnimateOption(Point& topLeft, bool& hovered) {
+void Menu::AnimateButton(Point& topLeft, bool& hovered) {
 
 	int stage = 0;
 	animationTimer.Restart();
 
 	while (hovered) {
 
-		if (stage < 10) {
+		if (stage < Globals::ANIMATION_STAGES) {
 		
 			float elapsedTime = animationTimer.GetElapsedTime();
 
-			if (elapsedTime > ANIMATION_STAGE_TIME) {
+			if (elapsedTime > Globals::ANIMATION_STAGE_TIME) {
 
-				topLeft.x = topLeft.x + ANIMATION_SHIFT_X;
+				topLeft.x = topLeft.x + Globals::ANIMATION_SHIFT_X;
 				stage++;
 				animationTimer.Restart();
 			}
@@ -123,7 +94,7 @@ void Menu::AnimateOption(Point& topLeft, bool& hovered) {
 		Sleep(1);
 	}
 
-	topLeft.x = OPTION_X;
+	topLeft.x = Globals::BUTTON_X;
 }
 
 void Menu::ContinueGame() {
@@ -132,9 +103,13 @@ void Menu::ContinueGame() {
 
 void Menu::StartNewGame() {
 
-	std::thread gameThread = std::thread(Game::Run);
+	std::thread gameThread = std::thread(Game::Run, Globals::LEVEL5);
 	gameThread.detach();
 	gameRunning = true;
+}
+
+void Menu::ShowOptions() {
+
 }
 
 void Menu::ShowHelp() {

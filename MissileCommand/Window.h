@@ -1,22 +1,23 @@
 #pragma once
 
 #include <Windows.h>
+#include <WinUser.h>
+#include <Shlwapi.h>
 #include <thread>
 #include <atomic>
 #include "Graphics.h"
-#include "Game.h"
-#include "Menu.h"
 #include "resource.h"
-
-LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 class Window {
 
 	static const wchar_t* CLASS_NAME;
+	static HCURSOR hCursor;
+	static HCURSOR hGameCursor;
 	HINSTANCE hInstance;
 	HWND hWnd;
 	Graphics graphics;
-	Game game;
+
+	static LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 public:
 

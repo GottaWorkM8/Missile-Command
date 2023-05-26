@@ -1,72 +1,82 @@
 #include "Game.h"
 
+bool Game::intro = true;
 bool Game::won = false;
-bool Game::finished = false;
-
-const float Game::MAX_X = 1600.0f;
-const float Game::CENTER_X = MAX_X / 2;
-const float Game::MAX_Y = 900.0f;
-const float Game::GROUND_Y = MAX_Y - (MAX_Y / 7);
-
-const float Game::FRAME_TIME = 100 / 12; // 120 fps
-const float Game::GAME_TIME = 20.0f; // 60 second turn
-Timer Game::gameTimer = Timer();
-
-const int Game::MAX_AMMO = 5;
-int Game::ammo = MAX_AMMO;
-const float Game::AMMO_LOAD_TIME = 0.5f;
+bool Game::finished = true;
+const wchar_t* Game::location = L"";
+int Game::ammo = Globals::MAX_AMMO;
+int Game::score = 0;
+int Game::diff = 0;
+int Game::normalNum = 0;
+int Game::nuclearNum = 0;
+int Game::clusterNum = 0;
+int Game::napalmNum = 0;
+int Game::rodNum = 0;
+Timer Game::levelTimer = Timer();
 Timer Game::ammoTimer = Timer();
-
-const float Game::LAUNCHER_HP = 250.0f;
-const float Game::LAUNCHER_HALF_WIDTH = 35.0f;
-const float Game::LAUNCHER_HALF_HEIGHT = 30.0f;
-const Point Game::LAUNCHER_CENTER = Point(CENTER_X, GROUND_Y - LAUNCHER_HALF_HEIGHT);
-const float Game::LAUNCHER_CANNON_HALF_WIDTH = 15.0f;
-const float Game::LAUNCHER_CANNON_HALF_HEIGHT = 30.0f;
-const Point Game::LAUNCHER_CANNON_BOTTOM_CENTER = Point(LAUNCHER_CENTER.x, LAUNCHER_CENTER.y);
-
-const float Game::BUILDING_HP = 100.0f;
-const float Game::BUILDING_HALF_WIDTH = 25.0f;
-const float Game::BUILDING_HALF_HEIGHT = 25.0f;
-
+Timer Game::missileTimer = Timer();
 Point Game::missileOrigin = Point();
 Point Game::missileTarget = Point();
-const float Game::MISSILE_HALF_WIDTH = 10.0f;
-const float Game::MISSILE_HALF_HEIGHT = 10.0f;
-const float Game::MISSILE_SPEED = 10.0f;
-const float Game::MISSILE_LOAD_TIME = 0.1f;
-Timer Game::missileTimer = Timer();
 
-const float Game::BOMB_ORIGIN_Y = 0.0f;
-const float Game::BOMB_ORIGIN_MIN_X = MAX_X / 20;
-const float Game::BOMB_ORIGIN_MAX_X = MAX_X - BOMB_ORIGIN_MIN_X;
-const float Game::BOMB_HALF_WIDTH = 10.0f;
-const float Game::BOMB_HALF_HEIGHT = 10.0f;
-const float Game::BOMB_TARGET_Y = GROUND_Y - BOMB_HALF_HEIGHT;
-const float Game::BOMB_SPEED = 1.5f;
-const float Game::BOMB_LOAD_TIME = 1.0f;
-Timer Game::bombTimer = Timer();
+bool Game::GetIntro() {
+	return intro;
+}
 
-const float Game::EXPLOSION_PROPAGATION_TIME = 0.5f;
-const float Game::EXPLOSION_FINAL_TIME = 0.2f;
-const float Game::EXPLOSION_INITIAL_RADIUS = 20.0f;
-const float Game::EXPLOSION_FINAL_RADIUS = 80.0f;
-const int Game::EXPLOSION_STAGES = 20;
-const float Game::EXPLOSION_RADIUS_GROWTH = (EXPLOSION_FINAL_RADIUS 
-	- EXPLOSION_INITIAL_RADIUS) / EXPLOSION_STAGES;
-const float Game::EXPLOSION_STAGE_TIME = EXPLOSION_PROPAGATION_TIME / EXPLOSION_STAGES;
+const wchar_t* Game::GetLocation() {
+	return location;
+}
 
-const float Game::FLASH_PROPAGATION_TIME = 0.1;
-const float Game::FLASH_INITIAL_RADIUS = 5.0f;
-const float Game::FLASH_FINAL_RADIUS = 15.0f;
-const float Game::FLASH_STAGES = 10;
-const float Game::FLASH_RADIUS_GROWTH = (FLASH_FINAL_RADIUS - FLASH_INITIAL_RADIUS) / FLASH_STAGES;
-const float Game::FLASH_STAGE_TIME = FLASH_PROPAGATION_TIME / FLASH_STAGES;
+int Game::GetAmmo() {
+	return ammo;
+}
 
-void Game::Run() {
+int Game::GetScore() {
+	return score;
+}
 
-	gameTimer.Restart();
-	bombTimer.Restart();
+int Game::GetDiff() {
+	return diff;
+}
+
+int Game::GetNormalNum() {
+	return normalNum;
+}
+
+int Game::GetNuclearNum() {
+	return nuclearNum;
+}
+
+int Game::GetClusterNum() {
+	return clusterNum;
+}
+
+int Game::GetNapalmNum() {
+	return napalmNum;
+}
+
+int Game::GetRodNum() {
+	return rodNum;
+}
+
+void Game::Run(int difficulty) {
+
+	Level level = Level(difficulty);
+	location = level.GetLocation();
+	score = 0;
+	diff = level.GetDifficulty();
+	normalNum = level.GetNormalNum();
+	nuclearNum = level.GetNuclearNum();
+	clusterNum = level.GetClusterNum();
+	napalmNum = level.GetNapalmNum();
+	rodNum = level.GetRodNum();
+	ItemManager::Reset();
+
+	Popup::CreateIntroThread();
+	Sleep(Globals::INTRO_TIME * 1000);
+	intro = false;
+	finished = false;
+
+	levelTimer.Restart();
 	ammoTimer.Restart();
 
 	while (true) {
@@ -79,7 +89,7 @@ void Game::Run() {
 			if (i->GetCenter().y <= i->GetTarget().y) {
 			
 				ItemManager::AddExplosion(Explosion(i->GetCenter(), 
-					Game::EXPLOSION_INITIAL_RADIUS, missile));
+					Globals::EXPLOSION_INITIAL_RADIUS, MISSILE));
 				missiles.erase(i++);
 			}
 
@@ -105,7 +115,9 @@ void Game::Run() {
 				if (Verifier::BombHit(*k, *j)) {
 
 					ItemManager::AddExplosion(Explosion(k->GetCenter(),
-						Game::EXPLOSION_INITIAL_RADIUS, normal));
+						Globals::EXPLOSION_INITIAL_RADIUS, k->GetSource()));
+					UpdateBombNum(k->GetSource());
+					AwardPoints(k->GetSource());
 					bombs.erase(k++);
 				}
 
@@ -116,16 +128,20 @@ void Game::Run() {
 
 			while (l != buildings.end()) {
 
-				if (Verifier::BuildingHit(*l, *j))
+				if (Verifier::BuildingHit(*l, *j)) {
+				
+					ItemManager::AddDestruction(Destruction(l->GetCenter(),
+						Globals::DESTRUCTION_INITIAL_RADIUS));
 					buildings.erase(l++);
+				}
 
 				else l++;
 			}
 
-			if (j->GetStage() == Game::EXPLOSION_STAGES)
+			if (j->GetStage() == Globals::EXPLOSION_STAGES)
 				explosions.erase(j++);
 
-			else if (j->GetStage() == Game::EXPLOSION_STAGES - 1) {
+			else if (j->GetStage() == Globals::EXPLOSION_STAGES - 1) {
 			
 				AdvanceExplosionFinal(*j);
 				j++;
@@ -142,10 +158,12 @@ void Game::Run() {
 
 		while (k != bombs.end()) {
 
-			if (k->GetCenter().y >= Game::BOMB_TARGET_Y) {
+			if (k->GetCenter().y >= Globals::BOMB_TARGET_Y) {
 
 				ItemManager::AddExplosion(Explosion(k->GetCenter(),
-					Game::EXPLOSION_INITIAL_RADIUS, normal));
+					Globals::EXPLOSION_INITIAL_RADIUS, k->GetSource()));
+				UpdateBombNum(k->GetSource());
+				CutPoints(k->GetSource());
 				bombs.erase(k++);
 			}
 
@@ -161,7 +179,7 @@ void Game::Run() {
 
 		while (m != flashes.end()) {
 
-			if (m->GetStage() == Game::FLASH_STAGES)
+			if (m->GetStage() == Globals::FLASH_STAGES)
 				flashes.erase(m++);
 
 			else {
@@ -171,68 +189,167 @@ void Game::Run() {
 			}
 		}
 
-		if (ammoTimer.GetElapsedTime() > AMMO_LOAD_TIME)
+		std::list<Destruction>& destructions = ItemManager::GetDestructions();
+		std::list<Destruction>::iterator n = destructions.begin();
+
+		while (n != destructions.end()) {
+
+			if (n->GetStage() == Globals::DESTRUCTION_STAGES)
+				destructions.erase(n++);
+
+			else {
+
+				AdvanceDestruction(*n);
+				n++;
+			}
+		}
+
+		if (ammoTimer.GetElapsedTime() > Globals::AMMO_LOAD_TIME)
 			AddAmmo();
 
-		float time = gameTimer.GetElapsedTime();
+		float time = levelTimer.GetElapsedTime();
 
-		if (time <= GAME_TIME)
-			if (bombTimer.GetElapsedTime() > BOMB_LOAD_TIME)
-				DropBombs();
+		if (time <= Globals::GAME_TIME)
+			DropBombs(level.GetSchedule());
 
 		if (Verifier::GameLost(launcher, buildings))
 			finished = true;
 
-		if (time > GAME_TIME)
-			if (bombs.empty() && !finished) {
+		if (Verifier::GameWon(bombs, time, finished)) {
+		
+			finished = true;
+			won = true;
+		}
 
-				finished = true;
-				won = true;
-			}
+		float deltaTime = levelTimer.GetDeltaTime();
 
-		float deltaTime = gameTimer.GetDeltaTime();
-
-		if (deltaTime < FRAME_TIME)
-			Sleep(FRAME_TIME - deltaTime);
+		if (deltaTime < Globals::FRAME_TIME)
+			Sleep(Globals::FRAME_TIME - deltaTime);
 	}
 }
 
 void Game::MoveMissile(Missile& missile) {
 
-	missile.SetCenter(Calculator::GetNextPos(missile.GetCenter(), missile.GetAngleRad(), MISSILE_SPEED));
+	missile.SetCenter(Calculator::GetNextPos(missile.GetCenter(), missile.GetAngleRad(), Globals::MISSILE_SPEED));
 }
 
 void Game::MoveBomb(Bomb& bomb) {
 
-	bomb.SetCenter(Calculator::GetNextPos(bomb.GetCenter(), bomb.GetAngleRad(), BOMB_SPEED));
+	float speed;
+
+	switch (bomb.GetSource()) {
+
+		case NORMAL: speed = Globals::NORMAL_BOMB_SPEED;
+			break;
+
+		case NUCLEAR: speed = Globals::NUCLEAR_BOMB_SPEED;
+			break;
+
+		case CLUSTER: speed = Globals::CLUSTER_BOMB_SPEED;
+			break;
+
+		case NAPALM: speed = Globals::NAPALM_BOMB_SPEED;
+			break;
+
+		case RODOFGOD: speed = Globals::ROD_BOMB_SPEED;
+			break;
+
+		default: speed = Globals::NORMAL_BOMB_SPEED;
+			break;
+	}
+
+	bomb.SetCenter(Calculator::GetNextPos(bomb.GetCenter(), bomb.GetAngleRad(), speed));
+}
+
+void Game::RotateExplosion(Explosion& explosion) {
+
+	float newAngleDeg = explosion.GetAngleDeg() + Generator::GetRandomUniform(0, 180.0f);
+
+	if (newAngleDeg > 360.0f)
+		newAngleDeg -= 360.0f;
+
+	float newAngleRad = Calculator::GetRadians(newAngleDeg);
+	explosion.SetAngleDeg(newAngleDeg);
+	explosion.SetAngleRad(newAngleRad);
 }
 
 void Game::AdvanceExplosion(Explosion& explosion) {
 
-	if (explosion.GetStageTimer().GetElapsedTime() > EXPLOSION_STAGE_TIME) {
+	if (explosion.GetStageTimer().GetElapsedTime() > Globals::EXPLOSION_STAGE_TIME) {
 
 		explosion.GetStageTimer().Restart();
 		explosion.GetStage()++;
-		float newRadius = explosion.GetRadius() + EXPLOSION_RADIUS_GROWTH;
+		float newRadius = explosion.GetRadius();
+
+		switch (explosion.GetSource()) {
+
+			case NORMAL: newRadius += Globals::NORMAL_EXPLOSION_RADIUS_GROWTH;
+				break;
+
+			case NUCLEAR: newRadius += Globals::NUCLEAR_EXPLOSION_RADIUS_GROWTH;
+				break;
+
+			case CLUSTER: newRadius += Globals::CLUSTER_EXPLOSION_RADIUS_GROWTH;
+				break;
+
+			case NAPALM: newRadius += Globals::NAPALM_EXPLOSION_RADIUS_GROWTH;
+				break;
+
+			case RODOFGOD: newRadius += Globals::ROD_EXPLOSION_RADIUS_GROWTH;
+				break;
+
+			default: newRadius += Globals::NORMAL_EXPLOSION_RADIUS_GROWTH;
+				break;
+		}
+
 		explosion.SetRadius(newRadius);
 	}
+
+	RotateExplosion(explosion);
 }
 
 void Game::AdvanceExplosionFinal(Explosion& explosion) {
 
-	if (explosion.GetStageTimer().GetElapsedTime() > EXPLOSION_FINAL_TIME)
+	if (explosion.GetStageTimer().GetElapsedTime() > Globals::EXPLOSION_FINAL_TIME)
 		explosion.GetStage()++;
+
+	RotateExplosion(explosion);
 }
 
 void Game::AdvanceFlash(Flash& flash) {
 
-	if (flash.GetStageTimer().GetElapsedTime() > FLASH_STAGE_TIME) {
+	if (flash.GetStageTimer().GetElapsedTime() > Globals::FLASH_STAGE_TIME) {
 
 		flash.GetStageTimer().Restart();
 		flash.GetStage()++;
-		float newRadius = flash.GetRadius() + FLASH_RADIUS_GROWTH;
+		float newRadius = flash.GetRadius() + Globals::FLASH_RADIUS_GROWTH;
 		flash.SetRadius(newRadius);
 	}
+}
+
+void Game::RotateDestruction(Destruction& destruction) {
+
+	float newAngleDeg = destruction.GetAngleDeg() + Generator::GetRandomUniform(0, 5.0f);
+
+	if (newAngleDeg > 360.0f)
+		newAngleDeg -= 360.0f;
+
+	float newAngleRad = Calculator::GetRadians(newAngleDeg);
+	destruction.SetAngleDeg(newAngleDeg);
+	destruction.SetAngleRad(newAngleRad);
+}
+
+void Game::AdvanceDestruction(Destruction& destruction) {
+
+	if (destruction.GetStageTimer().GetElapsedTime() > Globals::DESTRUCTION_STAGE_TIME) {
+
+		destruction.GetStageTimer().Restart();
+		destruction.GetStage()++;
+		float newRadius = destruction.GetRadius() + Globals::DESTRUCTION_RADIUS_GROWTH;
+		destruction.SetRadius(newRadius);
+	}
+
+	RotateDestruction(destruction);
 }
 
 void Game::UpdateTarget(HWND& hWnd) {
@@ -251,11 +368,11 @@ void Game::UpdateLauncherCannon(HWND& hWnd) {
 	GetCursorPos(&cursorPos);
 	ScreenToClient(hWnd, &cursorPos);
 	Point pos = Point(cursorPos.x, cursorPos.y);
-	float angleRad = Calculator::GetRadians(LAUNCHER_CANNON_BOTTOM_CENTER, pos);
+	float angleRad = Calculator::GetRadians(Globals::LAUNCHER_CANNON_BOTTOM_CENTER, pos);
 
 	if (angleRad < 0.0f) {
 
-		if (pos.x < CENTER_X)
+		if (pos.x < Globals::CENTER_X)
 			angleRad = 0.0f;
 
 		else angleRad = M_PI;
@@ -263,15 +380,15 @@ void Game::UpdateLauncherCannon(HWND& hWnd) {
 
 	angleRad -= M_PI_2;
 	ItemManager::GetLauncher().SetAngle(angleRad);
-	missileOrigin = Calculator::GetPosBetween(LAUNCHER_CANNON_BOTTOM_CENTER, 
-		pos, LAUNCHER_CANNON_HALF_HEIGHT * 2);
+	missileOrigin = Calculator::GetPosBetween(Globals::LAUNCHER_CANNON_BOTTOM_CENTER,
+		pos, Globals::LAUNCHER_CANNON_HALF_HEIGHT * 2);
 }
 
 void Game::AddAmmo() {
 
 	ammoTimer.Restart();
 
-	if (ammo < MAX_AMMO)
+	if (ammo < Globals::MAX_AMMO)
 		ammo++;
 }
 
@@ -286,18 +403,118 @@ void Game::LaunchMissile() {
 
 				ammo--;
 
-				if (ammo == MAX_AMMO - 1)
+				if (ammo == Globals::MAX_AMMO - 1)
 					ammoTimer.Restart();
 
 				angleRad -= M_PI_2;
 				ItemManager::AddMissile(Missile(missileOrigin, missileTarget, angleRad));
-				ItemManager::AddFlash(Flash(missileOrigin, FLASH_INITIAL_RADIUS, angleRad));
+				ItemManager::AddFlash(Flash(missileOrigin, Globals::FLASH_INITIAL_RADIUS, angleRad));
 			}
 		}
 }
 
-void Game::DropBombs() {
+void Game::DropBombs(Schedule& schedule) {
 
-	bombTimer.Restart();
-	ItemManager::AddBombs(Generator::GenerateBombs(2));
+	DropSpecificBombs(NORMAL, schedule.GetNormalDrops());
+	DropSpecificBombs(NUCLEAR, schedule.GetNuclearDrops());
+	DropSpecificBombs(CLUSTER, schedule.GetClusterDrops());
+	DropSpecificBombs(NAPALM, schedule.GetNapalmDrops());
+	DropSpecificBombs(RODOFGOD, schedule.GetRodDrops());
+}
+
+void Game::DropSpecificBombs(Source source, std::list<float>& drops) {
+
+	switch (source) {
+
+		case NORMAL:
+		case NUCLEAR:
+		case CLUSTER:
+		case NAPALM:
+		case RODOFGOD: {
+			std::list<float>::iterator i = drops.begin();
+			while (i != drops.end()) {
+				if (*i <= levelTimer.GetElapsedTime()) {
+					ItemManager::AddBomb(Generator::GenerateBomb(source));
+					drops.erase(i++);
+				}
+				else break;
+			}
+			break;
+		}
+
+		default:
+			break;
+	}
+}
+
+void Game::UpdateBombNum(Source source) {
+
+	switch (source) {
+
+		case NORMAL: normalNum--;
+			break;
+
+		case NUCLEAR: nuclearNum--;
+			break;
+
+		case CLUSTER: clusterNum--;
+			break;
+
+		case NAPALM: napalmNum--;
+			break;
+
+		case RODOFGOD: rodNum--;
+			break;
+
+		default:
+			break;
+	}
+}
+
+void Game::AwardPoints(Source source) {
+
+	switch (source) {
+
+		case NORMAL: score += 10;
+			break;
+
+		case NUCLEAR: score += 30;
+			break;
+
+		case CLUSTER: score += 20;
+			break;
+
+		case NAPALM: score += 40;
+			break;
+
+		case RODOFGOD: score += 80;
+			break;
+
+		default:
+			break;
+	}
+}
+
+void Game::CutPoints(Source source) {
+
+	switch (source) {
+
+		case NORMAL: score -= 30;
+			break;
+
+		case NUCLEAR: score -= 150;
+			break;
+
+		case CLUSTER: score -= 30;
+			break;
+
+		case NAPALM: score -= 200;
+			break;
+
+		case RODOFGOD: score -= 300;
+			break;
+
+		default:
+			break;
+	}
 }

@@ -132,19 +132,25 @@
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="Calculator.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Destruction.cpp" />
     <ClCompile Include="Flash.cpp" />
     <ClCompile Include="Generator.cpp" />
+    <ClCompile Include="Globals.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Launcher.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MenuButton.cpp" />
     <ClCompile Include="Missile.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Bitmapper.cpp" />
+    <ClCompile Include="Popup.cpp" />
+    <ClCompile Include="Schedule.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Verifier.cpp" />
@@ -155,9 +161,15 @@
     <ClInclude Include="Building.h" />
     <ClInclude Include="Calculator.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Destruction.h" />
     <ClInclude Include="Flash.h" />
     <ClInclude Include="Generator.h" />
+    <ClInclude Include="Globals.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="MenuButton.h" />
+    <ClInclude Include="Popup.h" />
+    <ClInclude Include="Schedule.h" />
     <ClInclude Include="Source.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemManager.h" />
@@ -175,23 +187,40 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="MissileCommand.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="barracks.png" />
-    <Image Include="blue-explosion.png" />
-    <Image Include="building.png" />
-    <Image Include="cannon.png" />
-    <Image Include="cartoon-missile.ico" />
-    <Image Include="dome.png" />
-    <Image Include="flash.png" />
+    <Image Include="ammo.png" />
+    <Image Include="explosion-blue.png" />
+    <Image Include="building-green.png" />
+    <Image Include="destruction.png" />
+    <Image Include="launcher-cannon.png" />
+    <Image Include="logo.ico" />
+    <Image Include="bomb-cluster.png" />
+    <Image Include="explosion-cyan.png" />
+    <Image Include="launcher.png" />
+    <Image Include="launcher-flash.png" />
+    <Image Include="explosion-grey.png" />
+    <Image Include="map-grass.jpg" />
+    <Image Include="map-planets.jpg" />
+    <Image Include="map-river.jpg" />
+    <Image Include="map-rocks.jpg" />
     <Image Include="menu-background.jpg" />
     <Image Include="missile.png" />
-    <Image Include="bomb.png" />
-    <Image Include="mountains.jpg" />
-    <Image Include="nuke-button.png" />
-    <Image Include="red-explosion.png" />
-    <Image Include="title.png" />
+    <Image Include="map-ice.jpg" />
+    <Image Include="bomb-napalm.png" />
+    <Image Include="bomb-normal.png" />
+    <Image Include="bomb-nuclear.png" />
+    <Image Include="explosion-purple.png" />
+    <Image Include="explosion-red.png" />
+    <Image Include="bomb-rod.png" />
+    <Image Include="menu-title.png" />
+    <Image Include="explosion-yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="radioactive-cursor.cur" />
+    <None Include="radioactive-precision.ani" />
+    <None Include="radioactive-select.ani" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
