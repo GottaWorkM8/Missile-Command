@@ -1,8 +1,10 @@
 #include "Window.h"
 
 const wchar_t* Window::CLASS_NAME = L"Window";
+HCURSOR Window::hCursor = LoadCursorFromFile(L"radioactive-cursor.cur");
+HCURSOR Window::hGameCursor = LoadCursorFromFile(L"radioactive-precision.ani");
 
-LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 	switch (uMsg) {
 
@@ -16,6 +18,12 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 			if (Menu::gameRunning)
 				Game::UpdateLauncherCannon(hWnd);
 			else Menu::HandleMove(hWnd);
+			break;
+
+		case WM_SETCURSOR:
+			if (Menu::gameRunning)
+				SetCursor(hGameCursor);
+			else SetCursor(hCursor);
 			break;
 
 		case WM_CLOSE:
@@ -38,7 +46,7 @@ Window::Window(): hInstance(GetModuleHandle(nullptr)) {
 	WNDCLASS wndClass = {};
 	wndClass.lpszClassName = CLASS_NAME;
 	wndClass.hInstance = hInstance;
-	wndClass.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
+	wndClass.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_LOGO));
 	wndClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndClass.lpfnWndProc = WindowProc;
 

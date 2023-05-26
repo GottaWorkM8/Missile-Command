@@ -79,6 +79,22 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Music.cpp">
+    <ClCompile Include="MenuButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Schedule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Destruction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Popup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -150,57 +166,120 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Music.h">
+    <ClInclude Include="MenuButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Schedule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Destruction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Popup.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="MissileCommand.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="cartoon-missile.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="barracks.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="building.png">
+    <Image Include="logo.ico">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="missile.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="bomb.png">
+    <Image Include="map-ice.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="mountains.jpg">
+    <Image Include="explosion-red.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="red-explosion.png">
+    <Image Include="explosion-blue.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="blue-explosion.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="dome.png">
+    <Image Include="launcher.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="menu-background.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="nuke-button.png">
+    <Image Include="launcher-cannon.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="cannon.png">
+    <Image Include="launcher-flash.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="flash.png">
+    <Image Include="menu-title.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="title.png">
+    <Image Include="bomb-rod.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="bomb-nuclear.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bomb-normal.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bomb-napalm.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="bomb-cluster.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="explosion-yellow.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="explosion-purple.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="explosion-grey.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="explosion-cyan.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="ammo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="building-green.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="destruction.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="map-grass.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="map-planets.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="map-rocks.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="map-river.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="radioactive-cursor.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="radioactive-precision.ani">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="radioactive-select.ani">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Media Include="musicMenu.wav">

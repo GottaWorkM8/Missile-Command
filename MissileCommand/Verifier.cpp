@@ -49,28 +49,46 @@ bool Verifier::Intersect(Point center, float halfWidth, float halfHeight,
     return (distanceSq <= pow(circleRadius, 2));
 }
 
+bool Verifier::TooClose(float value1, float value2, float minGap) {
+
+    if (std::abs(value1 - value2) < minGap)
+        return true;
+
+    else return false;
+}
+
 bool Verifier::BombHit(Bomb bomb, Explosion explosion) {
 
-    return Intersect(bomb.GetCenter(), Game::BOMB_HALF_WIDTH, Game::BOMB_HALF_HEIGHT, 
+    return Intersect(bomb.GetCenter(), Globals::BOMB_HALF_WIDTH, Globals::BOMB_HALF_HEIGHT,
         explosion.GetCenter(), explosion.GetRadius());
 }
 
 bool Verifier::BuildingHit(Building building, Explosion explosion) {
 
-    return Intersect(building.GetCenter(), Game::BUILDING_HALF_WIDTH, Game::BUILDING_HALF_HEIGHT,
+    return Intersect(building.GetCenter(), Globals::BUILDING_HALF_WIDTH, Globals::BUILDING_HALF_HEIGHT,
         explosion.GetCenter(), explosion.GetRadius());
 }
 
 bool Verifier::LauncherHit(Launcher launcher, Explosion explosion) {
 
-    return Intersect(launcher.GetCenter(), Game::LAUNCHER_HALF_WIDTH, Game::LAUNCHER_HALF_HEIGHT,
+    return Intersect(launcher.GetCenter(), Globals::LAUNCHER_HALF_WIDTH, Globals::LAUNCHER_HALF_HEIGHT,
         explosion.GetCenter(), explosion.GetRadius());
 }
 
 bool Verifier::GameLost(Launcher launcher, std::list<Building> buildings) {
 
-    if (launcher.GetHP() <= 0.0f || buildings.empty())
+    if (launcher.GetHP() <= 0 || buildings.empty())
         return true;
+
+    return false;
+}
+
+bool Verifier::GameWon(std::list<Bomb> bombs, float time, bool finished) {
+
+    if (!finished)
+        if (time > Globals::GAME_TIME)
+            if (bombs.empty())
+                return true;
 
     return false;
 }

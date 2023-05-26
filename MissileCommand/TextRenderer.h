@@ -4,7 +4,6 @@
 #include <dwrite.h>
 #include <cfloat>
 #include <xutility>
-#include "Color.h"
 
 class TextRenderer {
 
