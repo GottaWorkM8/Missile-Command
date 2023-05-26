@@ -74,7 +74,7 @@ Window::Window(): hInstance(GetModuleHandle(nullptr)) {
 
 	graphics = Graphics(&hWnd);
 	graphics.Init();
-	Music::musicMenu();
+	Music::PlayMenu();
 
 	ShowWindow(GetConsoleWindow(), SW_HIDE);
 	ShowWindow(hWnd, SW_SHOW);

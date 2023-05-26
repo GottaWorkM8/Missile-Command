@@ -79,6 +79,8 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Music.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="MenuButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -166,6 +168,8 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Music.h">
+	  <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="MenuButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>

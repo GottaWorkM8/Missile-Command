@@ -229,9 +229,9 @@
     <None Include="radioactive-select.ani" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="musicBomb.wav" />
-    <Media Include="musicExploxion.wav" />
-    <Media Include="musicMissile.wav" />
+    <Media Include="soundShortExplosion.wav" />
+    <Media Include="soundExplosion.wav" />
+    <Media Include="soundMissile.wav" />
     <Media Include="musicLevel.wav" />
     <Media Include="musicMenu.wav" />
   </ItemGroup>

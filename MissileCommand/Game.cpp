@@ -81,129 +81,17 @@ void Game::Run(int difficulty) {
 
 	while (true) {
 
-		std::list<Missile>& missiles = ItemManager::GetMissiles();
-		std::list<Missile>::iterator i = missiles.begin();
+		std::thread missilesThread(HandleMissiles);
+		std::thread explosionsThread(HandleExplosions);
+		std::thread bombsThread(HandleBombs);
+		std::thread flashesThread(HandleFlashes);
+		std::thread destructionsThread(HandleDestructions);
 
-		while (i != missiles.end()) {
-		
-			if (i->GetCenter().y <= i->GetTarget().y) {
-				Music::musicExploxion();
-				ItemManager::AddExplosion(Explosion(i->GetCenter(), 
-					Globals::EXPLOSION_INITIAL_RADIUS, MISSILE));
-				missiles.erase(i++);
-			}
-
-			else {
-			
-				MoveMissile(*i);
-				i++;
-			}
-		}
-
-		Launcher& launcher = ItemManager::GetLauncher();
-		std::list<Bomb>& bombs = ItemManager::GetBombs();
-		std::list<Building>& buildings = ItemManager::GetBuildings();
-		std::list<Explosion>& explosions = ItemManager::GetExplosions();
-		std::list<Explosion>::iterator j = explosions.begin();
-
-		while (j != explosions.end()) {
-
-			std::list<Bomb>::iterator k = bombs.begin();
-
-			while (k != bombs.end()) {
-
-				if (Verifier::BombHit(*k, *j)) {
-					Music::musicExploxion();
-					ItemManager::AddExplosion(Explosion(k->GetCenter(),
-						Globals::EXPLOSION_INITIAL_RADIUS, k->GetSource()));
-					UpdateBombNum(k->GetSource());
-					AwardPoints(k->GetSource());
-					bombs.erase(k++);
-				}
-
-				else k++;
-			}
-
-			std::list<Building>::iterator l = buildings.begin();
-
-			while (l != buildings.end()) {
-
-				if (Verifier::BuildingHit(*l, *j)) {
-          
-					ItemManager::AddDestruction(Destruction(l->GetCenter(),
-						Globals::DESTRUCTION_INITIAL_RADIUS));
-					buildings.erase(l++);
-				}
-				
-				else l++;
-			}
-
-			if (j->GetStage() == Globals::EXPLOSION_STAGES)
-				explosions.erase(j++);
-
-			else if (j->GetStage() == Globals::EXPLOSION_STAGES - 1) {
-			
-				AdvanceExplosionFinal(*j);
-				j++;
-			}
-
-			else {
-
-				AdvanceExplosion(*j);
-				j++;
-			}
-		}
-
-		std::list<Bomb>::iterator k = bombs.begin();
-
-		while (k != bombs.end()) {
-				
-			if (k->GetCenter().y >= Globals::BOMB_TARGET_Y) {
-
-        Music::musicExploxion();
-				ItemManager::AddExplosion(Explosion(k->GetCenter(),
-					Globals::EXPLOSION_INITIAL_RADIUS, k->GetSource()));
-				UpdateBombNum(k->GetSource());
-				CutPoints(k->GetSource());
-				bombs.erase(k++);
-			}
-
-			else {
-
-				MoveBomb(*k);
-				k++;
-			}
-		}
-
-		std::list<Flash>& flashes = ItemManager::GetFlashes();
-		std::list<Flash>::iterator m = flashes.begin();
-
-		while (m != flashes.end()) {
-
-			if (m->GetStage() == Globals::FLASH_STAGES)
-				flashes.erase(m++);
-
-			else {
-
-				AdvanceFlash(*m);
-				m++;
-			}
-		}
-
-		std::list<Destruction>& destructions = ItemManager::GetDestructions();
-		std::list<Destruction>::iterator n = destructions.begin();
-
-		while (n != destructions.end()) {
-
-			if (n->GetStage() == Globals::DESTRUCTION_STAGES)
-				destructions.erase(n++);
-
-			else {
-
-				AdvanceDestruction(*n);
-				n++;
-			}
-		}
+		missilesThread.join();
+		explosionsThread.join();
+		bombsThread.join();
+		flashesThread.join();
+		destructionsThread.join();
 
 		if (ammoTimer.GetElapsedTime() > Globals::AMMO_LOAD_TIME)
 			AddAmmo();
@@ -213,11 +101,16 @@ void Game::Run(int difficulty) {
 		if (time <= Globals::GAME_TIME)
 			DropBombs(level.GetSchedule());
 
+		Launcher& launcher = ItemManager::GetLauncher();
+		std::list<Building>& buildings = ItemManager::GetBuildings();
+
 		if (Verifier::GameLost(launcher, buildings))
 			finished = true;
 
+		std::list<Bomb>& bombs = ItemManager::GetBombs();
+
 		if (Verifier::GameWon(bombs, time, finished)) {
-		
+
 			finished = true;
 			won = true;
 		}
@@ -226,6 +119,163 @@ void Game::Run(int difficulty) {
 
 		if (deltaTime < Globals::FRAME_TIME)
 			Sleep(Globals::FRAME_TIME - deltaTime);
+	}
+}
+
+void Game::HandleMissiles() {
+
+	std::mutex missilesMutex;
+	std::lock_guard<std::mutex> lock(missilesMutex);
+
+	std::list<Missile>& missiles = ItemManager::GetMissiles();
+	std::list<Missile>::iterator i = missiles.begin();
+
+	while (i != missiles.end()) {
+
+		if (i->GetCenter().y <= i->GetTarget().y) {
+
+			Music::PlayExplosion();
+			ItemManager::AddExplosion(Explosion(i->GetCenter(),
+				Globals::EXPLOSION_INITIAL_RADIUS, MISSILE));
+			missiles.erase(i++);
+		}
+
+		else {
+
+			MoveMissile(*i);
+			i++;
+		}
+	}
+}
+
+void Game::HandleExplosions() {
+
+	std::mutex explosionsMutex;
+	std::lock_guard<std::mutex> lock(explosionsMutex);
+
+	Launcher& launcher = ItemManager::GetLauncher();
+	std::list<Bomb>& bombs = ItemManager::GetBombs();
+	std::list<Building>& buildings = ItemManager::GetBuildings();
+	std::list<Explosion>& explosions = ItemManager::GetExplosions();
+	std::list<Explosion>::iterator j = explosions.begin();
+
+	while (j != explosions.end()) {
+
+		std::list<Bomb>::iterator k = bombs.begin();
+
+		while (k != bombs.end()) {
+
+			if (Verifier::BombHit(*k, *j)) {
+
+				Music::PlayExplosion();
+				ItemManager::AddExplosion(Explosion(k->GetCenter(),
+					Globals::EXPLOSION_INITIAL_RADIUS, k->GetSource()));
+				UpdateBombNum(k->GetSource());
+				AwardPoints(k->GetSource());
+				bombs.erase(k++);
+			}
+
+			else k++;
+		}
+
+		std::list<Building>::iterator l = buildings.begin();
+
+		while (l != buildings.end()) {
+
+			if (Verifier::BuildingHit(*l, *j)) {
+
+				ItemManager::AddDestruction(Destruction(l->GetCenter(),
+					Globals::DESTRUCTION_INITIAL_RADIUS));
+				buildings.erase(l++);
+			}
+
+			else l++;
+		}
+
+		if (j->GetStage() == Globals::EXPLOSION_STAGES)
+			explosions.erase(j++);
+
+		else if (j->GetStage() == Globals::EXPLOSION_STAGES - 1) {
+
+			AdvanceExplosionFinal(*j);
+			j++;
+		}
+
+		else {
+
+			AdvanceExplosion(*j);
+			j++;
+		}
+	}
+}
+
+void Game::HandleBombs() {
+
+	std::mutex bombsMutex;
+	std::lock_guard<std::mutex> lock(bombsMutex);
+
+	std::list<Bomb>& bombs = ItemManager::GetBombs();
+	std::list<Bomb>::iterator k = bombs.begin();
+
+	while (k != bombs.end()) {
+
+		if (k->GetCenter().y >= Globals::BOMB_TARGET_Y) {
+
+			Music::PlayExplosion();
+			ItemManager::AddExplosion(Explosion(k->GetCenter(),
+				Globals::EXPLOSION_INITIAL_RADIUS, k->GetSource()));
+			UpdateBombNum(k->GetSource());
+			CutPoints(k->GetSource());
+			bombs.erase(k++);
+		}
+
+		else {
+
+			MoveBomb(*k);
+			k++;
+		}
+	}
+}
+
+void Game::HandleFlashes() {
+
+	std::mutex flashesMutex;
+	std::lock_guard<std::mutex> lock(flashesMutex);
+
+	std::list<Flash>& flashes = ItemManager::GetFlashes();
+	std::list<Flash>::iterator m = flashes.begin();
+
+	while (m != flashes.end()) {
+
+		if (m->GetStage() == Globals::FLASH_STAGES)
+			flashes.erase(m++);
+
+		else {
+
+			AdvanceFlash(*m);
+			m++;
+		}
+	}
+}
+
+void Game::HandleDestructions() {
+
+	std::mutex destructionsMutex;
+	std::lock_guard<std::mutex> lock(destructionsMutex);
+
+	std::list<Destruction>& destructions = ItemManager::GetDestructions();
+	std::list<Destruction>::iterator n = destructions.begin();
+
+	while (n != destructions.end()) {
+
+		if (n->GetStage() == Globals::DESTRUCTION_STAGES)
+			destructions.erase(n++);
+
+		else {
+
+			AdvanceDestruction(*n);
+			n++;
+		}
 	}
 }
 
@@ -394,14 +444,15 @@ void Game::AddAmmo() {
 }
 
 void Game::LaunchMissile() {
-	
+
 	if (!finished)
 		if (ammo > 0) {
 
 			float angleRad = Calculator::GetRadians(missileOrigin, missileTarget);
 
 			if (angleRad >= 0.0f) {
-				Music::musicMissle();
+
+				Music::PlayMissile();
 				ammo--;
 
 				if (ammo == Globals::MAX_AMMO - 1)
