@@ -99,11 +99,20 @@ void Menu::AnimateButton(Point& topLeft, bool& hovered) {
 
 void Menu::ContinueGame() {
 
+	int diff = Globals::LEVEL5;
+	BitmapManager::InitLevel(diff);
+	std::thread gameThread = std::thread(Game::Run, diff);
+	gameThread.detach();
+	gameRunning = true;
+	Music::ClearSounds();
+	Music::PlayLevel();
 }
 
 void Menu::StartNewGame() {
 
-	std::thread gameThread = std::thread(Game::Run, Globals::LEVEL5);
+	int diff = Globals::LEVEL3;
+	BitmapManager::InitLevel(diff);
+	std::thread gameThread = std::thread(Game::Run, diff);
 	gameThread.detach();
 	gameRunning = true;
 	Music::ClearSounds();

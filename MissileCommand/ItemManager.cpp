@@ -84,26 +84,6 @@ void ItemManager::AddFlash(Flash flash) {
 	flashes.push_back(flash);
 }
 
-void ItemManager::RemoveBuilding(Building building) {
-
-	buildings.remove(building);
-}
-
-void ItemManager::RemoveMissile(Missile missile) {
-
-	missiles.remove(missile);
-}
-
-void ItemManager::RemoveBomb(Bomb bomb) {
-
-	bombs.remove(bomb);
-}
-
-void ItemManager::RemoveExplosion(Explosion explosion) {
-
-	explosions.remove(explosion);
-}
-
 void ItemManager::Reset() {
 
 	launcher = Launcher(Point(Globals::MAX_X / 2, Globals::GROUND_Y - Globals::LAUNCHER_HALF_HEIGHT),

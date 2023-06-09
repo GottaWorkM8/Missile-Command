@@ -10,6 +10,7 @@
 #include "Globals.h"
 #include "Bitmapper.h"
 #include "TextRenderer.h"
+#include "BitmapManager.h"
 #include "ItemManager.h"
 #include "Menu.h"
 #include "Popup.h"
@@ -19,33 +20,9 @@ class Graphics {
 	HWND* hWnd;
 	ID2D1Factory* factory;
 	ID2D1HwndRenderTarget* renderTarget;
+	Bitmapper* bitmapper;
 	TextRenderer* textRenderer;
 	ID2D1SolidColorBrush* brush;
-	ID2D1Bitmap* menuBitmap;
-	ID2D1Bitmap* titleBitmap;
-	ID2D1Bitmap* mapBitmap1;
-	ID2D1Bitmap* mapBitmap2;
-	ID2D1Bitmap* mapBitmap3;
-	ID2D1Bitmap* mapBitmap4;
-	ID2D1Bitmap* mapBitmap5;
-	ID2D1Bitmap* launcherBitmap;
-	ID2D1Bitmap* cannonBitmap;
-	ID2D1Bitmap* flashBitmap;
-	ID2D1Bitmap* buildingBitmap;
-	ID2D1Bitmap* missileBitmap;
-	ID2D1Bitmap* normalBombBitmap;
-	ID2D1Bitmap* nuclearBombBitmap;
-	ID2D1Bitmap* clusterBombBitmap;
-	ID2D1Bitmap* napalmBombBitmap;
-	ID2D1Bitmap* rodBombBitmap;
-	ID2D1Bitmap* missileExplosionBitmap;
-	ID2D1Bitmap* normalExplosionBitmap;
-	ID2D1Bitmap* nuclearExplosionBitmap;
-	ID2D1Bitmap* clusterExplosionBitmap;
-	ID2D1Bitmap* napalmExplosionBitmap;
-	ID2D1Bitmap* rodExplosionBitmap;
-	ID2D1Bitmap* destructionBitmap;
-	ID2D1Bitmap* ammoBitmap;
 
 public:
 

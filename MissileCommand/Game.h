@@ -32,6 +32,7 @@ class Game {
 	static Timer missileTimer;
 	static Point missileOrigin;
 	static Point missileTarget;
+	static std::mutex mutex;
 
 	static void HandleMissiles();
 	static void HandleExplosions();

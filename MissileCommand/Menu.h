@@ -8,6 +8,7 @@
 #include "Verifier.h"
 #include "Music.h"
 #include "MenuButton.h"
+#include "BitmapManager.h"
 #include "Game.h"
 
 class Menu {

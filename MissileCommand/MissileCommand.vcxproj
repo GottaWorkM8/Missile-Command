@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BitmapManager.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="Calculator.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BitmapManager.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="Building.h" />
     <ClInclude Include="Calculator.h" />
@@ -194,8 +196,42 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="ammo.png" />
+    <Image Include="building-alien1.png" />
+    <Image Include="building-alien2.png" />
+    <Image Include="building-alien3.png" />
+    <Image Include="building-alien4.png" />
+    <Image Include="building-alien5.png" />
+    <Image Include="building-alien6.png" />
+    <Image Include="building-alien7.png" />
+    <Image Include="building-alien8.png" />
+    <Image Include="building-asian1.png" />
+    <Image Include="building-asian2.png" />
+    <Image Include="building-asian3.png" />
+    <Image Include="building-asian4.png" />
+    <Image Include="building-asian5.png" />
+    <Image Include="building-asian6.png" />
+    <Image Include="building-asian7.png" />
+    <Image Include="building-desert1.png" />
+    <Image Include="building-desert2.png" />
+    <Image Include="building-desert3.png" />
+    <Image Include="building-desert4.png" />
+    <Image Include="building-desert5.png" />
+    <Image Include="building-desert6.png" />
+    <Image Include="building-desert7.png" />
+    <Image Include="building-desert8.png" />
+    <Image Include="building-ice1.png" />
+    <Image Include="building-ice2.png" />
+    <Image Include="building-ice3.png" />
+    <Image Include="building-ice4.png" />
+    <Image Include="building-ice5.png" />
+    <Image Include="building-modern1.png" />
+    <Image Include="building-modern2.png" />
+    <Image Include="building-modern3.png" />
+    <Image Include="building-modern4.png" />
+    <Image Include="building-modern5.png" />
+    <Image Include="building-modern6.png" />
+    <Image Include="building-modern7.png" />
     <Image Include="explosion-blue.png" />
-    <Image Include="building-green.png" />
     <Image Include="destruction.png" />
     <Image Include="launcher-cannon.png" />
     <Image Include="logo.ico" />

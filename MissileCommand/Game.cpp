@@ -17,6 +17,7 @@ Timer Game::ammoTimer = Timer();
 Timer Game::missileTimer = Timer();
 Point Game::missileOrigin = Point();
 Point Game::missileTarget = Point();
+std::mutex Game::mutex;
 
 bool Game::GetIntro() {
 	return intro;
@@ -124,9 +125,6 @@ void Game::Run(int difficulty) {
 
 void Game::HandleMissiles() {
 
-	std::mutex missilesMutex;
-	std::lock_guard<std::mutex> lock(missilesMutex);
-
 	std::list<Missile>& missiles = ItemManager::GetMissiles();
 	std::list<Missile>::iterator i = missiles.begin();
 
@@ -137,7 +135,7 @@ void Game::HandleMissiles() {
 			Music::PlayExplosion();
 			ItemManager::AddExplosion(Explosion(i->GetCenter(),
 				Globals::EXPLOSION_INITIAL_RADIUS, MISSILE));
-			missiles.erase(i++);
+			i = missiles.erase(i);
 		}
 
 		else {
@@ -150,9 +148,6 @@ void Game::HandleMissiles() {
 
 void Game::HandleExplosions() {
 
-	std::mutex explosionsMutex;
-	std::lock_guard<std::mutex> lock(explosionsMutex);
-
 	Launcher& launcher = ItemManager::GetLauncher();
 	std::list<Bomb>& bombs = ItemManager::GetBombs();
 	std::list<Building>& buildings = ItemManager::GetBuildings();
@@ -160,6 +155,8 @@ void Game::HandleExplosions() {
 	std::list<Explosion>::iterator j = explosions.begin();
 
 	while (j != explosions.end()) {
+
+		mutex.lock();
 
 		std::list<Bomb>::iterator k = bombs.begin();
 
@@ -172,11 +169,13 @@ void Game::HandleExplosions() {
 					Globals::EXPLOSION_INITIAL_RADIUS, k->GetSource()));
 				UpdateBombNum(k->GetSource());
 				AwardPoints(k->GetSource());
-				bombs.erase(k++);
+				k = bombs.erase(k);
 			}
 
 			else k++;
 		}
+
+		mutex.unlock();
 
 		std::list<Building>::iterator l = buildings.begin();
 
@@ -186,14 +185,14 @@ void Game::HandleExplosions() {
 
 				ItemManager::AddDestruction(Destruction(l->GetCenter(),
 					Globals::DESTRUCTION_INITIAL_RADIUS));
-				buildings.erase(l++);
+				l = buildings.erase(l);
 			}
 
 			else l++;
 		}
 
 		if (j->GetStage() == Globals::EXPLOSION_STAGES)
-			explosions.erase(j++);
+			j = explosions.erase(j);
 
 		else if (j->GetStage() == Globals::EXPLOSION_STAGES - 1) {
 
@@ -211,10 +210,10 @@ void Game::HandleExplosions() {
 
 void Game::HandleBombs() {
 
-	std::mutex bombsMutex;
-	std::lock_guard<std::mutex> lock(bombsMutex);
-
 	std::list<Bomb>& bombs = ItemManager::GetBombs();
+
+	mutex.lock();
+
 	std::list<Bomb>::iterator k = bombs.begin();
 
 	while (k != bombs.end()) {
@@ -226,7 +225,7 @@ void Game::HandleBombs() {
 				Globals::EXPLOSION_INITIAL_RADIUS, k->GetSource()));
 			UpdateBombNum(k->GetSource());
 			CutPoints(k->GetSource());
-			bombs.erase(k++);
+			k = bombs.erase(k);
 		}
 
 		else {
@@ -235,12 +234,11 @@ void Game::HandleBombs() {
 			k++;
 		}
 	}
+
+	mutex.unlock();
 }
 
 void Game::HandleFlashes() {
-
-	std::mutex flashesMutex;
-	std::lock_guard<std::mutex> lock(flashesMutex);
 
 	std::list<Flash>& flashes = ItemManager::GetFlashes();
 	std::list<Flash>::iterator m = flashes.begin();
@@ -248,7 +246,7 @@ void Game::HandleFlashes() {
 	while (m != flashes.end()) {
 
 		if (m->GetStage() == Globals::FLASH_STAGES)
-			flashes.erase(m++);
+			m = flashes.erase(m);
 
 		else {
 
@@ -260,16 +258,13 @@ void Game::HandleFlashes() {
 
 void Game::HandleDestructions() {
 
-	std::mutex destructionsMutex;
-	std::lock_guard<std::mutex> lock(destructionsMutex);
-
 	std::list<Destruction>& destructions = ItemManager::GetDestructions();
 	std::list<Destruction>::iterator n = destructions.begin();
 
 	while (n != destructions.end()) {
 
 		if (n->GetStage() == Globals::DESTRUCTION_STAGES)
-			destructions.erase(n++);
+			n = destructions.erase(n);
 
 		else {
 
@@ -314,7 +309,7 @@ void Game::MoveBomb(Bomb& bomb) {
 
 void Game::RotateExplosion(Explosion& explosion) {
 
-	float newAngleDeg = explosion.GetAngleDeg() + Generator::GetRandomUniform(0, 180.0f);
+	float newAngleDeg = explosion.GetAngleDeg() + Generator::GetRandomUniform(0.0f, 180.0f);
 
 	if (newAngleDeg > 360.0f)
 		newAngleDeg -= 360.0f;
@@ -380,7 +375,7 @@ void Game::AdvanceFlash(Flash& flash) {
 
 void Game::RotateDestruction(Destruction& destruction) {
 
-	float newAngleDeg = destruction.GetAngleDeg() + Generator::GetRandomUniform(0, 5.0f);
+	float newAngleDeg = destruction.GetAngleDeg() + Generator::GetRandomUniform(0.0f, 5.0f);
 
 	if (newAngleDeg > 360.0f)
 		newAngleDeg -= 360.0f;
