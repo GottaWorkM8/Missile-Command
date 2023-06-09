@@ -17,6 +17,7 @@ Timer Game::ammoTimer = Timer();
 Timer Game::missileTimer = Timer();
 Point Game::missileOrigin = Point();
 Point Game::missileTarget = Point();
+GameSave Game::save;
 
 bool Game::GetIntro() {
 	return intro;
@@ -35,6 +36,7 @@ int Game::GetScore() {
 }
 
 int Game::GetDiff() {
+
 	return diff;
 }
 
@@ -220,6 +222,8 @@ void Game::Run(int difficulty) {
 		
 			finished = true;
 			won = true;
+			save.WonLevel(score);
+			save.SaveToFile("playerProgress.txt");
 		}
 
 		float deltaTime = levelTimer.GetDeltaTime();

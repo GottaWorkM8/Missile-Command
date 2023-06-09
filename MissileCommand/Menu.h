@@ -9,6 +9,7 @@
 #include "Music.h"
 #include "MenuButton.h"
 #include "Game.h"
+#include "GameSave.h"
 
 class Menu {
 
@@ -16,6 +17,7 @@ class Menu {
 	static Point cursorPos;
 	static Timer animationTimer;
 	static std::list<MenuButton> buttons;
+	static GameSave save;
 
 	static void ApplyChoice();
 	static void ApplyAnimation();

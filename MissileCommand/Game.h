@@ -11,6 +11,7 @@
 #include "ItemManager.h"
 #include "Level.h"
 #include "Popup.h"
+#include "GameSave.h"
 
 class Game {
 
@@ -31,6 +32,7 @@ class Game {
 	static Timer missileTimer;
 	static Point missileOrigin;
 	static Point missileTarget;
+	static GameSave save;
 
 	static void MoveMissile(Missile& missile);
 	static void MoveBomb(Bomb& bomb);

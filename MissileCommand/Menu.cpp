@@ -4,6 +4,8 @@ Timer Menu::animationTimer = Timer();
 
 bool Menu::gameRunning = false;
 
+GameSave Menu::save = GameSave();
+
 std::list<MenuButton> Menu::buttons = {
 	MenuButton(L"CONTINUE", Globals::CONTINUE_TOP_LEFT, Globals::BUTTON_HEIGHT, &ContinueGame),
 	MenuButton(L"NEW GAME", Globals::NEW_TOP_LEFT, Globals::BUTTON_HEIGHT, &StartNewGame),
@@ -98,12 +100,39 @@ void Menu::AnimateButton(Point& topLeft, bool& hovered) {
 }
 
 void Menu::ContinueGame() {
+	
+	std::thread gameThread;
+	save.LoadFromFile("playerProgress.txt");
+	switch (save.GetCurrentLevel()) {
 
+		case 1: gameThread = std::thread(Game::Run, Globals::LEVEL1);
+			break;
+
+		case 2: gameThread = std::thread(Game::Run, Globals::LEVEL2);
+			break;
+
+		case 3: gameThread = std::thread(Game::Run, Globals::LEVEL3);
+			break;
+
+		case 4: gameThread = std::thread(Game::Run, Globals::LEVEL4);
+			break;
+
+		case 5: gameThread = std::thread(Game::Run, Globals::LEVEL5);
+			break;
+
+		default:gameThread = std::thread(Game::Run, Globals::LEVEL1);
+			break;
+	}
+
+	gameThread.detach();
+	gameRunning = true;
+	Music::musicClear();
+	Music::musicLevel();
 }
 
 void Menu::StartNewGame() {
 
-	std::thread gameThread = std::thread(Game::Run, Globals::LEVEL5);
+	std::thread gameThread = std::thread(Game::Run, Globals::LEVEL1);
 	gameThread.detach();
 	gameRunning = true;
 	Music::musicClear();
@@ -111,7 +140,6 @@ void Menu::StartNewGame() {
 }
 
 void Menu::ShowOptions() {
-
 }
 
 void Menu::ShowHelp() {
