@@ -162,14 +162,28 @@ void Game::HandleExplosions() {
 
 		while (k != bombs.end()) {
 
-			if (Verifier::BombHit(*k, *j)) {
+			if (Verifier::BombInRange(*k, *j)) {
 
-				Music::PlayExplosion();
-				ItemManager::AddExplosion(Explosion(k->GetCenter(),
-					Globals::EXPLOSION_INITIAL_RADIUS, k->GetSource()));
-				UpdateBombNum(k->GetSource());
-				AwardPoints(k->GetSource());
-				k = bombs.erase(k);
+				if (Verifier::BombOnTheList(*k, j->GetBombsHit()))
+					k++;
+
+				else {
+
+					k->ReceiveDamage(j->GetDamage());
+					j->GetBombsHit().push_back(*k);
+
+					if (k->GetHP() <= 0) {
+
+						Music::PlayExplosion();
+						ItemManager::AddExplosion(Explosion(k->GetCenter(),
+							Globals::EXPLOSION_INITIAL_RADIUS, k->GetSource()));
+						UpdateBombNum(k->GetSource());
+						AwardPoints(k->GetSource());
+						k = bombs.erase(k);
+					}
+
+					else k++;
+				}
 			}
 
 			else k++;
@@ -181,14 +195,46 @@ void Game::HandleExplosions() {
 
 		while (l != buildings.end()) {
 
-			if (Verifier::BuildingHit(*l, *j)) {
+			if (Verifier::BuildingInRange(*l, *j)) {
 
-				ItemManager::AddDestruction(Destruction(l->GetCenter(),
-					Globals::DESTRUCTION_INITIAL_RADIUS));
-				l = buildings.erase(l);
+				if (Verifier::BuildingOnTheList(*l, j->GetBuildingsHit()))
+					l++;
+
+				else {
+
+					l->ReceiveDamage(j->GetDamage());
+					j->GetBuildingsHit().push_back(*l);
+
+					if (l->GetHP() <= 0) {
+
+						Music::PlayExplosion();
+						ItemManager::AddDestruction(Destruction(l->GetCenter(),
+							Globals::DESTRUCTION_INITIAL_RADIUS));
+						l = buildings.erase(l);
+					}
+
+					else l++;
+				}
 			}
 
 			else l++;
+		}
+
+		if (Verifier::LauncherInRange(launcher, *j)) {
+
+			if (!j->IsLauncherHit()) {
+
+				launcher.ReceiveDamage(j->GetDamage());
+				j->SetLauncherHit(true);
+
+				if (launcher.GetHP() <= 0 && !launcher.IsDestroyed()) {
+
+					Music::PlayExplosion();
+					ItemManager::AddDestruction(Destruction(launcher.GetCenter(),
+						Globals::DESTRUCTION_INITIAL_RADIUS));
+					launcher.SetDestroyed(true);
+				}
+			}
 		}
 
 		if (j->GetStage() == Globals::EXPLOSION_STAGES)

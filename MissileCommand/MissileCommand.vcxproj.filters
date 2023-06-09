@@ -403,6 +403,9 @@
     <Image Include="building-modern7.png">
       <Filter>Resource Files\buildings</Filter>
     </Image>
+    <Image Include="bomblet.png">
+      <Filter>Resource Files\bombs</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">

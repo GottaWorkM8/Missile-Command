@@ -10,12 +10,13 @@
 class Explosion : public Item {
 
 	float radius;
+	float damage;
 	int stage;
 	Timer stageTimer;
 	Source source;
-	std::list<Bomb> bombsHit;
-	std::list<Building> buildingsHit;
 	bool launcherHit;
+	std::list<Building> buildingsHit;
+	std::list<Bomb> bombsHit;
 
 public:
 
@@ -26,15 +27,16 @@ public:
 	void SetAngleDeg(float& angleDeg);
 	float& GetRadius();
 	void SetRadius(float& radius);
+	float& GetDamage();
 	int& GetStage();
 	Timer& GetStageTimer();
 	Source& GetSource();
-	std::list<Bomb>& GetBombsHit();
-	void SetBombsHit(std::list<Bomb>& bombsHit);
+	bool IsLauncherHit();
+	void SetLauncherHit(bool launcherHit);
 	std::list<Building>& GetBuildingsHit();
 	void SetBuildingsHit(std::list<Building>& buildingsHit);
-	bool& IsLauncherHit();
-	void SetLauncherHit(bool& launcherHit);
+	std::list<Bomb>& GetBombsHit();
+	void SetBombsHit(std::list<Bomb>& bombsHit);
 	
 	bool operator==(const Explosion& e) const;
 };

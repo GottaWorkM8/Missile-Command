@@ -1,16 +1,15 @@
 #include "ItemManager.h"
 
-Launcher ItemManager::launcher = Launcher(Point(Globals::MAX_X / 2, Globals::GROUND_Y - Globals::LAUNCHER_HALF_HEIGHT),
-	0.0f, Globals::LAUNCHER_HP);
+Launcher ItemManager::launcher = Launcher(Globals::LAUNCHER_CENTER);
 std::list<Building> ItemManager::buildings = {
-	Building(Point(Globals::MAX_X / 12, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
-	Building(Point(Globals::MAX_X / 12 * 2, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
-	Building(Point(Globals::MAX_X / 12 * 3, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
-	Building(Point(Globals::MAX_X / 12 * 4, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
-	Building(Point(Globals::MAX_X / 12 * 8, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
-	Building(Point(Globals::MAX_X / 12 * 9, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
-	Building(Point(Globals::MAX_X / 12 * 10, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
-	Building(Point(Globals::MAX_X / 12 * 11, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP)};
+	Building(Globals::BUILDING1_CENTER, 0),
+	Building(Globals::BUILDING2_CENTER, 1),
+	Building(Globals::BUILDING3_CENTER, 2),
+	Building(Globals::BUILDING4_CENTER, 3),
+	Building(Globals::BUILDING5_CENTER, 4),
+	Building(Globals::BUILDING6_CENTER, 5),
+	Building(Globals::BUILDING7_CENTER, 6),
+	Building(Globals::BUILDING8_CENTER, 7) };
 std::list<Missile> ItemManager::missiles = {};
 std::list<Bomb> ItemManager::bombs = {};
 std::list<Explosion> ItemManager::explosions = {};
@@ -86,17 +85,16 @@ void ItemManager::AddFlash(Flash flash) {
 
 void ItemManager::Reset() {
 
-	launcher = Launcher(Point(Globals::MAX_X / 2, Globals::GROUND_Y - Globals::LAUNCHER_HALF_HEIGHT),
-		0.0f, Globals::LAUNCHER_HP);
+	launcher = Launcher(Globals::LAUNCHER_CENTER);
 	buildings = {
-		Building(Point(Globals::MAX_X / 12, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
-		Building(Point(Globals::MAX_X / 12 * 2, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
-		Building(Point(Globals::MAX_X / 12 * 3, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
-		Building(Point(Globals::MAX_X / 12 * 4, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
-		Building(Point(Globals::MAX_X / 12 * 8, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
-		Building(Point(Globals::MAX_X / 12 * 9, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
-		Building(Point(Globals::MAX_X / 12 * 10, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP),
-		Building(Point(Globals::MAX_X / 12 * 11, Globals::GROUND_Y - Globals::BUILDING_HALF_HEIGHT), Globals::BUILDING_HP) };
+		Building(Globals::BUILDING1_CENTER, 0),
+		Building(Globals::BUILDING2_CENTER, 1),
+		Building(Globals::BUILDING3_CENTER, 2),
+		Building(Globals::BUILDING4_CENTER, 3),
+		Building(Globals::BUILDING5_CENTER, 4),
+		Building(Globals::BUILDING6_CENTER, 5),
+		Building(Globals::BUILDING7_CENTER, 6),
+		Building(Globals::BUILDING8_CENTER, 7) };
 	missiles = {};
 	bombs = {};
 	explosions = {};

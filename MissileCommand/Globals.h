@@ -120,9 +120,28 @@ public:
 	static const float BUILDING_HP;
 	static const float BUILDING_HALF_WIDTH;
 	static const float BUILDING_HALF_HEIGHT;
+	static const float BUILDING_Y;
+	static const Point BUILDING1_CENTER;
+	static const Point BUILDING2_CENTER;
+	static const Point BUILDING3_CENTER;
+	static const Point BUILDING4_CENTER;
+	static const Point BUILDING5_CENTER;
+	static const Point BUILDING6_CENTER;
+	static const Point BUILDING7_CENTER;
+	static const Point BUILDING8_CENTER;
+
+	static const float HEALTH_BAR_Y;
+	static const float HEALTH_BAR_HALF_WIDTH;
+	static const float LAUNCHER_HEALTH_BAR_HALF_WIDTH;
+	static const float HEALTH_BAR_HEIGHT;
+	static const float LAUNCHER_HEALTH_BAR_HEIGHT;
+	static const D2D1_COLOR_F HIGH_HP_COLOR;
+	static const D2D1_COLOR_F MID_HP_COLOR;
+	static const D2D1_COLOR_F LOW_HP_COLOR;
 
 	static const float MISSILE_HALF_WIDTH;
 	static const float MISSILE_HALF_HEIGHT;
+	static const float MISSILE_DAMAGE;
 	static const float MISSILE_SPEED;
 	static const float MISSILE_LOAD_TIME;
 
@@ -132,10 +151,22 @@ public:
 	static const float BOMB_TARGET_Y;
 	static const float BOMB_HALF_WIDTH;
 	static const float BOMB_HALF_HEIGHT;
+	static const float NORMAL_BOMB_HP;
+	static const float NORMAL_BOMB_DAMAGE;
 	static const float NORMAL_BOMB_SPEED;
+	static const float NUCLEAR_BOMB_HP;
+	static const float NUCLEAR_BOMB_DAMAGE;
 	static const float NUCLEAR_BOMB_SPEED;
+	static const float CLUSTER_BOMB_HP;
 	static const float CLUSTER_BOMB_SPEED;
+	static const float BOMBLET_HP;
+	static const float BOMBLET_DAMAGE;
+	static const float BOMBLET_SPEED;
+	static const float NAPALM_BOMB_HP;
+	static const float NAPALM_BOMB_DAMAGE;
 	static const float NAPALM_BOMB_SPEED;
+	static const float ROD_BOMB_HP;
+	static const float ROD_BOMB_DAMAGE;
 	static const float ROD_BOMB_SPEED;
 	static const float BOMB_LOAD_TIME;
 

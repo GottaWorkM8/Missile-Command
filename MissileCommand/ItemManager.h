@@ -40,4 +40,3 @@ public:
 	static void AddFlash(Flash flash);
 	static void Reset();
 };
-

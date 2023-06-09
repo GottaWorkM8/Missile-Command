@@ -154,22 +154,23 @@ void Graphics::DrawGame() {
 
 	Launcher launcher = ItemManager::GetLauncher();
 
-	rect = D2D1::RectF(Globals::LAUNCHER_CANNON_BOTTOM_CENTER.x - Globals::LAUNCHER_CANNON_HALF_WIDTH,
-		Globals::LAUNCHER_CANNON_BOTTOM_CENTER.y - Globals::LAUNCHER_CANNON_HALF_HEIGHT * 2,
-		Globals::LAUNCHER_CANNON_BOTTOM_CENTER.x + Globals::LAUNCHER_CANNON_HALF_WIDTH,
-		Globals::LAUNCHER_CANNON_BOTTOM_CENTER.y);
-	renderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(launcher.GetAngleDeg(),
-		D2D1::Point2F(Globals::LAUNCHER_CANNON_BOTTOM_CENTER.x, Globals::LAUNCHER_CANNON_BOTTOM_CENTER.y)));
-	renderTarget->DrawBitmap(BitmapManager::GetCannonBitmap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
-	renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+	if (!launcher.IsDestroyed()) {
 
-	rect = D2D1::RectF(launcher.GetCenter().x - Globals::LAUNCHER_HALF_WIDTH,
-		launcher.GetCenter().y - Globals::LAUNCHER_HALF_HEIGHT,
-		launcher.GetCenter().x + Globals::LAUNCHER_HALF_WIDTH,
-		launcher.GetCenter().y + Globals::LAUNCHER_HALF_HEIGHT);
-	renderTarget->DrawBitmap(BitmapManager::GetLauncherBitmap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+		rect = D2D1::RectF(Globals::LAUNCHER_CANNON_BOTTOM_CENTER.x - Globals::LAUNCHER_CANNON_HALF_WIDTH,
+			Globals::LAUNCHER_CANNON_BOTTOM_CENTER.y - Globals::LAUNCHER_CANNON_HALF_HEIGHT * 2,
+			Globals::LAUNCHER_CANNON_BOTTOM_CENTER.x + Globals::LAUNCHER_CANNON_HALF_WIDTH,
+			Globals::LAUNCHER_CANNON_BOTTOM_CENTER.y);
+		renderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(launcher.GetAngleDeg(),
+			D2D1::Point2F(Globals::LAUNCHER_CANNON_BOTTOM_CENTER.x, Globals::LAUNCHER_CANNON_BOTTOM_CENTER.y)));
+		renderTarget->DrawBitmap(BitmapManager::GetCannonBitmap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+		renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 
-	int index = 0;
+		rect = D2D1::RectF(launcher.GetCenter().x - Globals::LAUNCHER_HALF_WIDTH,
+			launcher.GetCenter().y - Globals::LAUNCHER_HALF_HEIGHT,
+			launcher.GetCenter().x + Globals::LAUNCHER_HALF_WIDTH,
+			launcher.GetCenter().y + Globals::LAUNCHER_HALF_HEIGHT);
+		renderTarget->DrawBitmap(BitmapManager::GetLauncherBitmap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+	}
 
 	for (Building building : ItemManager::GetBuildings()) {
 
@@ -178,11 +179,10 @@ void Graphics::DrawGame() {
 			building.GetCenter().x + Globals::BUILDING_HALF_WIDTH,
 			building.GetCenter().y + Globals::BUILDING_HALF_HEIGHT);
 		
-		D2D1_SIZE_U originalSize = BitmapManager::GetBuildingBitmap(index)->GetPixelSize();
+		D2D1_SIZE_U originalSize = BitmapManager::GetBuildingBitmap(building.GetIndex())->GetPixelSize();
 		float desiredHeight = static_cast<float>(originalSize.height) / originalSize.width * Globals::BUILDING_HALF_WIDTH * 2;
 		rect.top = rect.bottom - desiredHeight;
-		renderTarget->DrawBitmap(BitmapManager::GetBuildingBitmap(index), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
-		index++;
+		renderTarget->DrawBitmap(BitmapManager::GetBuildingBitmap(building.GetIndex()), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 	}
 
 	for (Missile missile : ItemManager::GetMissiles()) {
@@ -289,6 +289,73 @@ void Graphics::DrawGame() {
 			D2D1::Point2F(destruction.GetCenter().x, destruction.GetCenter().y)));
 		renderTarget->DrawBitmap(BitmapManager::GetDestructionBitmap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 		renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+	}
+
+	for (Building building : ItemManager::GetBuildings()) {
+
+		float buildingHP = building.GetHP();
+		float left = building.GetCenter().x - Globals::HEALTH_BAR_HALF_WIDTH;
+		float right = building.GetCenter().x + Globals::HEALTH_BAR_HALF_WIDTH;
+
+		rect = D2D1::RectF(left, Globals::HEALTH_BAR_Y, left + (right - left) * buildingHP / Globals::BUILDING_HP, Globals::HEALTH_BAR_Y + Globals::HEALTH_BAR_HEIGHT);
+
+		if (buildingHP <= 30.0f) {
+
+			brush->SetColor(Globals::LOW_HP_COLOR);
+			renderTarget->FillRectangle(rect, brush);
+			brush->SetColor(Globals::BRUSH_DEFAULT_COLOR);
+		}
+
+		else if (buildingHP <= 60.0f) {
+
+			brush->SetColor(Globals::MID_HP_COLOR);
+			renderTarget->FillRectangle(rect, brush);
+			brush->SetColor(Globals::BRUSH_DEFAULT_COLOR);
+		}
+
+		else {
+
+			brush->SetColor(Globals::HIGH_HP_COLOR);
+			renderTarget->FillRectangle(rect, brush);
+			brush->SetColor(Globals::BRUSH_DEFAULT_COLOR);
+		}
+
+		rect = D2D1::RectF(left, Globals::HEALTH_BAR_Y, right, Globals::HEALTH_BAR_Y + Globals::HEALTH_BAR_HEIGHT);
+		renderTarget->DrawRectangle(rect, brush);
+	}
+
+	if (!launcher.IsDestroyed()) {
+
+		float launcherHP = launcher.GetHP();
+		float left = launcher.GetCenter().x - Globals::LAUNCHER_HEALTH_BAR_HALF_WIDTH;
+		float right = launcher.GetCenter().x + Globals::LAUNCHER_HEALTH_BAR_HALF_WIDTH;
+
+		rect = D2D1::RectF(left, Globals::HEALTH_BAR_Y,
+			left + (right - left) * launcherHP / Globals::LAUNCHER_HP, Globals::HEALTH_BAR_Y + Globals::LAUNCHER_HEALTH_BAR_HEIGHT);
+
+		if (launcherHP <= 30.0f) {
+
+			brush->SetColor(Globals::LOW_HP_COLOR);
+			renderTarget->FillRectangle(rect, brush);
+			brush->SetColor(Globals::BRUSH_DEFAULT_COLOR);
+		}
+
+		else if (launcherHP <= 60.0f) {
+
+			brush->SetColor(Globals::MID_HP_COLOR);
+			renderTarget->FillRectangle(rect, brush);
+			brush->SetColor(Globals::BRUSH_DEFAULT_COLOR);
+		}
+
+		else {
+
+			brush->SetColor(Globals::HIGH_HP_COLOR);
+			renderTarget->FillRectangle(rect, brush);
+			brush->SetColor(Globals::BRUSH_DEFAULT_COLOR);
+		}
+
+		rect = D2D1::RectF(left, Globals::HEALTH_BAR_Y, right, Globals::HEALTH_BAR_Y + Globals::LAUNCHER_HEALTH_BAR_HEIGHT);
+		renderTarget->DrawRectangle(rect, brush);
 	}
 
 	if (Game::GetIntro())
