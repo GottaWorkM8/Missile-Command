@@ -5,11 +5,11 @@ Timer Menu::animationTimer = Timer();
 bool Menu::gameRunning = false;
 
 std::list<MenuButton> Menu::buttons = {
-	MenuButton(L"CONTINUE", Globals::CONTINUE_TOP_LEFT, Globals::BUTTON_HEIGHT, &ContinueGame),
-	MenuButton(L"NEW GAME", Globals::NEW_TOP_LEFT, Globals::BUTTON_HEIGHT, &StartNewGame),
-	MenuButton(L"OPTIONS", Globals::OPTIONS_TOP_LEFT, Globals::BUTTON_HEIGHT, &ShowOptions),
-	MenuButton(L"HELP", Globals::HELP_TOP_LEFT, Globals::BUTTON_HEIGHT, &ShowHelp),
-	MenuButton(L"EXIT", Globals::EXIT_TOP_LEFT, Globals::BUTTON_HEIGHT, &Exit) };
+	MenuButton(L"CONTINUE", Point(Globals::BUTTON_X, Globals::FIRST_BUTTON_Y), Globals::BUTTON_HEIGHT, &ContinueGame),
+	MenuButton(L"NEW GAME", Point(Globals::BUTTON_X, Globals::FIRST_BUTTON_Y + Globals::BUTTON_SPACE), Globals::BUTTON_HEIGHT, &StartNewGame),
+	MenuButton(L"OPTIONS", Point(Globals::BUTTON_X, Globals::FIRST_BUTTON_Y + 2 * Globals::BUTTON_SPACE), Globals::BUTTON_HEIGHT, &ShowOptions),
+	MenuButton(L"HELP", Point(Globals::BUTTON_X, Globals::FIRST_BUTTON_Y + 3 * Globals::BUTTON_SPACE), Globals::BUTTON_HEIGHT, &ShowHelp),
+	MenuButton(L"EXIT", Point(Globals::BUTTON_X, Globals::FIRST_BUTTON_Y + 4 * Globals::BUTTON_SPACE), Globals::BUTTON_HEIGHT, &Exit) };
 Point Menu::pressPos = Point();
 Point Menu::cursorPos = Point();
 
@@ -99,15 +99,24 @@ void Menu::AnimateButton(Point& topLeft, bool& hovered) {
 
 void Menu::ContinueGame() {
 
+	int diff = Globals::LEVEL5;
+	BitmapManager::InitLevel(diff);
+	std::thread gameThread = std::thread(Game::Run, diff);
+	gameThread.detach();
+	gameRunning = true;
+	Music::ClearSounds();
+	Music::PlayLevel();
 }
 
 void Menu::StartNewGame() {
 
-	std::thread gameThread = std::thread(Game::Run, Globals::LEVEL5);
+	int diff = Globals::LEVEL1;
+	BitmapManager::InitLevel(diff);
+	std::thread gameThread = std::thread(Game::Run, diff);
 	gameThread.detach();
 	gameRunning = true;
-	Music::musicClear();
-	Music::musicLevel();
+	Music::ClearSounds();
+	Music::PlayLevel();
 }
 
 void Menu::ShowOptions() {

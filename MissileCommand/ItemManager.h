@@ -38,10 +38,5 @@ public:
 	static void AddExplosion(Explosion explosion);
 	static void AddDestruction(Destruction destruction);
 	static void AddFlash(Flash flash);
-	static void RemoveBuilding(Building building);
-	static void RemoveMissile(Missile missile);
-	static void RemoveBomb(Bomb bomb);
-	static void RemoveExplosion(Explosion explosion);
 	static void Reset();
 };
-

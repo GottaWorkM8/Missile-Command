@@ -3,6 +3,7 @@
 #define _USE_MATH_DEFINES
 
 #include <Windows.h>
+#include <mutex>
 #include "Globals.h"
 #include "Verifier.h"
 #include "Source.h"
@@ -31,7 +32,13 @@ class Game {
 	static Timer missileTimer;
 	static Point missileOrigin;
 	static Point missileTarget;
+	static std::mutex mutex;
 
+	static void HandleMissiles();
+	static void HandleExplosions();
+	static void HandleBombs();
+	static void HandleFlashes();
+	static void HandleDestructions();
 	static void MoveMissile(Missile& missile);
 	static void MoveBomb(Bomb& bomb);
 	static void RotateExplosion(Explosion& explosion);

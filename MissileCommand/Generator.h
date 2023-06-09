@@ -4,6 +4,7 @@
 
 #include <random>
 #include <list>
+#include <cmath>
 #include "Globals.h"
 #include "Bomb.h"
 
@@ -14,6 +15,7 @@ class Generator {
 
 public:
 
+	static int GetRandomUniform(int min, int max);
 	static float GetRandomUniform(float min, float max);
 	static float GetRandomNormal(float min, float max);
 	static Bomb GenerateBomb(Source source);

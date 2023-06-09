@@ -57,33 +57,51 @@ bool Verifier::TooClose(float value1, float value2, float minGap) {
     else return false;
 }
 
-bool Verifier::BombHit(Bomb bomb, Explosion explosion) {
-
-    return Intersect(bomb.GetCenter(), Globals::BOMB_HALF_WIDTH, Globals::BOMB_HALF_HEIGHT,
-        explosion.GetCenter(), explosion.GetRadius());
-}
-
-bool Verifier::BuildingHit(Building building, Explosion explosion) {
-
-    return Intersect(building.GetCenter(), Globals::BUILDING_HALF_WIDTH, Globals::BUILDING_HALF_HEIGHT,
-        explosion.GetCenter(), explosion.GetRadius());
-}
-
-bool Verifier::LauncherHit(Launcher launcher, Explosion explosion) {
+bool Verifier::LauncherInRange(Launcher& launcher, Explosion& explosion) {
 
     return Intersect(launcher.GetCenter(), Globals::LAUNCHER_HALF_WIDTH, Globals::LAUNCHER_HALF_HEIGHT,
         explosion.GetCenter(), explosion.GetRadius());
 }
 
-bool Verifier::GameLost(Launcher launcher, std::list<Building> buildings) {
+bool Verifier::BuildingInRange(Building& building, Explosion& explosion) {
 
-    if (launcher.GetHP() <= 0 || buildings.empty())
+    return Intersect(building.GetCenter(), Globals::BUILDING_HALF_WIDTH, Globals::BUILDING_HALF_HEIGHT,
+        explosion.GetCenter(), explosion.GetRadius());
+}
+
+bool Verifier::BombInRange(Bomb& bomb, Explosion& explosion) {
+
+    return Intersect(bomb.GetCenter(), Globals::BOMB_HALF_WIDTH, Globals::BOMB_HALF_HEIGHT,
+        explosion.GetCenter(), explosion.GetRadius());
+}
+
+bool Verifier::BuildingOnTheList(Building& building, std::list<Building>& buildings) {
+
+    for (Building& b : buildings)
+        if (b == building)
+            return true;
+
+    return false;
+}
+
+bool Verifier::BombOnTheList(Bomb& bomb, std::list<Bomb>& bombs) {
+    
+    for (Bomb& b : bombs)
+        if (b == bomb)
+            return true;
+
+    return false;
+}
+
+bool Verifier::GameLost(Launcher& launcher, std::list<Building>& buildings) {
+
+    if (launcher.IsDestroyed() || buildings.empty())
         return true;
 
     return false;
 }
 
-bool Verifier::GameWon(std::list<Bomb> bombs, float time, bool finished) {
+bool Verifier::GameWon(std::list<Bomb>& bombs, float time, bool finished) {
 
     if (!finished)
         if (time > Globals::GAME_TIME)

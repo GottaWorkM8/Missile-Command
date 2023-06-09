@@ -6,7 +6,7 @@ const float Globals::MAX_X = 1600.0f;
 const float Globals::CENTER_X = MAX_X / 2;
 const float Globals::MAX_Y = 900.0f;
 const D2D1_COLOR_F Globals::BRUSH_DEFAULT_COLOR = D2D1::ColorF(1.0f, 1.0f, 1.0f, 1.0f);
-const D2D1_COLOR_F Globals::PROMPT_BACKGROUND_COLOR = D2D1::ColorF(0.0f, 0.0f, 0.0f, 0.5f);
+const D2D1_COLOR_F Globals::PROMPT_BACKGROUND_COLOR = D2D1::ColorF(0.0f, 0.0f, 0.0f, 0.65f);
 
 // Menu
 
@@ -19,11 +19,11 @@ const float Globals::FIRST_BUTTON_Y = MAX_Y / 2.5f;
 const float Globals::BUTTON_HEIGHT = MAX_Y / 25;
 const float Globals::BUTTON_SPACE = MAX_Y / BUTTON_HEIGHT + MAX_Y / 25;
 
-const Point Globals::CONTINUE_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y);;
-const Point Globals::NEW_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y + BUTTON_SPACE);;
-const Point Globals::OPTIONS_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y + 2 * BUTTON_SPACE);;
-const Point Globals::HELP_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y + 3 * BUTTON_SPACE);;
-const Point Globals::EXIT_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y + 4 * BUTTON_SPACE);;
+const Point Globals::CONTINUE_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y);
+const Point Globals::NEW_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y + BUTTON_SPACE);
+const Point Globals::OPTIONS_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y + 2 * BUTTON_SPACE);
+const Point Globals::HELP_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y + 3 * BUTTON_SPACE);
+const Point Globals::EXIT_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y + 4 * BUTTON_SPACE);
 
 const float Globals::ANIMATION_TIME = 0.3f;
 const int Globals::ANIMATION_STAGES = 10;
@@ -113,9 +113,28 @@ const Point Globals::LAUNCHER_CANNON_BOTTOM_CENTER = Point(LAUNCHER_CENTER.x, LA
 const float Globals::BUILDING_HP = 100.0f;
 const float Globals::BUILDING_HALF_WIDTH = 25.0f;
 const float Globals::BUILDING_HALF_HEIGHT = 25.0f;
+const float Globals::BUILDING_Y = GROUND_Y - BUILDING_HALF_HEIGHT;
+const Point Globals::BUILDING1_CENTER = Point(MAX_X / 12, BUILDING_Y);
+const Point Globals::BUILDING2_CENTER = Point(MAX_X / 12 * 2, BUILDING_Y);
+const Point Globals::BUILDING3_CENTER = Point(MAX_X / 12 * 3, BUILDING_Y);
+const Point Globals::BUILDING4_CENTER = Point(MAX_X / 12 * 4, BUILDING_Y);
+const Point Globals::BUILDING5_CENTER = Point(MAX_X / 12 * 8, BUILDING_Y);
+const Point Globals::BUILDING6_CENTER = Point(MAX_X / 12 * 9, BUILDING_Y);
+const Point Globals::BUILDING7_CENTER = Point(MAX_X / 12 * 10, BUILDING_Y);
+const Point Globals::BUILDING8_CENTER = Point(MAX_X / 12 * 11, BUILDING_Y);
+
+const float Globals::HEALTH_BAR_Y = BUILDING_Y + MAX_Y / 30;
+const float Globals::HEALTH_BAR_HALF_WIDTH = MAX_X / 50;
+const float Globals::LAUNCHER_HEALTH_BAR_HALF_WIDTH = MAX_X / 40;
+const float Globals::HEALTH_BAR_HEIGHT = MAX_Y / 150;
+const float Globals::LAUNCHER_HEALTH_BAR_HEIGHT = MAX_Y / 100;
+const D2D1_COLOR_F Globals::HIGH_HP_COLOR = D2D1::ColorF(0.0f, 1.0f, 0.0f, 1.0f);
+const D2D1_COLOR_F Globals::MID_HP_COLOR = D2D1::ColorF(1.0f, 1.0f, 0.0f, 1.0f);
+const D2D1_COLOR_F Globals::LOW_HP_COLOR = D2D1::ColorF(1.0f, 0.0f, 0.0f, 1.0f);
 
 const float Globals::MISSILE_HALF_WIDTH = 10.0f;
 const float Globals::MISSILE_HALF_HEIGHT = 10.0f;
+const float Globals::MISSILE_DAMAGE = 20.0f;
 const float Globals::MISSILE_SPEED = 10.0f;
 const float Globals::MISSILE_LOAD_TIME = 0.1f;
 
@@ -125,10 +144,22 @@ const float Globals::BOMB_ORIGIN_MAX_X = MAX_X - BOMB_ORIGIN_MIN_X;
 const float Globals::BOMB_HALF_WIDTH = 10.0f;
 const float Globals::BOMB_HALF_HEIGHT = 10.0f;
 const float Globals::BOMB_TARGET_Y = GROUND_Y - BOMB_HALF_HEIGHT;
+const float Globals::NORMAL_BOMB_HP = 20.0f;
+const float Globals::NORMAL_BOMB_DAMAGE = 50.0f;
 const float Globals::NORMAL_BOMB_SPEED = 1.5f;
+const float Globals::NUCLEAR_BOMB_HP = 20.0f;
+const float Globals::NUCLEAR_BOMB_DAMAGE = 100.0f;
 const float Globals::NUCLEAR_BOMB_SPEED = 1.0f;
+const float Globals::CLUSTER_BOMB_HP = 20.0f;
 const float Globals::CLUSTER_BOMB_SPEED = 1.2f;
+const float Globals::BOMBLET_HP = 20.0f;
+const float Globals::BOMBLET_DAMAGE = 40.0f;
+const float Globals::BOMBLET_SPEED = NORMAL_BOMB_SPEED;
+const float Globals::NAPALM_BOMB_HP = 20.0f;
+const float Globals::NAPALM_BOMB_DAMAGE = 1.0f;
 const float Globals::NAPALM_BOMB_SPEED = 1.2f;
+const float Globals::ROD_BOMB_HP = 40.0f;
+const float Globals::ROD_BOMB_DAMAGE = 150.0f;
 const float Globals::ROD_BOMB_SPEED = 2.5f;
 const float Globals::BOMB_LOAD_TIME = 1.0f;
 

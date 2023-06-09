@@ -3,18 +3,26 @@
 std::random_device Generator::device;
 std::mt19937 Generator::generator(device());
 
+
+int Generator::GetRandomUniform(int min, int max) {
+
+	std::uniform_int_distribution<int> distribution(min, max);
+
+	return distribution(generator);
+}
+
 float Generator::GetRandomUniform(float min, float max) {
 
-	std::uniform_real_distribution<> distribution(min, max);
+	std::uniform_real_distribution<float> distribution(min, max);
 
-	return (float) distribution(generator);
+	return distribution(generator);
 }
 
 float Generator::GetRandomNormal(float min, float max) {
 
-	std::normal_distribution<> distribution(min, max);
+	std::normal_distribution<float> distribution(min, max);
 
-	return (float) distribution(generator);
+	return distribution(generator);
 }
 
 Bomb Generator::GenerateBomb(Source source) {

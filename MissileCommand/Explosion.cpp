@@ -6,12 +6,13 @@ Explosion::Explosion() {
 	angleRad = 0;
 	angleDeg = Calculator::GetDegrees(angleRad);
 	radius = 10.0f;
+	damage = Globals::NORMAL_BOMB_DAMAGE;
 	stage = 0;
 	stageTimer = Timer();
 	source = NORMAL;
-	bombsHit = {};
-	buildingsHit = {};
 	launcherHit = false;
+	buildingsHit = {};
+	bombsHit = {};
 }
 
 Explosion::Explosion(Point center, float radius, Source source) {
@@ -20,12 +21,37 @@ Explosion::Explosion(Point center, float radius, Source source) {
 	angleRad = 0;
 	angleDeg = Calculator::GetDegrees(angleRad);
 	this->radius = radius;
+
+	switch (source) {
+
+		case MISSILE: damage = Globals::MISSILE_DAMAGE;
+			break;
+
+		case NORMAL: damage = Globals::NORMAL_BOMB_DAMAGE;
+			break;
+
+		case NUCLEAR: damage = Globals::NUCLEAR_BOMB_DAMAGE;
+			break;
+
+		case CLUSTER: damage = Globals::BOMBLET_DAMAGE;
+			break;
+
+		case NAPALM: damage = Globals::NAPALM_BOMB_DAMAGE;
+			break;
+
+		case RODOFGOD: damage = Globals::ROD_BOMB_DAMAGE;
+			break;
+
+		default: damage = Globals::NORMAL_BOMB_DAMAGE;
+			break;
+	}
+
 	stage = 0;
 	stageTimer = Timer();
 	this->source = source;
-	bombsHit = {};
-	buildingsHit = {};
 	launcherHit = false;
+	buildingsHit = {};
+	bombsHit = {};
 }
 
 void Explosion::SetAngleRad(float& angleRad) {
@@ -44,6 +70,10 @@ void Explosion::SetRadius(float& radius) {
 	this->radius = radius;
 }
 
+float& Explosion::GetDamage() {
+	return damage;
+}
+
 int& Explosion::GetStage() {
 	return stage;
 }
@@ -56,12 +86,12 @@ Source& Explosion::GetSource() {
 	return source;
 }
 
-std::list<Bomb>& Explosion::GetBombsHit() {
-	return bombsHit;
+bool Explosion::IsLauncherHit() {
+	return launcherHit;
 }
 
-void Explosion::SetBombsHit(std::list<Bomb>& bombsHit) {
-	this->bombsHit = bombsHit;
+void Explosion::SetLauncherHit(bool launcherHit) {
+	this->launcherHit = launcherHit;
 }
 
 std::list<Building>& Explosion::GetBuildingsHit() {
@@ -72,12 +102,12 @@ void Explosion::SetBuildingsHit(std::list<Building>& buildingsHit) {
 	this->buildingsHit = buildingsHit;
 }
 
-bool& Explosion::IsLauncherHit() {
-	return launcherHit;
+std::list<Bomb>& Explosion::GetBombsHit() {
+	return bombsHit;
 }
 
-void Explosion::SetLauncherHit(bool& launcherHit) {
-	this->launcherHit = launcherHit;
+void Explosion::SetBombsHit(std::list<Bomb>& bombsHit) {
+	this->bombsHit = bombsHit;
 }
 
 bool Explosion::operator==(const Explosion& e) const {

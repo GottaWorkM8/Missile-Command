@@ -7,7 +7,7 @@ void Schedule::ScheduleNormalDrops(int count, float duration) {
 
 	while (drops.size() < count) {
 
-		float newDrop = Generator::GetRandomUniform(0, duration);
+		float newDrop = Generator::GetRandomUniform(0.0f, duration);
 		bool valid = true;
 
 		for (float drop : drops)
