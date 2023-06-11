@@ -144,6 +144,8 @@ void Graphics::DrawGame() {
 	rect = D2D1::RectF(0, 0, Globals::MAX_X, Globals::MAX_Y);
 	renderTarget->DrawBitmap(BitmapManager::GetMapBitmap(), rect, 0.85f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 
+	ResourceManager::GetFlashesMutex().lock();
+
 	for (Flash flash : ItemManager::GetFlashes()) {
 
 		rect = D2D1::RectF(flash.GetCenter().x - flash.GetRadius(),
@@ -156,7 +158,11 @@ void Graphics::DrawGame() {
 		renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 	}
 
+	ResourceManager::GetFlashesMutex().unlock();
+
 	Launcher launcher = ItemManager::GetLauncher();
+
+	ResourceManager::GetLauncherMutex().lock();
 
 	if (!launcher.IsDestroyed()) {
 
@@ -176,6 +182,10 @@ void Graphics::DrawGame() {
 		renderTarget->DrawBitmap(BitmapManager::GetLauncherBitmap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 	}
 
+	ResourceManager::GetLauncherMutex().unlock();
+
+	ResourceManager::GetBuildingsMutex().lock();
+
 	for (Building building : ItemManager::GetBuildings()) {
 
 		rect = D2D1::RectF(building.GetCenter().x - Globals::BUILDING_HALF_WIDTH,
@@ -188,6 +198,10 @@ void Graphics::DrawGame() {
 		renderTarget->DrawBitmap(BitmapManager::GetBuildingBitmap(building.GetIndex()), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 	}
 
+	ResourceManager::GetBuildingsMutex().unlock();
+
+	ResourceManager::GetMissilesMutex().lock();
+
 	for (Missile missile : ItemManager::GetMissiles()) {
 
 		rect = D2D1::RectF(missile.GetCenter().x - Globals::MISSILE_HALF_WIDTH,
@@ -199,6 +213,10 @@ void Graphics::DrawGame() {
 		renderTarget->DrawBitmap(BitmapManager::GetMissileBitmap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 		renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 	}
+
+	ResourceManager::GetMissilesMutex().unlock();
+
+	ResourceManager::GetBombsMutex().lock();
 
 	for (Bomb bomb : ItemManager::GetBombs()) {
 
@@ -238,6 +256,10 @@ void Graphics::DrawGame() {
 
 		renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 	}
+
+	ResourceManager::GetBombsMutex().unlock();
+
+	ResourceManager::GetExplosionsMutex().lock();
 
 	for (Explosion explosion : ItemManager::GetExplosions()) {
 
@@ -282,6 +304,10 @@ void Graphics::DrawGame() {
 		renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 	}
 
+	ResourceManager::GetExplosionsMutex().unlock();
+
+	ResourceManager::GetDestructionsMutex().lock();
+
 	for (Destruction destruction : ItemManager::GetDestructions()) {
 
 		rect = D2D1::RectF(destruction.GetCenter().x - destruction.GetRadius(),
@@ -293,6 +319,10 @@ void Graphics::DrawGame() {
 		renderTarget->DrawBitmap(BitmapManager::GetDestructionBitmap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 		renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 	}
+
+	ResourceManager::GetDestructionsMutex().unlock();
+
+	ResourceManager::GetBuildingsMutex().lock();
 
 	for (Building building : ItemManager::GetBuildings()) {
 
@@ -327,6 +357,10 @@ void Graphics::DrawGame() {
 		renderTarget->DrawRectangle(rect, brush);
 	}
 
+	ResourceManager::GetBuildingsMutex().unlock();
+
+	ResourceManager::GetLauncherMutex().lock();
+
 	if (!launcher.IsDestroyed()) {
 
 		float launcherHP = launcher.GetHP();
@@ -360,6 +394,8 @@ void Graphics::DrawGame() {
 		rect = D2D1::RectF(left, Globals::HEALTH_BAR_Y, right, Globals::HEALTH_BAR_Y + Globals::LAUNCHER_HEALTH_BAR_HEIGHT);
 		renderTarget->DrawRectangle(rect, brush);
 	}
+
+	ResourceManager::GetLauncherMutex().unlock();
 
 	if (Game::IsIntroTime())
 		if (Game::GetIntro() != nullptr)

@@ -199,6 +199,9 @@ void Game::Run(int difficulty) {
 void Game::HandleMissiles() {
 
 	std::list<Missile>& missiles = ItemManager::GetMissiles();
+
+	ResourceManager::GetMissilesMutex().lock();
+
 	std::list<Missile>::iterator i = missiles.begin();
 
 	while (i != missiles.end()) {
@@ -217,6 +220,8 @@ void Game::HandleMissiles() {
 			i++;
 		}
 	}
+
+	ResourceManager::GetMissilesMutex().unlock();
 }
 
 void Game::HandleExplosions() {
@@ -225,6 +230,9 @@ void Game::HandleExplosions() {
 	std::list<Bomb>& bombs = ItemManager::GetBombs();
 	std::list<Building>& buildings = ItemManager::GetBuildings();
 	std::list<Explosion>& explosions = ItemManager::GetExplosions();
+
+	ResourceManager::GetExplosionsMutex().lock();
+
 	std::list<Explosion>::iterator j = explosions.begin();
 
 	while (j != explosions.end()) {
@@ -264,6 +272,8 @@ void Game::HandleExplosions() {
 
 		ResourceManager::GetBombsMutex().unlock();
 
+		ResourceManager::GetBuildingsMutex().lock();
+
 		std::list<Building>::iterator l = buildings.begin();
 
 		while (l != buildings.end()) {
@@ -293,6 +303,10 @@ void Game::HandleExplosions() {
 			else l++;
 		}
 
+		ResourceManager::GetBuildingsMutex().unlock();
+
+		ResourceManager::GetLauncherMutex().lock();
+
 		if (Verifier::LauncherInRange(launcher, *j)) {
 
 			if (!j->IsLauncherHit()) {
@@ -310,6 +324,8 @@ void Game::HandleExplosions() {
 			}
 		}
 
+		ResourceManager::GetLauncherMutex().unlock();
+
 		if (j->GetStage() == Globals::EXPLOSION_STAGES)
 			j = explosions.erase(j);
 
@@ -325,6 +341,8 @@ void Game::HandleExplosions() {
 			j++;
 		}
 	}
+
+	ResourceManager::GetExplosionsMutex().unlock();
 }
 
 void Game::HandleBombs() {
@@ -360,6 +378,9 @@ void Game::HandleBombs() {
 void Game::HandleFlashes() {
 
 	std::list<Flash>& flashes = ItemManager::GetFlashes();
+
+	ResourceManager::GetFlashesMutex().lock();
+
 	std::list<Flash>::iterator m = flashes.begin();
 
 	while (m != flashes.end()) {
@@ -373,11 +394,16 @@ void Game::HandleFlashes() {
 			m++;
 		}
 	}
+
+	ResourceManager::GetFlashesMutex().unlock();
 }
 
 void Game::HandleDestructions() {
 
 	std::list<Destruction>& destructions = ItemManager::GetDestructions();
+
+	ResourceManager::GetDestructionsMutex().lock();
+
 	std::list<Destruction>::iterator n = destructions.begin();
 
 	while (n != destructions.end()) {
@@ -391,6 +417,8 @@ void Game::HandleDestructions() {
 			n++;
 		}
 	}
+
+	ResourceManager::GetDestructionsMutex().unlock();
 }
 
 void Game::MoveMissile(Missile& missile) {
