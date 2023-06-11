@@ -18,6 +18,6 @@ public:
 	static bool BuildingOnTheList(Building& building, std::list<Building>& buildings);
 	static bool BombOnTheList(Bomb& bomb, std::list<Bomb>& bombs);
 	static bool GameLost(Launcher& launcher, std::list<Building>& buildings);
-	static bool GameWon(std::list<Bomb>& bombs, float time, bool finished);
+	static bool GameWon(std::list<Bomb>& bombs, float time);
 };
 

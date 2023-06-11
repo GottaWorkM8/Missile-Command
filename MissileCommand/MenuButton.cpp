@@ -2,12 +2,21 @@
 
 MenuButton::MenuButton() {
 
+	textLayout = nullptr;
+	text = L"";
+	topLeft = Point();
+	width = 0;
+	height = 0;
+	hovered = false;
+	task = nullptr;
 }
 
 MenuButton::MenuButton(const wchar_t* text, Point topLeft, float height, void (*task)()) {
 
+	textLayout = nullptr;
 	this->text = text;
 	this->topLeft = topLeft;
+	width = 0;
 	this->height = height;
 	this->hovered = false;
 	this->task = task;
@@ -25,31 +34,6 @@ const wchar_t* MenuButton::GetText() {
 	return text;
 }
 
-Point& MenuButton::GetTopLeft() {
-	return topLeft;
-}
-
-float& MenuButton::GetWidth() {
-	return width;
-}
-
 void MenuButton::SetWidth(float width) {
 	this->width = width;
-}
-
-float& MenuButton::GetHeight() {
-	return height;
-}
-
-bool& MenuButton::IsHovered() {
-	return hovered;
-}
-
-void MenuButton::SetHovered(bool hovered) {
-	this->hovered = hovered;
-}
-
-void MenuButton::PerformTask() {
-
-	task();
 }

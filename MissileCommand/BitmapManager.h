@@ -8,8 +8,10 @@
 class BitmapManager {
 
 	static Bitmapper* bitmapper;
+
 	static ID2D1Bitmap* menuBitmap; 
 	static ID2D1Bitmap* titleBitmap;
+
 	static ID2D1Bitmap* mapBitmap;
 	static ID2D1Bitmap* launcherBitmap;
 	static ID2D1Bitmap* cannonBitmap;
@@ -29,6 +31,10 @@ class BitmapManager {
 	static ID2D1Bitmap* rodExplosionBitmap;
 	static ID2D1Bitmap* destructionBitmap;
 	static ID2D1Bitmap* ammoBitmap;
+
+	static ID2D1Bitmap* homeBitmap;
+	static ID2D1Bitmap* replayBitmap;
+	static ID2D1Bitmap* nextBitmap;
 
 	static std::wstring GetRandomName(int difficulty);
 	static void SetMapBitmap(int difficulty);
@@ -57,6 +63,9 @@ public:
 	static ID2D1Bitmap* GetRodExplosionBitmap();
 	static ID2D1Bitmap* GetDestructionBitmap();
 	static ID2D1Bitmap* GetAmmoBitmap();
+	static ID2D1Bitmap* GetHomeBitmap();
+	static ID2D1Bitmap* GetReplayBitmap();
+	static ID2D1Bitmap* GetNextBitmap();
 
 	static void Init(Bitmapper* bitmapper);
 	static void InitLevel(int difficulty);

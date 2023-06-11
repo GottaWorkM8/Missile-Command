@@ -13,6 +13,7 @@
 
 class Menu {
 
+	static bool gameRunning;
 	static Point pressPos;
 	static Point cursorPos;
 	static Timer animationTimer;
@@ -30,11 +31,13 @@ class Menu {
 
 public:
 
-	static bool gameRunning;
-
+	static bool IsGameRunning();
+	static void SetGameRunning(bool running);
 	static std::list<MenuButton>& GetButtons();
 
 	static void HandlePress(HWND& hWnd);
 	static void HandleMove(HWND& hWnd);
+	static void RestartGame(int currentDiff);
+	static void StartNextGame(int currentDiff);
 };
 

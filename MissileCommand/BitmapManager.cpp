@@ -1,8 +1,10 @@
 #include "BitmapManager.h"
 
 Bitmapper* BitmapManager::bitmapper = nullptr;
+
 ID2D1Bitmap* BitmapManager::menuBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::titleBitmap = nullptr;
+
 ID2D1Bitmap* BitmapManager::mapBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::launcherBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::cannonBitmap = nullptr;
@@ -22,6 +24,10 @@ ID2D1Bitmap* BitmapManager::napalmExplosionBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::rodExplosionBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::destructionBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::ammoBitmap = nullptr;
+
+ID2D1Bitmap* BitmapManager::homeBitmap = nullptr;
+ID2D1Bitmap* BitmapManager::replayBitmap = nullptr;
+ID2D1Bitmap* BitmapManager::nextBitmap = nullptr;
 
 std::wstring BitmapManager::GetRandomName(int difficulty) {
 
@@ -184,6 +190,18 @@ ID2D1Bitmap* BitmapManager::GetAmmoBitmap() {
 	return ammoBitmap;
 }
 
+ID2D1Bitmap* BitmapManager::GetHomeBitmap() {
+	return homeBitmap;
+}
+
+ID2D1Bitmap* BitmapManager::GetReplayBitmap() {
+	return replayBitmap;
+}
+
+ID2D1Bitmap* BitmapManager::GetNextBitmap() {
+	return nextBitmap;
+}
+
 void BitmapManager::Init(Bitmapper* btmpr) {
 
 	bitmapper = btmpr;
@@ -215,6 +233,9 @@ void BitmapManager::Init(Bitmapper* btmpr) {
 	rodExplosionBitmap = bitmapper->GetBitmap(L"explosion-cyan.png");
 	destructionBitmap = bitmapper->GetBitmap(L"destruction.png");
 	ammoBitmap = bitmapper->GetBitmap(L"ammo.png");
+	homeBitmap = bitmapper->GetBitmap(L"home.png");
+	replayBitmap = bitmapper->GetBitmap(L"replay.png");
+	nextBitmap = bitmapper->GetBitmap(L"next.png");
 }
 
 void BitmapManager::InitLevel(int difficulty) {

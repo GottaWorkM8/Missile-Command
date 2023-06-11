@@ -101,12 +101,11 @@ bool Verifier::GameLost(Launcher& launcher, std::list<Building>& buildings) {
     return false;
 }
 
-bool Verifier::GameWon(std::list<Bomb>& bombs, float time, bool finished) {
+bool Verifier::GameWon(std::list<Bomb>& bombs, float time) {
 
-    if (!finished)
-        if (time > Globals::GAME_TIME)
-            if (bombs.empty())
-                return true;
+    if (time > Globals::GAME_TIME)
+        if (bombs.empty())
+            return true;
 
     return false;
 }

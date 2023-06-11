@@ -1,11 +1,15 @@
 #include "Game.h"
+#include <iostream>
 
-bool Game::intro = true;
+bool Game::ready = true;
+bool Game::introTime = true;
 bool Game::won = false;
-bool Game::finished = true;
+bool Game::playing = false;
+bool Game::finished = false;
 const wchar_t* Game::location = L"";
 int Game::ammo = Globals::MAX_AMMO;
 int Game::score = 0;
+int Game::maxScore = 0;
 int Game::diff = 0;
 int Game::normalNum = 0;
 int Game::nuclearNum = 0;
@@ -17,10 +21,27 @@ Timer Game::ammoTimer = Timer();
 Timer Game::missileTimer = Timer();
 Point Game::missileOrigin = Point();
 Point Game::missileTarget = Point();
-std::mutex Game::mutex;
+Intro* Game::intro = nullptr;
+Summary* Game::summary = nullptr;
 
-bool Game::GetIntro() {
-	return intro;
+bool Game::IsReady() {
+	return ready;
+}
+
+bool Game::IsIntroTime() {
+	return introTime;
+}
+
+bool Game::IsWon() {
+	return won;
+}
+
+bool Game::IsPlaying() {
+	return playing;
+}
+
+bool Game::IsFinished() {
+	return finished;
 }
 
 const wchar_t* Game::GetLocation() {
@@ -33,6 +54,10 @@ int Game::GetAmmo() {
 
 int Game::GetScore() {
 	return score;
+}
+
+int Game::GetMaxScore() {
+	return maxScore;
 }
 
 int Game::GetDiff() {
@@ -59,11 +84,22 @@ int Game::GetRodNum() {
 	return rodNum;
 }
 
+Intro*& Game::GetIntro() {
+	return intro;
+}
+
+Summary*& Game::GetSummary() {
+	return summary;
+}
+
 void Game::Run(int difficulty) {
+
+	ready = false;
 
 	Level level = Level(difficulty);
 	location = level.GetLocation();
 	score = 0;
+	maxScore = level.GetMaxScore();
 	diff = level.GetDifficulty();
 	normalNum = level.GetNormalNum();
 	nuclearNum = level.GetNuclearNum();
@@ -72,10 +108,10 @@ void Game::Run(int difficulty) {
 	rodNum = level.GetRodNum();
 	ItemManager::Reset();
 
-	Popup::CreateIntroThread();
+	intro = new Intro();
 	Sleep(Globals::INTRO_TIME * 1000);
-	intro = false;
-	finished = false;
+	introTime = false;
+	playing = true;
 
 	levelTimer.Restart();
 	ammoTimer.Restart();
@@ -105,16 +141,53 @@ void Game::Run(int difficulty) {
 		Launcher& launcher = ItemManager::GetLauncher();
 		std::list<Building>& buildings = ItemManager::GetBuildings();
 
-		if (Verifier::GameLost(launcher, buildings))
+		if (!finished && Verifier::GameLost(launcher, buildings)) {
+
+			playing = false;
+			summary = new Summary();
 			finished = true;
+		}
 
 		std::list<Bomb>& bombs = ItemManager::GetBombs();
 
-		if (Verifier::GameWon(bombs, time, finished)) {
-
-			finished = true;
+		if (!finished && Verifier::GameWon(bombs, time)) {
+			
 			won = true;
+			playing = false;
+			summary = new Summary();
+			finished = true;
 		}
+
+		if (summary != nullptr)
+			if (summary->IsFinished()) {
+			
+				introTime = true;
+				won = false;
+				playing = false;
+				finished = false;
+				location = L"";
+				ammo = Globals::MAX_AMMO;
+				score = 0;
+				maxScore = 0;
+				diff = 0;
+				normalNum = 0;
+				nuclearNum = 0;
+				clusterNum = 0;
+				napalmNum = 0;
+				rodNum = 0;
+				ItemManager::Reset();
+				levelTimer = Timer();
+				ammoTimer = Timer();
+				missileTimer = Timer();
+				missileOrigin = Point();
+				missileTarget = Point();
+				intro = nullptr;
+				summary = nullptr;
+
+				ready = true;
+
+				return;
+			}
 
 		float deltaTime = levelTimer.GetDeltaTime();
 
@@ -156,7 +229,7 @@ void Game::HandleExplosions() {
 
 	while (j != explosions.end()) {
 
-		mutex.lock();
+		ResourceManager::GetBombsMutex().lock();
 
 		std::list<Bomb>::iterator k = bombs.begin();
 
@@ -189,7 +262,7 @@ void Game::HandleExplosions() {
 			else k++;
 		}
 
-		mutex.unlock();
+		ResourceManager::GetBombsMutex().unlock();
 
 		std::list<Building>::iterator l = buildings.begin();
 
@@ -258,7 +331,7 @@ void Game::HandleBombs() {
 
 	std::list<Bomb>& bombs = ItemManager::GetBombs();
 
-	mutex.lock();
+	ResourceManager::GetBombsMutex().lock();
 
 	std::list<Bomb>::iterator k = bombs.begin();
 
@@ -281,7 +354,7 @@ void Game::HandleBombs() {
 		}
 	}
 
-	mutex.unlock();
+	ResourceManager::GetBombsMutex().unlock();
 }
 
 void Game::HandleFlashes() {
@@ -486,7 +559,7 @@ void Game::AddAmmo() {
 
 void Game::LaunchMissile() {
 
-	if (!finished)
+	if (playing)
 		if (ammo > 0) {
 
 			float angleRad = Calculator::GetRadians(missileOrigin, missileTarget);
@@ -528,7 +601,7 @@ void Game::DropSpecificBombs(Source source, std::list<float>& drops) {
 			while (i != drops.end()) {
 				if (*i <= levelTimer.GetElapsedTime()) {
 					ItemManager::AddBomb(Generator::GenerateBomb(source));
-					drops.erase(i++);
+					i = drops.erase(i);
 				}
 				else break;
 			}
@@ -566,48 +639,54 @@ void Game::UpdateBombNum(Source source) {
 
 void Game::AwardPoints(Source source) {
 
-	switch (source) {
+	if (!finished) {
 
-		case NORMAL: score += 10;
-			break;
+		switch (source) {
 
-		case NUCLEAR: score += 30;
-			break;
+			case NORMAL: score += 10;
+				break;
 
-		case CLUSTER: score += 20;
-			break;
+			case NUCLEAR: score += 30;
+				break;
 
-		case NAPALM: score += 40;
-			break;
+			case CLUSTER: score += 10;
+				break;
 
-		case RODOFGOD: score += 80;
-			break;
+			case NAPALM: score += 40;
+				break;
 
-		default:
-			break;
+			case RODOFGOD: score += 80;
+				break;
+
+			default:
+				break;
+		}
 	}
 }
 
 void Game::CutPoints(Source source) {
 
-	switch (source) {
+	if (!finished) {
 
-		case NORMAL: score -= 30;
-			break;
+		switch (source) {
 
-		case NUCLEAR: score -= 150;
-			break;
+			case NORMAL: score -= 30;
+				break;
 
-		case CLUSTER: score -= 30;
-			break;
+			case NUCLEAR: score -= 150;
+				break;
 
-		case NAPALM: score -= 200;
-			break;
+			case CLUSTER: score -= 30;
+				break;
 
-		case RODOFGOD: score -= 300;
-			break;
+			case NAPALM: score -= 200;
+				break;
 
-		default:
-			break;
+			case RODOFGOD: score -= 300;
+				break;
+
+			default:
+				break;
+		}
 	}
 }

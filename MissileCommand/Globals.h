@@ -13,7 +13,17 @@ public:
 	static const float CENTER_X;
 	static const float MAX_Y;
 	static const D2D1_COLOR_F BRUSH_DEFAULT_COLOR;
-	static const D2D1_COLOR_F PROMPT_BACKGROUND_COLOR;
+	static const D2D1_COLOR_F GREEN;
+	static const D2D1_COLOR_F RED;
+	static const D2D1_COLOR_F POPUP_BACKGROUND_COLOR;
+
+	static const float ANIMATION_TIME;
+	static const int ANIMATION_STAGES;
+	static const float ANIMATION_STAGE_TIME;
+	static const float ANIMATION_SHIFT_X;
+	static const float ANIMATION_SHIFT_Y;
+	static const float ANIMATION_SMALL_SHIFT_X;
+	static const float ANIMATION_SMALL_SHIFT_Y;
 
 	// Menu
 
@@ -31,11 +41,6 @@ public:
 	static const Point OPTIONS_TOP_LEFT;
 	static const Point HELP_TOP_LEFT;
 	static const Point EXIT_TOP_LEFT;
-
-	static const float ANIMATION_TIME;
-	static const int ANIMATION_STAGES;
-	static const float ANIMATION_STAGE_TIME;
-	static const float ANIMATION_SHIFT_X;
 
 	// Game
 
@@ -57,6 +62,50 @@ public:
 	static const float INTRO_STAGE_TIME;
 	static const float INTRO_BACKGROUND_SHIFT;
 	static const float INTRO_TEXT_SHIFT;
+
+	static const float SUMMARY_DIALOG_LEFT;
+	static const float SUMMARY_DIALOG_TOP;
+	static const float SUMMARY_DIALOG_RIGHT;
+	static const float SUMMARY_DIALOG_BOTTOM;
+	static const float SUMMARY_TITLE_TOP;
+	static const float SUMMARY_TITLE_HEIGHT;
+	static const float SUMMARY_SEPARATOR_HEIGHT;
+	static const float SUMMARY_SEPARATOR_LEFT;
+	static const float SUMMARY_SEPARATOR_TOP;
+	static const float SUMMARY_SEPARATOR_RIGHT;
+	static const float SUMMARY_SEPARATOR_BOTTOM;
+	static const float SUMMARY_TEXT_LEFT;
+	static const float SUMMARY_TEXT_TOP;
+	static const float SUMMARY_TEXT_WIDTH;
+	static const float SUMMARY_TEXT_HEIGHT;
+	static const float SUMMARY_SCORE_LEFT;
+	static const float SUMMARY_SCORE_TOP;
+	static const float SUMMARY_SCORE_HEIGHT;
+	static const float SUMMARY_SCORE_NUM_LEFT;
+	static const float SUMMARY_SCORE_NUM_TOP;
+	static const float SUMMARY_SCORE_NUM_HEIGHT;
+	static const float SUMMARY_HIGHSCORE_LEFT;
+	static const float SUMMARY_HIGHSCORE_TOP;
+	static const float SUMMARY_HIGHSCORE_HEIGHT;
+	static const float SUMMARY_HIGHSCORE_NUM_LEFT;
+	static const float SUMMARY_HIGHSCORE_NUM_TOP;
+	static const float SUMMARY_HIGHSCORE_NUM_HEIGHT;
+	static const float SUMMARY_SCORE_STAR_LEFT;
+	static const float SUMMARY_SCORE_STAR_TOP;
+	static const float SUMMARY_SCORE_STAR_RIGHT;
+	static const float SUMMARY_SCORE_STAR_BOTTOM;
+	static const float SUMMARY_HIGHSCORE_STAR_LEFT;
+	static const float SUMMARY_HIGHSCORE_STAR_TOP;
+	static const float SUMMARY_HIGHSCORE_STAR_RIGHT;
+	static const float SUMMARY_HIGHSCORE_STAR_BOTTOM;
+	static const float SUMMARY_BUTTON_WIDTH;
+	static const float SUMMARY_BUTTON_SPACE;
+	static const float SUMMARY_REPLAY_LEFT;
+	static const float SUMMARY_REPLAY_TOP;
+	static const float SUMMARY_MENU_LEFT;
+	static const float SUMMARY_MENU_TOP;
+	static const float SUMMARY_NEXT_LEFT;
+	static const float SUMMARY_NEXT_TOP;
 
 	static const float BAR_Y;
 	static const float BAR_ICON_Y;
@@ -105,6 +154,7 @@ public:
 
 	static const float FRAME_TIME;
 	static const float GAME_TIME;
+	static const float BOMB_SPAWN_TIME;
 
 	static const int MAX_AMMO;
 	static const float AMMO_LOAD_TIME;

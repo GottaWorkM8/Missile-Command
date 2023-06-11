@@ -133,6 +133,10 @@ void Graphics::DrawMenu() {
 
 void Graphics::DrawGame() {
 
+	if (Game::GetSummary() != nullptr)
+		if (Game::GetSummary()->IsFinished())
+			return;
+
 	ClearScreen();
 
 	D2D1_RECT_F rect;
@@ -178,10 +182,9 @@ void Graphics::DrawGame() {
 			building.GetCenter().y - Globals::BUILDING_HALF_HEIGHT,
 			building.GetCenter().x + Globals::BUILDING_HALF_WIDTH,
 			building.GetCenter().y + Globals::BUILDING_HALF_HEIGHT);
-		
-		D2D1_SIZE_U originalSize = BitmapManager::GetBuildingBitmap(building.GetIndex())->GetPixelSize();
-		float desiredHeight = static_cast<float>(originalSize.height) / originalSize.width * Globals::BUILDING_HALF_WIDTH * 2;
-		rect.top = rect.bottom - desiredHeight;
+
+		float properHeight = Calculator::GetProperHeight(BitmapManager::GetBuildingBitmap(building.GetIndex()), Globals::BUILDING_HALF_WIDTH * 2);
+		rect.top = rect.bottom - properHeight;
 		renderTarget->DrawBitmap(BitmapManager::GetBuildingBitmap(building.GetIndex()), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 	}
 
@@ -191,7 +194,7 @@ void Graphics::DrawGame() {
 			missile.GetCenter().y - Globals::MISSILE_HALF_HEIGHT,
 			missile.GetCenter().x + Globals::MISSILE_HALF_WIDTH,
 			missile.GetCenter().y + Globals::MISSILE_HALF_HEIGHT);
-		renderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(missile.GetAngleDeg(), 
+		renderTarget->SetTransform(D2D1::Matrix3x2F::Rotation(missile.GetAngleDeg(),
 			D2D1::Point2F(missile.GetCenter().x, missile.GetCenter().y)));
 		renderTarget->DrawBitmap(BitmapManager::GetMissileBitmap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 		renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
@@ -358,8 +361,13 @@ void Graphics::DrawGame() {
 		renderTarget->DrawRectangle(rect, brush);
 	}
 
-	if (Game::GetIntro())
-		DrawIntro();
+	if (Game::IsIntroTime())
+		if (Game::GetIntro() != nullptr)
+			DrawIntro();
+
+	if (Game::IsFinished())
+		if (Game::GetSummary() != nullptr)
+			DrawSummary();
 
 	DrawBar();
 }
@@ -367,10 +375,115 @@ void Graphics::DrawGame() {
 void Graphics::DrawIntro() {
 
 	D2D1_RECT_F rect = D2D1::RectF(0, Globals::INTRO_BAR_Y, Globals::MAX_X, Globals::INTRO_BAR_BOTTOM);
-	brush->SetColor(Popup::backgroundColor);
+	brush->SetColor(Game::GetIntro()->backgroundColor);
 	renderTarget->FillRectangle(rect, brush);
-	brush->SetColor(Popup::textColor);
-	DrawLabel(Game::GetLocation(), L"Courier New", Globals::INTRO_HEIGHT, Point(Globals::CENTER_X, Globals::INTRO_Y), true);
+
+	brush->SetColor(Game::GetIntro()->textColor);
+	DrawTitle(Game::GetLocation(), L"Courier New", Globals::INTRO_HEIGHT, Point(Globals::CENTER_X, Globals::INTRO_Y), true);
+}
+
+void Graphics::DrawSummary() {
+
+	D2D1_ROUNDED_RECT roundedRect = D2D1::RoundedRect(D2D1::RectF(Globals::SUMMARY_DIALOG_LEFT, Globals::SUMMARY_DIALOG_TOP,
+		Globals::SUMMARY_DIALOG_RIGHT, Globals::SUMMARY_DIALOG_BOTTOM), 10.0f, 10.0f);
+	brush->SetColor(Game::GetSummary()->backgroundColor);
+	renderTarget->FillRoundedRectangle(roundedRect, brush);
+
+	brush->SetColor(Game::GetSummary()->textColor);
+
+	if (Game::IsWon()) {
+
+		brush->SetColor(Globals::GREEN);
+		DrawTitle(L"Mission completed", L"Courier New", Globals::SUMMARY_TITLE_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TITLE_TOP), true);
+		brush->SetColor(Globals::BRUSH_DEFAULT_COLOR);
+
+		if (Game::GetScore() == Game::GetMaxScore())
+			DrawSubtitles(L"Exceptional performance! You managed to destroy all the bombs without letting a single one put harm to the city. Great job!", L"Times New Roman",
+				18.0f, Globals::SUMMARY_TEXT_WIDTH, Globals::SUMMARY_TEXT_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TEXT_TOP), false);
+
+		else DrawSubtitles(L"We won the battle! You managed to protect the city with little harm to the infrastructure and its inhabitants. Good job!", L"Times New Roman",
+			18.0f, Globals::SUMMARY_TEXT_WIDTH, Globals::SUMMARY_TEXT_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TEXT_TOP), false);
+	}
+
+	else {
+
+		brush->SetColor(Globals::RED);
+		DrawTitle(L"Mission failed", L"Courier New", Globals::SUMMARY_TITLE_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TITLE_TOP), true);
+		brush->SetColor(Globals::BRUSH_DEFAULT_COLOR);
+
+		if (Game::GetScore() > 0)
+			DrawSubtitles(L"The battle has been lost! You dealt some damage to the enemy forces, but the cost was far too great. In the end we were not able to defeat the enemy.",
+				L"Times New Roman", 18.0f, Globals::SUMMARY_TEXT_WIDTH, Globals::SUMMARY_TEXT_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TEXT_TOP), false);
+
+		else DrawSubtitles(L"What a disaster! Our defenses got completely compromised and loses in civilians are uncountable. That was a shameful display!",
+			L"Times New Roman", 18.0f, Globals::SUMMARY_TEXT_WIDTH, Globals::SUMMARY_TEXT_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TEXT_TOP), false);
+	}
+
+	roundedRect = D2D1::RoundedRect(D2D1::RectF(Globals::SUMMARY_SEPARATOR_LEFT, Globals::SUMMARY_SEPARATOR_TOP,
+		Globals::SUMMARY_SEPARATOR_RIGHT, Globals::SUMMARY_SEPARATOR_BOTTOM), 4.0f, 4.0f);
+	renderTarget->FillRoundedRectangle(roundedRect, brush);
+
+	DrawTitle(L"Score: ", L"Courier New", Globals::SUMMARY_SCORE_HEIGHT, Globals::SUMMARY_SCORE_LEFT, Globals::SUMMARY_SCORE_TOP, true);
+	DrawInt(Game::GetScore(), L"Courier New", Globals::SUMMARY_SCORE_NUM_HEIGHT, Globals::SUMMARY_SCORE_NUM_LEFT, Globals::SUMMARY_SCORE_NUM_TOP, true);
+
+	DrawTitle(L"Highscore: ", L"Courier New", Globals::SUMMARY_HIGHSCORE_HEIGHT, Globals::SUMMARY_HIGHSCORE_LEFT, Globals::SUMMARY_HIGHSCORE_TOP, true);
+	DrawInt(Game::GetScore(), L"Courier New", Globals::SUMMARY_HIGHSCORE_NUM_HEIGHT, Globals::SUMMARY_HIGHSCORE_NUM_LEFT, Globals::SUMMARY_HIGHSCORE_NUM_TOP, true);
+
+	D2D1_RECT_F rect;
+	int i = 0;
+
+	for (SummaryButton& button : Game::GetSummary()->GetButtons()) {
+
+		rect = D2D1::RectF(button.GetTopLeft().x, button.GetTopLeft().y, button.GetBottomRight().x, button.GetBottomRight().y);
+		roundedRect = D2D1::RoundedRect(rect, 10.0f, 10.0f);
+
+		if (button.IsHovered()) {
+
+			renderTarget->FillRoundedRectangle(roundedRect, brush);
+			brush->SetColor(D2D1::ColorF(0.0f, 0.0f, 0.0f, 1.0f));
+			renderTarget->DrawRoundedRectangle(roundedRect, brush);
+		}
+
+		else {
+
+			D2D1_COLOR_F color = Globals::BRUSH_DEFAULT_COLOR;
+			color.a = 0.8f;
+			brush->SetColor(color);
+			renderTarget->FillRoundedRectangle(roundedRect, brush);
+			brush->SetColor(D2D1::ColorF(0.0f, 0.0f, 0.0f, 1.0f));
+			renderTarget->DrawRoundedRectangle(roundedRect, brush);
+			brush->SetColor(Globals::BRUSH_DEFAULT_COLOR);
+		}
+
+		rect.left += button.GetSpace();
+		rect.top += button.GetSpace();
+		rect.right -= button.GetSpace();
+		rect.bottom -= button.GetSpace();
+
+		if (button.IsHovered()) {
+
+			if (i == 0)
+				renderTarget->DrawBitmap(BitmapManager::GetHomeBitmap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+
+			else if (i == 1)
+				renderTarget->DrawBitmap(BitmapManager::GetReplayBitmap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+
+			else renderTarget->DrawBitmap(BitmapManager::GetNextBitmap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+		}
+
+		else {
+
+			if (i == 0)
+				renderTarget->DrawBitmap(BitmapManager::GetHomeBitmap(), rect, 0.8f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+
+			else if (i == 1)
+				renderTarget->DrawBitmap(BitmapManager::GetReplayBitmap(), rect, 0.8f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+
+			else renderTarget->DrawBitmap(BitmapManager::GetNextBitmap(), rect, 0.8f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+		}
+
+		i++;
+	}
 }
 
 void Graphics::DrawBar() {
@@ -382,7 +495,7 @@ void Graphics::DrawBar() {
 	point1.y = rect.top;
 	point2.x = rect.right;
 	point2.y = rect.top;
-	brush->SetColor(Globals::PROMPT_BACKGROUND_COLOR);;
+	brush->SetColor(Globals::POPUP_BACKGROUND_COLOR);;
 	renderTarget->FillRectangle(rect, brush);
 	brush->SetColor(Globals::BRUSH_DEFAULT_COLOR);
 	renderTarget->DrawLine(point1, point2, brush);
@@ -455,15 +568,38 @@ void Graphics::DrawInt(int num, const wchar_t* font, float height, Point topCent
 	wss << num;
 	std::wstring ws = wss.str();
 	const wchar_t* text = ws.c_str();
-
-	DrawLabel(text, font, height, topCenter, bold);
+	DrawTitle(text, font, height, topCenter, bold);
 }
 
-void Graphics::DrawLabel(const wchar_t* text, const wchar_t* font, float height, Point topCenter, bool bold) {
+void Graphics::DrawInt(int num, const wchar_t* font, float height, float left, float top, bool bold) {
+
+	std::wstringstream wss;
+	wss << num;
+	std::wstring ws = wss.str();
+	const wchar_t* text = ws.c_str();
+	DrawTitle(text, font, height, left, top, bold);
+}
+
+void Graphics::DrawTitle(const wchar_t* text, const wchar_t* font, float height, Point topCenter, bool bold) {
 
 	IDWriteTextLayout* textLayout = textRenderer->GetAdjustedTextLayout(text, font, bold, height);
 	DWRITE_TEXT_METRICS textMetrics;
 	textLayout->GetMetrics(&textMetrics);
 	float width = textMetrics.width;
 	renderTarget->DrawTextLayout(D2D1::Point2F(topCenter.x - (width / 2), topCenter.y), textLayout, brush);
+}
+
+void Graphics::DrawTitle(const wchar_t* text, const wchar_t* font, float height, float left, float top, bool bold) {
+
+	IDWriteTextLayout* textLayout = textRenderer->GetAdjustedTextLayout(text, font, bold, height);
+	renderTarget->DrawTextLayout(D2D1::Point2F(left, top), textLayout, brush);
+}
+
+void Graphics::DrawSubtitles(const wchar_t* text, const wchar_t* font, float fontSize, float width, float height, Point topCenter, bool bold) {
+
+	IDWriteTextLayout* textLayout = textRenderer->GetTextLayout(text, font, fontSize, bold, width, height);
+	DWRITE_TEXT_METRICS textMetrics;
+	textLayout->GetMetrics(&textMetrics);
+	float textWidth = textMetrics.width;
+	renderTarget->DrawTextLayout(D2D1::Point2F(topCenter.x - (textWidth / 2), topCenter.y), textLayout, brush);
 }
