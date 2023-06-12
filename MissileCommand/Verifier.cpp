@@ -109,3 +109,13 @@ bool Verifier::GameWon(std::list<Bomb>& bombs, float time) {
 
     return false;
 }
+
+bool Verifier::ValidLevel(int difficulty) {
+
+    return difficulty >= Globals::LEVEL1 && difficulty <= Globals::LEVEL_MAX;
+}
+
+bool Verifier::ValidScore(int score) {
+
+    return score >= 0 && score <= 100000;
+}

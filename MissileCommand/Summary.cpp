@@ -50,8 +50,11 @@ void Summary::ApplyChoice() {
 
 	for (SummaryButton& button : buttons) {
 
-		if (i == 2 && !Game::IsWon())
+		if (i == 2 && GameSave::GetCurrentLevel() <= Game::GetDiff()) {
+		
+			i++;
 			continue;
+		}
 
 		if (Verifier::WithinAlt(pressPos, button.GetTopLeft(), button.GetWidth(), button.GetHeight())) {
 
@@ -69,8 +72,11 @@ void Summary::ApplyAnimation() {
 
 	for (SummaryButton& button : buttons) {
 
-		if (i == 2 && !Game::IsWon())
+		if (i == 2 && GameSave::GetCurrentLevel() <= Game::GetDiff()) {
+
+			i++;
 			continue;
+		}
 
 		if (Verifier::WithinAlt(cursorPos, button.GetTopLeft(), button.GetWidth(), button.GetHeight())) {
 

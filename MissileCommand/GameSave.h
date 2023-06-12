@@ -1,18 +1,32 @@
 #pragma once
+
 #include <fstream>
-#include <string>
+#include <sstream>
+#include <iostream>
+#include "Globals.h"
+#include "Verifier.h"
 
+class Globals;
 
-class GameSave
-{
-private:
+class GameSave {
+
+    static const std::string FILENAME;
+    static const std::string ENCRYPTION_KEY;
     static int currentLevel;
-    static int maxScores[5];
+    static int maxScores[Globals::LEVELS_NUM];
+
+    static void UpdateHighscore(int difficulty, int score);
+    static void UnlockNextLevel(int difficulty);
+    static void SaveToFile();
+    static void Reset();
+    static std::string EncryptData(const std::string& data);
+    static std::string DecryptData(const std::string& encryptedData);
 
 public:
-    static void WonLevel(int score);
-    static void NextLevel();
+
     static int GetCurrentLevel();
-    static void SaveToFile(const std::string& filename);
-    static void LoadFromFile(const std::string& filename);
+    static int GetMaxScore(int difficulty);
+
+    static void Update(int difficulty, int score, bool won);
+    static void LoadFromFile();
 };

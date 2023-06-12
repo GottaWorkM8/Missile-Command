@@ -19,5 +19,7 @@ public:
 	static bool BombOnTheList(Bomb& bomb, std::list<Bomb>& bombs);
 	static bool GameLost(Launcher& launcher, std::list<Building>& buildings);
 	static bool GameWon(std::list<Bomb>& bombs, float time);
+	static bool ValidLevel(int difficulty);
+	static bool ValidScore(int score);
 };
 
