@@ -13,6 +13,7 @@
 #include "Level.h"
 #include "Intro.h"
 #include "Summary.h"
+#include "GameSave.h"
 
 class Game {
 

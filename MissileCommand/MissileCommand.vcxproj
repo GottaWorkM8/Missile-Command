@@ -286,7 +286,7 @@
     <Media Include="musicMenu.wav" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="playerProgress.txt" />
+    <Text Include="savefile.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

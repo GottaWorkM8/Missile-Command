@@ -1,60 +1,126 @@
 #include "GameSave.h"
 
+const std::string GameSave::FILENAME = "savefile.txt";
+const std::string GameSave::ENCRYPTION_KEY = "YourEncryptionKey";
 int GameSave::currentLevel = 1;
 int GameSave::maxScores[5];
 
-void GameSave::WonLevel(int score)
-{
-    if (maxScores[currentLevel - 1] < score)
-    {
-        maxScores[currentLevel - 1] = score;
-    }
-}
-
-int GameSave::GetCurrentLevel()
-{
+int GameSave::GetCurrentLevel() {
     return currentLevel;
 }
 
-void GameSave::NextLevel()
-{
-    currentLevel++;
+int GameSave::GetMaxScore(int difficulty) {
+    return maxScores[difficulty - 1];
 }
 
-void GameSave::SaveToFile(const std::string& filename)
-{
-    std::ofstream outputFile(filename);
+void GameSave::Update(int difficulty, int score, bool won) {
 
-    if (outputFile.is_open())
-    {
-        outputFile << currentLevel << std::endl;
+    if (won)
+        UnlockNextLevel(difficulty);
 
-        for (int i = 0; i < 5; ++i)
-        {
-            outputFile << maxScores[i] << std::endl;
+    UpdateHighscore(difficulty, score);
+    SaveToFile();
+}
+
+void GameSave::LoadFromFile() {
+
+    std::ifstream file(FILENAME);
+
+    if (file.is_open()) {
+
+        std::stringstream encryptedData;
+        encryptedData << file.rdbuf();
+
+        std::string decryptedData = DecryptData(encryptedData.str());
+        std::istringstream decryptedStream(decryptedData);
+        int loadedLevel;
+        decryptedStream >> loadedLevel;
+
+        if (Verifier::ValidLevel(loadedLevel)) {
+
+            int loadedScores[Globals::LEVELS_NUM];
+
+            for (int i = 0; i < Globals::LEVELS_NUM; ++i) {
+
+                decryptedStream >> loadedScores[i];
+
+                if (!Verifier::ValidScore(loadedScores[i])) {
+
+                    file.close();
+                    Reset();
+                    return;
+                }
+            }
+
+            currentLevel = loadedLevel;
+
+            for (int i = 0; i < Globals::LEVELS_NUM; ++i)
+                maxScores[i] = loadedScores[i];
         }
 
-        outputFile.close();
+        else {
+
+            file.close();
+            Reset();
+        }
+    }
+
+    else Reset();
+}
+
+void GameSave::UpdateHighscore(int difficulty, int score) {
+
+    if (maxScores[difficulty - 1] < score)
+        maxScores[difficulty - 1] = score;
+}
+
+void GameSave::UnlockNextLevel(int difficulty) {
+
+    if (difficulty < Globals::LEVEL_MAX)
+        currentLevel = difficulty + 1;
+
+    else currentLevel = Globals::LEVEL_MAX;
+}
+
+void GameSave::SaveToFile() {
+
+    std::ofstream file(FILENAME);
+
+    if (file.is_open()) {
+
+        std::ostringstream saveData;
+        saveData << currentLevel << std::endl;
+
+        for (int i = 0; i < Globals::LEVELS_NUM; ++i)
+            saveData << maxScores[i] << std::endl;
+
+        std::string encryptedData = EncryptData(saveData.str());
+        file << encryptedData;
+        file.close();
     }
 }
 
-void GameSave::LoadFromFile(const std::string& filename)
-{
-    std::ifstream inputFile(filename);
+void GameSave::Reset() {
 
-    if (inputFile.is_open())
-    {
-        inputFile >> currentLevel;
+    currentLevel = 1;
 
-        for (int i = 0; i < 5; ++i)
-        {
-            inputFile >> maxScores[i];
-        }
+    for (int i = 0; i < Globals::LEVELS_NUM; i++)
+        maxScores[i] = 0;
 
-        inputFile.close();
-    }
-    else
-    {
-        SaveToFile(filename);
-    }
+    SaveToFile();
+}
+
+std::string GameSave::EncryptData(const std::string& data) {
+
+    std::string encryptedData;
+
+    for (size_t i = 0; i < data.size(); ++i)
+        encryptedData += data[i] ^ ENCRYPTION_KEY[i % ENCRYPTION_KEY.size()];
+
+    return encryptedData;
+}
+
+std::string GameSave::DecryptData(const std::string& encryptedData) {
+
+    return EncryptData(encryptedData);
 }

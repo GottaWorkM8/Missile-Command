@@ -42,6 +42,7 @@ const int Globals::LEVEL2 = 2;
 const int Globals::LEVEL3 = 3;
 const int Globals::LEVEL4 = 4;
 const int Globals::LEVEL5 = 5;
+const int Globals::LEVEL_MAX = LEVEL5;
 
 const float Globals::GROUND_Y = MAX_Y - (MAX_Y / 9);
 

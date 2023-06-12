@@ -44,11 +44,13 @@ public:
 
 	// Game
 
+	static constexpr int LEVELS_NUM = 5;
 	static const int LEVEL1;
 	static const int LEVEL2;
 	static const int LEVEL3;
 	static const int LEVEL4;
 	static const int LEVEL5;
+	static const int LEVEL_MAX;
 
 	static const float GROUND_Y;
 

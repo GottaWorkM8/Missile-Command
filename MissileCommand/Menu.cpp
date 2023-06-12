@@ -65,17 +65,37 @@ void Menu::StartNextGame(int currentDiff) {
 
 void Menu::ApplyChoice() {
 
-	for (MenuButton& button : buttons)
+	int i = 0;
+
+	for (MenuButton& button : buttons) {
+
+		if (i == 0 && GameSave::GetCurrentLevel() <= Globals::LEVEL1) {
+
+			i++;
+			continue;
+		}
+
 		if (Verifier::WithinAlt(pressPos, button.GetTopLeft(), button.GetWidth(), button.GetHeight())) {
 
 			button.PerformTask();
 			break;
 		}
+
+		i++;
+	}
 }
 
 void Menu::ApplyAnimation() {
 
+	int i = 0;
+
 	for (MenuButton& button : buttons) {
+
+		if (i == 0 && GameSave::GetCurrentLevel() <= Globals::LEVEL1) {
+
+			i++;
+			continue;
+		}
 
 		if (Verifier::WithinAlt(cursorPos, button.GetTopLeft(), button.GetWidth(), button.GetHeight())) {
 
@@ -89,6 +109,8 @@ void Menu::ApplyAnimation() {
 		}
 
 		else button.SetHovered(false);
+
+		i++;
 	}
 }
 
@@ -124,8 +146,8 @@ void Menu::AnimateButton(Point& topLeft, bool& hovered) {
 }
 
 void Menu::ContinueGame() {
-	
-	int diff = Globals::LEVEL5;
+
+	int diff = GameSave::GetCurrentLevel();
 	BitmapManager::InitLevel(diff);
 	std::thread gameThread = std::thread(Game::Run, diff);
 	gameThread.detach();

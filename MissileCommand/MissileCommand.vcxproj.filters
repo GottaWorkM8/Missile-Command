@@ -168,6 +168,9 @@
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameSave.cpp">
+      <Filter>Source Files\tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -271,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSave.h">
+      <Filter>Header Files\tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -470,7 +476,6 @@
   <ItemGroup>
     <Image Include="ammo.png" />
     <Image Include="explosion-blue.png" />
-    <Image Include="building-green.png" />
     <Image Include="destruction.png" />
     <Image Include="launcher-cannon.png" />
     <Image Include="logo.ico" />
@@ -522,5 +527,15 @@
     <Media Include="soundShortExplosion.wav">
       <Filter>Resource Files\sounds</Filter>
     </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="savefile.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

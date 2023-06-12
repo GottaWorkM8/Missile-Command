@@ -82,6 +82,8 @@ Window::Window(): hInstance(GetModuleHandle(nullptr)) {
 	Music::ClearSounds();
 	Music::PlayMenu();
 
+	GameSave::LoadFromFile();
+
 	ShowWindow(GetConsoleWindow(), SW_HIDE);
 	ShowWindow(hWnd, SW_SHOW);
 }

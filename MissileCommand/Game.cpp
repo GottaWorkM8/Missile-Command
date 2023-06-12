@@ -144,6 +144,7 @@ void Game::Run(int difficulty) {
 
 		if (!finished && Verifier::GameLost(launcher, buildings)) {
 
+			GameSave::Update(difficulty, score, won);
 			playing = false;
 			summary = new Summary();
 			finished = true;
@@ -154,6 +155,7 @@ void Game::Run(int difficulty) {
 		if (!finished && Verifier::GameWon(bombs, time)) {
 			
 			won = true;
+			GameSave::Update(difficulty, score, won);
 			playing = false;
 			summary = new Summary();
 			finished = true;
