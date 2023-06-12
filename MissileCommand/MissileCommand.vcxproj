@@ -135,6 +135,7 @@
     <ClCompile Include="BitmapManager.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="Building.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Calculator.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Destruction.cpp" />
@@ -155,8 +156,11 @@
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Bitmapper.cpp" />
-    <ClCompile Include="Popup.cpp" />
+    <ClCompile Include="Intro.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Schedule.cpp" />
+    <ClCompile Include="Summary.cpp" />
+    <ClCompile Include="SummaryButton.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Verifier.cpp" />
@@ -166,6 +170,7 @@
     <ClInclude Include="BitmapManager.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="Building.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Calculator.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Destruction.h" />
@@ -176,7 +181,8 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Music.h" />
     <ClInclude Include="MenuButton.h" />
-    <ClInclude Include="Popup.h" />
+    <ClInclude Include="Intro.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Schedule.h" />
     <ClInclude Include="Source.h" />
     <ClInclude Include="Item.h" />
@@ -189,6 +195,8 @@
     <ClInclude Include="Point.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Bitmapper.h" />
+    <ClInclude Include="Summary.h" />
+    <ClInclude Include="SummaryButton.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Verifier.h" />
@@ -234,6 +242,7 @@
     <Image Include="building-modern7.png" />
     <Image Include="explosion-blue.png" />
     <Image Include="destruction.png" />
+    <Image Include="home.png" />
     <Image Include="launcher-cannon.png" />
     <Image Include="logo.ico" />
     <Image Include="bomb-cluster.png" />
@@ -256,6 +265,8 @@
     <Image Include="bomb-rod.png" />
     <Image Include="menu-title.png" />
     <Image Include="explosion-yellow.png" />
+    <Image Include="next.png" />
+    <Image Include="replay.png" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

@@ -9,8 +9,7 @@ void Level::SetLevelOne() {
 	clusterNum = 0;
 	napalmNum = 0;
 	rodNum = 0;
-	duration = Globals::GAME_TIME;
-	schedule = Schedule(normalNum, nuclearNum, clusterNum, napalmNum, rodNum, duration);
+	
 }
 
 void Level::SetLevelTwo() {
@@ -22,8 +21,6 @@ void Level::SetLevelTwo() {
 	clusterNum = 0;
 	napalmNum = 0;
 	rodNum = 0;
-	duration = Globals::GAME_TIME;
-	schedule = Schedule(normalNum, nuclearNum, clusterNum, napalmNum, rodNum, duration);
 }
 
 void Level::SetLevelThree() {
@@ -35,8 +32,6 @@ void Level::SetLevelThree() {
 	clusterNum = 15;
 	napalmNum = 0;
 	rodNum = 0;
-	duration = Globals::GAME_TIME;
-	schedule = Schedule(normalNum, nuclearNum, clusterNum, napalmNum, rodNum, duration);
 }
 
 void Level::SetLevelFour() {
@@ -48,8 +43,6 @@ void Level::SetLevelFour() {
 	clusterNum = 25;
 	napalmNum = 10;
 	rodNum = 0;
-	duration = Globals::GAME_TIME;
-	schedule = Schedule(normalNum, nuclearNum, clusterNum, napalmNum, rodNum, duration);
 }
 
 void Level::SetLevelFive() {
@@ -61,13 +54,15 @@ void Level::SetLevelFive() {
 	clusterNum = 25;
 	napalmNum = 20;
 	rodNum = 10;
-	duration = Globals::GAME_TIME;
-	schedule = Schedule(normalNum, nuclearNum, clusterNum, napalmNum, rodNum, duration);
 }
 
 Level::Level() {
 
 	SetLevelOne();
+
+	maxScore = Calculator::GetMaxScore(normalNum, nuclearNum, clusterNum, napalmNum, rodNum);
+	duration = Globals::BOMB_SPAWN_TIME;
+	schedule = Schedule(normalNum, nuclearNum, clusterNum, napalmNum, rodNum, duration);
 }
 
 Level::Level(int difficulty) {
@@ -98,6 +93,10 @@ Level::Level(int difficulty) {
 			SetLevelOne();
 			break;
 	}
+
+	maxScore = Calculator::GetMaxScore(normalNum, nuclearNum, clusterNum, napalmNum, rodNum);
+	duration = Globals::BOMB_SPAWN_TIME;
+	schedule = Schedule(normalNum, nuclearNum, clusterNum, napalmNum, rodNum, duration);
 }
 
 const wchar_t* Level::GetLocation() {
@@ -126,6 +125,10 @@ int Level::GetNapalmNum() {
 
 int Level::GetRodNum() {
 	return rodNum;
+}
+
+int Level::GetMaxScore() {
+	return maxScore;
 }
 
 float Level::GetDuration() {

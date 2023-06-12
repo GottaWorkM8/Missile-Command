@@ -10,12 +10,13 @@ class Music {
 
 public:
 
-	static const std::string MENU_FILEPATH;
-	static const std::string LEVEL_FILEPATH;
 	static const std::string MISSILE_FILEPATH;
 	static const std::string EXPLOSION_FILEPATH;
 	static const std::string SHORT_EXPLOSION_FILEPATH;
 	static const wchar_t* PLAY_MENU_CMD;
+	static const wchar_t* STOP_MENU_CMD;
+	static const wchar_t* PLAY_LEVEL_CMD;
+	static const wchar_t* STOP_LEVEL_CMD;
 
 	static void PlaySounds(const std::string& filepath);
 	static void PlayMenu();

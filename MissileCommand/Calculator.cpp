@@ -45,3 +45,16 @@ float Calculator::GetDistance(Point point1, Point point2) {
 
     return sqrtf(GetDistanceSq(point1, point2));
 }
+
+int Calculator::GetMaxScore(int normalNum, int nuclearNum, int clusterNum, int napalmNum, int rodNum) {
+
+    return normalNum * 10 + nuclearNum * 30 + clusterNum * 30 + napalmNum * 40 + rodNum * 80;
+}
+
+float Calculator::GetProperHeight(ID2D1Bitmap* bitmap, float width) {
+
+    D2D1_SIZE_U originalSize = bitmap->GetPixelSize();
+    float properHeight = static_cast<float>(originalSize.height) / originalSize.width * width;
+
+    return properHeight;
+}

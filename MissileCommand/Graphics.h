@@ -13,7 +13,6 @@
 #include "BitmapManager.h"
 #include "ItemManager.h"
 #include "Menu.h"
-#include "Popup.h"
 
 class Graphics {
 
@@ -37,8 +36,12 @@ public:
 	void DrawMenu();
 	void DrawGame();
 	void DrawIntro();
+	void DrawSummary();
 	void DrawBar();
 	void DrawInt(int num, const wchar_t* font, float height, Point topCenter, bool bold);
-	void DrawLabel(const wchar_t* text, const wchar_t* font, float height, Point topCenter, bool bold);
+	void DrawInt(int num, const wchar_t* font, float height, float left, float top, bool bold);
+	void DrawTitle(const wchar_t* text, const wchar_t* font, float height, Point topCenter, bool bold);
+	void DrawTitle(const wchar_t* text, const wchar_t* font, float height, float left, float top, bool bold);
+	void DrawSubtitles(const wchar_t* text, const wchar_t* font, float fontSize, float width, float height, Point topCenter, bool bold);
 };
 
