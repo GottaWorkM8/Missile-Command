@@ -156,6 +156,7 @@
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Bitmapper.cpp" />
+    <ClCompile Include="GameSave.cpp" />
     <ClCompile Include="Intro.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Schedule.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Music.h" />
     <ClInclude Include="MenuButton.h" />
+    <ClInclude Include="GameSave.h" />
     <ClInclude Include="Intro.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Schedule.h" />
@@ -282,6 +284,9 @@
     <Media Include="soundMissile.wav" />
     <Media Include="musicLevel.wav" />
     <Media Include="musicMenu.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="playerProgress.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

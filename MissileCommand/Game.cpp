@@ -61,6 +61,7 @@ int Game::GetMaxScore() {
 }
 
 int Game::GetDiff() {
+
 	return diff;
 }
 
@@ -334,7 +335,7 @@ void Game::HandleExplosions() {
 			AdvanceExplosionFinal(*j);
 			j++;
 		}
-
+    
 		else {
 
 			AdvanceExplosion(*j);

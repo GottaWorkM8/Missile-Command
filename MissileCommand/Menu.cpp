@@ -124,7 +124,7 @@ void Menu::AnimateButton(Point& topLeft, bool& hovered) {
 }
 
 void Menu::ContinueGame() {
-
+	
 	int diff = Globals::LEVEL5;
 	BitmapManager::InitLevel(diff);
 	std::thread gameThread = std::thread(Game::Run, diff);
@@ -146,7 +146,6 @@ void Menu::StartNewGame() {
 }
 
 void Menu::ShowOptions() {
-
 }
 
 void Menu::ShowHelp() {
