@@ -468,9 +468,32 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
+    <Image Include="ammo.png" />
+    <Image Include="explosion-blue.png" />
+    <Image Include="building-green.png" />
+    <Image Include="destruction.png" />
+    <Image Include="launcher-cannon.png" />
+    <Image Include="logo.ico" />
+    <Image Include="bomb-cluster.png" />
+    <Image Include="explosion-cyan.png" />
+    <Image Include="launcher.png" />
+    <Image Include="launcher-flash.png" />
+    <Image Include="explosion-grey.png" />
+    <Image Include="map-grass.jpg" />
+    <Image Include="map-planets.jpg" />
+    <Image Include="map-river.jpg" />
+    <Image Include="map-rocks.jpg" />
+    <Image Include="menu-background.jpg" />
+    <Image Include="missile.png" />
+    <Image Include="map-ice.jpg" />
+    <Image Include="bomb-napalm.png" />
+    <Image Include="bomb-normal.png" />
+    <Image Include="bomb-nuclear.png" />
+    <Image Include="explosion-purple.png" />
+    <Image Include="explosion-red.png" />
+    <Image Include="bomb-rod.png" />
+    <Image Include="menu-title.png" />
+    <Image Include="explosion-yellow.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="radioactive-cursor.cur">
