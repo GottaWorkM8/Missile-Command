@@ -9,18 +9,22 @@
 #include "Music.h"
 #include "Generator.h"
 #include "ItemManager.h"
+#include "ResourceManager.h"
 #include "Level.h"
-#include "Popup.h"
-#include "GameSave.h"
+#include "Intro.h"
+#include "Summary.h"
 
 class Game {
 
-	static bool intro;
+	static bool ready;
+	static bool introTime;
 	static bool won;
+	static bool playing;
 	static bool finished;
 	static const wchar_t* location;
 	static int ammo;
 	static int score;
+	static int maxScore;
 	static int diff;
 	static int normalNum;
 	static int nuclearNum;
@@ -32,8 +36,14 @@ class Game {
 	static Timer missileTimer;
 	static Point missileOrigin;
 	static Point missileTarget;
-	static GameSave save;
+	static Intro* intro;
+	static Summary* summary;
 
+	static void HandleMissiles();
+	static void HandleExplosions();
+	static void HandleBombs();
+	static void HandleFlashes();
+	static void HandleDestructions();
 	static void MoveMissile(Missile& missile);
 	static void MoveBomb(Bomb& bomb);
 	static void RotateExplosion(Explosion& explosion);
@@ -52,16 +62,23 @@ class Game {
 
 public:
 
-	static bool GetIntro();
+	static bool IsReady();
+	static bool IsIntroTime();
+	static bool IsWon();
+	static bool IsPlaying();
+	static bool IsFinished();
 	static const wchar_t* GetLocation();
 	static int GetAmmo();
 	static int GetScore();
+	static int GetMaxScore();
 	static int GetDiff();
 	static int GetNormalNum();
 	static int GetNuclearNum();
 	static int GetClusterNum();
 	static int GetNapalmNum();
 	static int GetRodNum();
+	static Intro*& GetIntro();
+	static Summary*& GetSummary();
 
 	static void Run(int difficulty);
 	static void UpdateTarget(HWND& hWnd);

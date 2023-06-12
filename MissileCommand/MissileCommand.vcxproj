@@ -132,8 +132,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BitmapManager.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="Building.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Calculator.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Destruction.cpp" />
@@ -154,17 +156,22 @@
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Bitmapper.cpp" />
-    <ClCompile Include="Popup.cpp" />
     <ClCompile Include="GameSave.cpp" />
+    <ClCompile Include="Intro.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Schedule.cpp" />
+    <ClCompile Include="Summary.cpp" />
+    <ClCompile Include="SummaryButton.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Verifier.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BitmapManager.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="Building.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Calculator.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Destruction.h" />
@@ -175,8 +182,9 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Music.h" />
     <ClInclude Include="MenuButton.h" />
-    <ClInclude Include="Popup.h" />
     <ClInclude Include="GameSave.h" />
+    <ClInclude Include="Intro.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Schedule.h" />
     <ClInclude Include="Source.h" />
     <ClInclude Include="Item.h" />
@@ -189,6 +197,8 @@
     <ClInclude Include="Point.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Bitmapper.h" />
+    <ClInclude Include="Summary.h" />
+    <ClInclude Include="SummaryButton.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Verifier.h" />
@@ -196,9 +206,45 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="ammo.png" />
+    <Image Include="bomblet.png" />
+    <Image Include="building-alien1.png" />
+    <Image Include="building-alien2.png" />
+    <Image Include="building-alien3.png" />
+    <Image Include="building-alien4.png" />
+    <Image Include="building-alien5.png" />
+    <Image Include="building-alien6.png" />
+    <Image Include="building-alien7.png" />
+    <Image Include="building-alien8.png" />
+    <Image Include="building-asian1.png" />
+    <Image Include="building-asian2.png" />
+    <Image Include="building-asian3.png" />
+    <Image Include="building-asian4.png" />
+    <Image Include="building-asian5.png" />
+    <Image Include="building-asian6.png" />
+    <Image Include="building-asian7.png" />
+    <Image Include="building-desert1.png" />
+    <Image Include="building-desert2.png" />
+    <Image Include="building-desert3.png" />
+    <Image Include="building-desert4.png" />
+    <Image Include="building-desert5.png" />
+    <Image Include="building-desert6.png" />
+    <Image Include="building-desert7.png" />
+    <Image Include="building-desert8.png" />
+    <Image Include="building-ice1.png" />
+    <Image Include="building-ice2.png" />
+    <Image Include="building-ice3.png" />
+    <Image Include="building-ice4.png" />
+    <Image Include="building-ice5.png" />
+    <Image Include="building-modern1.png" />
+    <Image Include="building-modern2.png" />
+    <Image Include="building-modern3.png" />
+    <Image Include="building-modern4.png" />
+    <Image Include="building-modern5.png" />
+    <Image Include="building-modern6.png" />
+    <Image Include="building-modern7.png" />
     <Image Include="explosion-blue.png" />
-    <Image Include="building-green.png" />
     <Image Include="destruction.png" />
+    <Image Include="home.png" />
     <Image Include="launcher-cannon.png" />
     <Image Include="logo.ico" />
     <Image Include="bomb-cluster.png" />
@@ -221,6 +267,8 @@
     <Image Include="bomb-rod.png" />
     <Image Include="menu-title.png" />
     <Image Include="explosion-yellow.png" />
+    <Image Include="next.png" />
+    <Image Include="replay.png" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
@@ -231,9 +279,9 @@
     <None Include="radioactive-select.ani" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="musicBomb.wav" />
-    <Media Include="musicExploxion.wav" />
-    <Media Include="musicMissile.wav" />
+    <Media Include="soundShortExplosion.wav" />
+    <Media Include="soundExplosion.wav" />
+    <Media Include="soundMissile.wav" />
     <Media Include="musicLevel.wav" />
     <Media Include="musicMenu.wav" />
   </ItemGroup>

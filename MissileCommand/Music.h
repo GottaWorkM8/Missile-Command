@@ -7,22 +7,22 @@
 #include <string>
 
 class Music {
+
 public:
-	static const LPCWSTR playMenu;
-	static const LPCWSTR playLevel;
-	static const LPCWSTR playMissile;
-	static const LPCWSTR playExplosion;
-	static const LPCWSTR playBomb;
-	static const LPCWSTR stopMenu;
 
+	static const std::string MISSILE_FILEPATH;
+	static const std::string EXPLOSION_FILEPATH;
+	static const std::string SHORT_EXPLOSION_FILEPATH;
+	static const wchar_t* PLAY_MENU_CMD;
+	static const wchar_t* STOP_MENU_CMD;
+	static const wchar_t* PLAY_LEVEL_CMD;
+	static const wchar_t* STOP_LEVEL_CMD;
 
-	static void musicMenu();
-	static void musicLevel();
-	static void musicClear();
-	static void musicExploxion();
-	static void musicMissle();
-	static void StopAllSounds();
-
-	static void PlaySounds(const std::string& filePath);
+	static void PlaySounds(const std::string& filepath);
+	static void PlayMenu();
+	static void PlayLevel();
+	static void PlayExplosion();
+	static void PlayMissile();
+	static void ClearSounds();
 };
 

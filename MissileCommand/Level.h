@@ -12,6 +12,7 @@ class Level {
 	int clusterNum;
 	int napalmNum;
 	int rodNum;
+	int maxScore;
 	float duration;
 	Schedule schedule;
 
@@ -33,6 +34,7 @@ public:
 	int GetClusterNum();
 	int GetNapalmNum();
 	int GetRodNum();
+	int GetMaxScore();
 	float GetDuration();
 	Schedule& GetSchedule();
 };

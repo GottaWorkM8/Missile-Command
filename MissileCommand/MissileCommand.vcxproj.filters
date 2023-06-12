@@ -1,77 +1,471 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Bomb.cpp" />
-    <ClCompile Include="Building.cpp" />
-    <ClCompile Include="Calculator.cpp" />
-    <ClCompile Include="Color.cpp" />
-    <ClCompile Include="Destruction.cpp" />
-    <ClCompile Include="Flash.cpp" />
-    <ClCompile Include="Generator.cpp" />
-    <ClCompile Include="Globals.cpp" />
-    <ClCompile Include="Item.cpp" />
-    <ClCompile Include="ItemManager.cpp" />
-    <ClCompile Include="Explosion.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Graphics.cpp" />
-    <ClCompile Include="Launcher.cpp" />
-    <ClCompile Include="Level.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="MenuButton.cpp" />
-    <ClCompile Include="Missile.cpp" />
-    <ClCompile Include="Music.cpp" />
-    <ClCompile Include="Point.cpp" />
-    <ClCompile Include="Bitmapper.cpp" />
-    <ClCompile Include="Popup.cpp" />
-    <ClCompile Include="Schedule.cpp" />
-    <ClCompile Include="TextRenderer.cpp" />
-    <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="Verifier.cpp" />
-    <ClCompile Include="Window.cpp" />
-    <ClCompile Include="GameSave.cpp" />
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\buildings">
+      <UniqueIdentifier>{93be939a-5c4a-4bc9-affe-b57bdf2b4bef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\explosions">
+      <UniqueIdentifier>{cf735d21-a122-4a7a-b59c-d72aba99a509}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\sounds">
+      <UniqueIdentifier>{b25594ec-d4df-4f39-9adc-1003fe4a51b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\launchers">
+      <UniqueIdentifier>{1062f467-5711-4686-a980-defcc55f0fb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\bombs">
+      <UniqueIdentifier>{3d3e8b4c-5deb-4edf-926d-e3e45a710527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\missiles">
+      <UniqueIdentifier>{41cb520b-f482-43bf-8f02-d9289792ea9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\maps">
+      <UniqueIdentifier>{159cf054-423b-424a-8468-b2642f3838d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\cursors">
+      <UniqueIdentifier>{e1e934cd-e61b-42aa-bb86-f6219156871f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\other">
+      <UniqueIdentifier>{e4bc4260-9b9e-4767-a4da-11bc9b4bd5b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\menu">
+      <UniqueIdentifier>{035c25a5-53bb-4f9a-af56-3b6fdf022430}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\items">
+      <UniqueIdentifier>{75de834f-4faf-487a-9a56-451792699a8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tools">
+      <UniqueIdentifier>{bf4639c0-3294-405a-8082-22233d1fd473}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\tools">
+      <UniqueIdentifier>{f42b72e6-7391-4e2d-8714-8ba484ed06fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\items">
+      <UniqueIdentifier>{2aeef1a6-2197-442d-94d1-ff2b0b7e4200}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui">
+      <UniqueIdentifier>{827c1929-b7b4-4965-a762-d6933303eccd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui">
+      <UniqueIdentifier>{031ee6cc-331b-4b8c-aad0-22dbad5df166}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\constants">
+      <UniqueIdentifier>{03249c51-838e-4bc3-bc8d-6d7a561702ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\constants">
+      <UniqueIdentifier>{17b6dfff-a890-4121-b6e6-68245b89c74c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bomb.h" />
-    <ClInclude Include="Building.h" />
-    <ClInclude Include="Calculator.h" />
-    <ClInclude Include="Color.h" />
-    <ClInclude Include="Destruction.h" />
-    <ClInclude Include="Flash.h" />
-    <ClInclude Include="Generator.h" />
-    <ClInclude Include="Globals.h" />
-    <ClInclude Include="Level.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="Music.h" />
-    <ClInclude Include="MenuButton.h" />
-    <ClInclude Include="Popup.h" />
-    <ClInclude Include="Schedule.h" />
-    <ClInclude Include="Source.h" />
-    <ClInclude Include="Item.h" />
-    <ClInclude Include="ItemManager.h" />
-    <ClInclude Include="Explosion.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Graphics.h" />
-    <ClInclude Include="Launcher.h" />
-    <ClInclude Include="Missile.h" />
-    <ClInclude Include="Point.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="Bitmapper.h" />
-    <ClInclude Include="TextRenderer.h" />
-    <ClInclude Include="Timer.h" />
-    <ClInclude Include="Verifier.h" />
-    <ClInclude Include="Window.h" />
-    <ClInclude Include="GameSave.h" />
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Music.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Schedule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bomb.cpp">
+      <Filter>Source Files\items</Filter>
+    </ClCompile>
+    <ClCompile Include="Building.cpp">
+      <Filter>Source Files\items</Filter>
+    </ClCompile>
+    <ClCompile Include="Destruction.cpp">
+      <Filter>Source Files\items</Filter>
+    </ClCompile>
+    <ClCompile Include="Explosion.cpp">
+      <Filter>Source Files\items</Filter>
+    </ClCompile>
+    <ClCompile Include="Flash.cpp">
+      <Filter>Source Files\items</Filter>
+    </ClCompile>
+    <ClCompile Include="Launcher.cpp">
+      <Filter>Source Files\items</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files\items</Filter>
+    </ClCompile>
+    <ClCompile Include="Missile.cpp">
+      <Filter>Source Files\items</Filter>
+    </ClCompile>
+    <ClCompile Include="Calculator.cpp">
+      <Filter>Source Files\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Generator.cpp">
+      <Filter>Source Files\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Verifier.cpp">
+      <Filter>Source Files\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="BitmapManager.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Bitmapper.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuButton.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Intro.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRenderer.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemManager.cpp">
+      <Filter>Source Files\items</Filter>
+    </ClCompile>
+    <ClCompile Include="Globals.cpp">
+      <Filter>Source Files\constants</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Summary.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="SummaryButton.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Music.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Schedule.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Flash.h">
+      <Filter>Header Files\items</Filter>
+    </ClInclude>
+    <ClInclude Include="Bomb.h">
+      <Filter>Header Files\items</Filter>
+    </ClInclude>
+    <ClInclude Include="Building.h">
+      <Filter>Header Files\items</Filter>
+    </ClInclude>
+    <ClInclude Include="Destruction.h">
+      <Filter>Header Files\items</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosion.h">
+      <Filter>Header Files\items</Filter>
+    </ClInclude>
+    <ClInclude Include="Launcher.h">
+      <Filter>Header Files\items</Filter>
+    </ClInclude>
+    <ClInclude Include="Missile.h">
+      <Filter>Header Files\items</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculator.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Generator.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header Files\items</Filter>
+    </ClInclude>
+    <ClInclude Include="Verifier.h">
+      <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source.h">
+      <Filter>Header Files\items</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="BitmapManager.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Bitmapper.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuButton.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Intro.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderer.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemManager.h">
+      <Filter>Header Files\items</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Header Files\constants</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Summary.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="SummaryButton.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Media Include="musicBomb.wav" />
-    <Media Include="musicExploxion.wav" />
-    <Media Include="musicMissile.wav" />
-    <Media Include="musicLevel.wav" />
-    <Media Include="musicMenu.wav" />
+    <Image Include="ammo.png">
+      <Filter>Resource Files\missiles</Filter>
+    </Image>
+    <Image Include="missile.png">
+      <Filter>Resource Files\missiles</Filter>
+    </Image>
+    <Image Include="bomb-cluster.png">
+      <Filter>Resource Files\bombs</Filter>
+    </Image>
+    <Image Include="bomb-napalm.png">
+      <Filter>Resource Files\bombs</Filter>
+    </Image>
+    <Image Include="bomb-normal.png">
+      <Filter>Resource Files\bombs</Filter>
+    </Image>
+    <Image Include="bomb-nuclear.png">
+      <Filter>Resource Files\bombs</Filter>
+    </Image>
+    <Image Include="bomb-rod.png">
+      <Filter>Resource Files\bombs</Filter>
+    </Image>
+    <Image Include="destruction.png">
+      <Filter>Resource Files\explosions</Filter>
+    </Image>
+    <Image Include="explosion-blue.png">
+      <Filter>Resource Files\explosions</Filter>
+    </Image>
+    <Image Include="explosion-cyan.png">
+      <Filter>Resource Files\explosions</Filter>
+    </Image>
+    <Image Include="explosion-grey.png">
+      <Filter>Resource Files\explosions</Filter>
+    </Image>
+    <Image Include="explosion-purple.png">
+      <Filter>Resource Files\explosions</Filter>
+    </Image>
+    <Image Include="explosion-red.png">
+      <Filter>Resource Files\explosions</Filter>
+    </Image>
+    <Image Include="explosion-yellow.png">
+      <Filter>Resource Files\explosions</Filter>
+    </Image>
+    <Image Include="launcher.png">
+      <Filter>Resource Files\launchers</Filter>
+    </Image>
+    <Image Include="launcher-cannon.png">
+      <Filter>Resource Files\launchers</Filter>
+    </Image>
+    <Image Include="launcher-flash.png">
+      <Filter>Resource Files\explosions</Filter>
+    </Image>
+    <Image Include="map-grass.jpg">
+      <Filter>Resource Files\maps</Filter>
+    </Image>
+    <Image Include="map-ice.jpg">
+      <Filter>Resource Files\maps</Filter>
+    </Image>
+    <Image Include="map-planets.jpg">
+      <Filter>Resource Files\maps</Filter>
+    </Image>
+    <Image Include="map-river.jpg">
+      <Filter>Resource Files\maps</Filter>
+    </Image>
+    <Image Include="map-rocks.jpg">
+      <Filter>Resource Files\maps</Filter>
+    </Image>
+    <Image Include="logo.ico">
+      <Filter>Resource Files\other</Filter>
+    </Image>
+    <Image Include="building-alien1.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-alien2.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-alien3.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-alien4.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-alien5.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-alien6.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-alien7.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-alien8.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-asian1.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-asian2.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-asian3.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-asian4.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-asian5.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-asian6.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-asian7.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-desert1.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-desert2.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-desert3.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-desert4.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-desert5.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-desert6.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-desert7.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-desert8.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-ice1.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-ice2.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-ice3.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-ice4.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-ice5.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-modern1.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-modern2.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-modern3.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-modern4.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-modern5.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-modern6.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="building-modern7.png">
+      <Filter>Resource Files\buildings</Filter>
+    </Image>
+    <Image Include="bomblet.png">
+      <Filter>Resource Files\bombs</Filter>
+    </Image>
+    <Image Include="menu-background.jpg">
+      <Filter>Resource Files\menu</Filter>
+    </Image>
+    <Image Include="menu-title.png">
+      <Filter>Resource Files\menu</Filter>
+    </Image>
+    <Image Include="home.png">
+      <Filter>Resource Files\other</Filter>
+    </Image>
+    <Image Include="next.png">
+      <Filter>Resource Files\other</Filter>
+    </Image>
+    <Image Include="replay.png">
+      <Filter>Resource Files\other</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Image Include="ammo.png" />
@@ -102,11 +496,31 @@
     <Image Include="explosion-yellow.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="radioactive-cursor.cur" />
-    <None Include="radioactive-precision.ani" />
-    <None Include="radioactive-select.ani" />
+    <None Include="radioactive-cursor.cur">
+      <Filter>Resource Files\cursors</Filter>
+    </None>
+    <None Include="radioactive-precision.ani">
+      <Filter>Resource Files\cursors</Filter>
+    </None>
+    <None Include="radioactive-select.ani">
+      <Filter>Resource Files\cursors</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="playerProgress.txt" />
+    <Media Include="musicLevel.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="musicMenu.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="soundExplosion.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="soundMissile.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="soundShortExplosion.wav">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
   </ItemGroup>
 </Project>
