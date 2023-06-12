@@ -150,7 +150,7 @@ void Summary::Replay() {
 		waitingThread.join();
 	
 	Menu::SetGameRunning(false);
-	Menu::RestartGame(diff);
+	Menu::RestartGame();
 }
 
 void Summary::PlayNext() {
@@ -163,7 +163,7 @@ void Summary::PlayNext() {
 		waitingThread.join();
 
 	Menu::SetGameRunning(false);
-	Menu::StartNextGame(diff);
+	Menu::StartNextGame();
 }
 
 void Summary::WaitForReady() {

@@ -23,6 +23,7 @@ Point Game::missileOrigin = Point();
 Point Game::missileTarget = Point();
 Intro* Game::intro = nullptr;
 Summary* Game::summary = nullptr;
+GameSave Game::save;
 
 bool Game::IsReady() {
 	return ready;
@@ -58,6 +59,10 @@ int Game::GetScore() {
 
 int Game::GetMaxScore() {
 	return maxScore;
+}
+
+int Game::GetCurrMaxScore() {
+	return save.GetMaxScore();
 }
 
 int Game::GetDiff() {
@@ -147,6 +152,8 @@ void Game::Run(int difficulty) {
 			playing = false;
 			summary = new Summary();
 			finished = true;
+			save.WonLevel(score);
+			save.SaveToFile("playerProgress.txt");
 		}
 
 		std::list<Bomb>& bombs = ItemManager::GetBombs();
@@ -157,6 +164,8 @@ void Game::Run(int difficulty) {
 			playing = false;
 			summary = new Summary();
 			finished = true;
+			save.WonLevel(score);
+			save.SaveToFile("playerProgress.txt");
 		}
 
 		if (summary != nullptr)

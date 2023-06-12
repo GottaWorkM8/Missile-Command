@@ -4,6 +4,7 @@ bool Menu::gameRunning = false;
 Timer Menu::animationTimer = Timer();
 Point Menu::pressPos = Point();
 Point Menu::cursorPos = Point();
+GameSave Menu::save = GameSave();
 std::list<MenuButton> Menu::buttons = {
 	MenuButton(L"CONTINUE", Point(Globals::BUTTON_X, Globals::FIRST_BUTTON_Y), Globals::BUTTON_HEIGHT, &ContinueGame),
 	MenuButton(L"NEW GAME", Point(Globals::BUTTON_X, Globals::FIRST_BUTTON_Y + Globals::BUTTON_SPACE), Globals::BUTTON_HEIGHT, &StartNewGame),
@@ -43,8 +44,9 @@ void Menu::HandleMove(HWND& hWnd) {
 	ApplyAnimation();
 }
 
-void Menu::RestartGame(int currentDiff) {
-
+void Menu::RestartGame() {
+	int currentDiff = save.GetCurrentLevel();
+	save.SaveToFile("playerProgress.txt");
 	std::thread gameThread = std::thread(Game::Run, currentDiff);
 	gameThread.detach();
 	gameRunning = true;
@@ -52,9 +54,10 @@ void Menu::RestartGame(int currentDiff) {
 	Music::PlayLevel();
 }
 
-void Menu::StartNextGame(int currentDiff) {
-
-	int diff = currentDiff + 1;
+void Menu::StartNextGame() {
+	save.NextLevel();
+	save.SaveToFile("playerProgress.txt");
+	int diff = save.GetCurrentLevel();
 	BitmapManager::InitLevel(diff);
 	std::thread gameThread = std::thread(Game::Run, diff);
 	gameThread.detach();
@@ -125,7 +128,28 @@ void Menu::AnimateButton(Point& topLeft, bool& hovered) {
 
 void Menu::ContinueGame() {
 	
-	int diff = Globals::LEVEL5;
+	int diff;
+	save.LoadFromFile("playerProgress.txt");
+	switch (save.GetCurrentLevel()) {
+		case 1:  diff = Globals::LEVEL1;
+			break;
+
+		case 2:  diff = Globals::LEVEL2;
+			break;
+
+		case 3:  diff = Globals::LEVEL3;
+			break;
+
+		case 4:  diff = Globals::LEVEL4;
+			break;
+
+		case 5:  diff = Globals::LEVEL5;
+			break;
+
+		default: diff = Globals::LEVEL1;
+			break;
+	}
+
 	BitmapManager::InitLevel(diff);
 	std::thread gameThread = std::thread(Game::Run, diff);
 	gameThread.detach();
@@ -136,6 +160,7 @@ void Menu::ContinueGame() {
 
 void Menu::StartNewGame() {
 
+	save.SaveToFile("playerProgress.txt");
 	int diff = Globals::LEVEL1;
 	BitmapManager::InitLevel(diff);
 	std::thread gameThread = std::thread(Game::Run, diff);

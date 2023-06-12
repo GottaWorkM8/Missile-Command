@@ -463,7 +463,7 @@ void Graphics::DrawSummary() {
 	DrawInt(Game::GetScore(), L"Courier New", Globals::SUMMARY_SCORE_NUM_HEIGHT, Globals::SUMMARY_SCORE_NUM_LEFT, Globals::SUMMARY_SCORE_NUM_TOP, true);
 
 	DrawTitle(L"Highscore: ", L"Courier New", Globals::SUMMARY_HIGHSCORE_HEIGHT, Globals::SUMMARY_HIGHSCORE_LEFT, Globals::SUMMARY_HIGHSCORE_TOP, true);
-	DrawInt(Game::GetScore(), L"Courier New", Globals::SUMMARY_HIGHSCORE_NUM_HEIGHT, Globals::SUMMARY_HIGHSCORE_NUM_LEFT, Globals::SUMMARY_HIGHSCORE_NUM_TOP, true);
+	DrawInt(Game::GetCurrMaxScore(), L"Courier New", Globals::SUMMARY_HIGHSCORE_NUM_HEIGHT, Globals::SUMMARY_HIGHSCORE_NUM_LEFT, Globals::SUMMARY_HIGHSCORE_NUM_TOP, true);
 
 	D2D1_RECT_F rect;
 	int i = 0;

@@ -13,6 +13,7 @@
 #include "Level.h"
 #include "Intro.h"
 #include "Summary.h"
+#include "GameSave.h"
 
 class Game {
 
@@ -38,6 +39,7 @@ class Game {
 	static Point missileTarget;
 	static Intro* intro;
 	static Summary* summary;
+	static GameSave save;
 
 	static void HandleMissiles();
 	static void HandleExplosions();
@@ -71,6 +73,7 @@ public:
 	static int GetAmmo();
 	static int GetScore();
 	static int GetMaxScore();
+	static int GetCurrMaxScore();
 	static int GetDiff();
 	static int GetNormalNum();
 	static int GetNuclearNum();

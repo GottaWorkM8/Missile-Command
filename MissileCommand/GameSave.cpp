@@ -16,6 +16,11 @@ int GameSave::GetCurrentLevel()
     return currentLevel;
 }
 
+int GameSave::GetMaxScore()
+{
+    return maxScores[currentLevel - 1];
+}
+
 void GameSave::NextLevel()
 {
     currentLevel++;

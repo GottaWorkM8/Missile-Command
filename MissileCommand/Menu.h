@@ -39,7 +39,7 @@ public:
 
 	static void HandlePress(HWND& hWnd);
 	static void HandleMove(HWND& hWnd);
-	static void RestartGame(int currentDiff);
-	static void StartNextGame(int currentDiff);
+	static void RestartGame();
+	static void StartNextGame();
 };
 

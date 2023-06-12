@@ -12,6 +12,7 @@ private:
 public:
     static void WonLevel(int score);
     static void NextLevel();
+    static int GetMaxScore();
     static int GetCurrentLevel();
     static void SaveToFile(const std::string& filename);
     static void LoadFromFile(const std::string& filename);
