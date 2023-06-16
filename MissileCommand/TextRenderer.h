@@ -5,6 +5,7 @@
 #include <cfloat>
 #include <xutility>
 
+/// <summary>description</summary>
 class TextRenderer {
 
 	ID2D1HwndRenderTarget* renderTarget;

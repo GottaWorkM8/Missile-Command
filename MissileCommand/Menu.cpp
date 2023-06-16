@@ -5,11 +5,10 @@ Timer Menu::animationTimer = Timer();
 Point Menu::pressPos = Point();
 Point Menu::cursorPos = Point();
 std::list<MenuButton> Menu::buttons = {
-	MenuButton(L"CONTINUE", Point(Globals::BUTTON_X, Globals::FIRST_BUTTON_Y), Globals::BUTTON_HEIGHT, &ContinueGame),
-	MenuButton(L"NEW GAME", Point(Globals::BUTTON_X, Globals::FIRST_BUTTON_Y + Globals::BUTTON_SPACE), Globals::BUTTON_HEIGHT, &StartNewGame),
-	MenuButton(L"OPTIONS", Point(Globals::BUTTON_X, Globals::FIRST_BUTTON_Y + 2 * Globals::BUTTON_SPACE), Globals::BUTTON_HEIGHT, &ShowOptions),
-	MenuButton(L"HELP", Point(Globals::BUTTON_X, Globals::FIRST_BUTTON_Y + 3 * Globals::BUTTON_SPACE), Globals::BUTTON_HEIGHT, &ShowHelp),
-	MenuButton(L"EXIT", Point(Globals::BUTTON_X, Globals::FIRST_BUTTON_Y + 4 * Globals::BUTTON_SPACE), Globals::BUTTON_HEIGHT, &Exit) };
+	MenuButton(L"CONTINUE", Globals::CONTINUE_TOP_LEFT, Globals::BUTTON_HEIGHT, &ContinueGame),
+	MenuButton(L"NEW GAME", Globals::NEW_TOP_LEFT, Globals::BUTTON_HEIGHT, &StartNewGame),
+	MenuButton(L"HELP", Globals::HELP_TOP_LEFT, Globals::BUTTON_HEIGHT, &ShowHelp),
+	MenuButton(L"EXIT", Globals::EXIT_TOP_LEFT, Globals::BUTTON_HEIGHT, &Exit) };
 
 bool Menu::IsGameRunning() {
 	return gameRunning;
@@ -165,9 +164,6 @@ void Menu::StartNewGame() {
 	gameRunning = true;
 	Music::ClearSounds();
 	Music::PlayLevel();
-}
-
-void Menu::ShowOptions() {
 }
 
 void Menu::ShowHelp() {

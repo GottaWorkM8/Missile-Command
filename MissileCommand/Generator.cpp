@@ -54,12 +54,13 @@ Bomb Generator::GenerateBomb(Source source) {
 	}
 }
 
-std::list<Bomb> Generator::GenerateBombs(Source source, int count) {
+Bomb Generator::GenerateBomblet(Explosion& clusterExplosion) {
 
-	std::list<Bomb> list;
+	float bombTargetX = GetRandomUniform(Globals::BOMB_ORIGIN_MIN_X, Globals::BOMB_ORIGIN_MAX_X);
+	Point bombOrigin = Point(clusterExplosion.GetCenter().x, clusterExplosion.GetCenter().y);
+	Point bombTarget = Point(bombTargetX, Globals::GROUND_Y);
+	float angleRad = Calculator::GetRadians(bombOrigin, bombTarget);
+	angleRad -= (float)M_PI_2;
 
-	for (int i = 0; i < count; i++)
-		list.push_back(GenerateBomb(source));
-	
-	return list;
+	return Bomb(bombOrigin, angleRad, BOMBLET);
 }

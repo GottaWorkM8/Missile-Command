@@ -142,6 +142,7 @@
     <ClCompile Include="Flash.cpp" />
     <ClCompile Include="Generator.cpp" />
     <ClCompile Include="Globals.cpp" />
+    <ClCompile Include="Help.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="Explosion.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Flash.h" />
     <ClInclude Include="Generator.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="Help.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Music.h" />

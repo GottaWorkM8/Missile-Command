@@ -7,6 +7,7 @@
 #include <d2d1.h>
 #include "Point.h"
 
+/// <summary>description</summary>
 class Calculator {
 
 public:

@@ -4,6 +4,7 @@
 #include <thread>
 #include "Globals.h"
 
+/// <summary>description</summary>
 class Intro {
 
 	std::thread thread;

@@ -15,6 +15,7 @@
 #include "Summary.h"
 #include "GameSave.h"
 
+/// <summary>description</summary>
 class Game {
 
 	static bool ready;
@@ -55,11 +56,13 @@ class Game {
 	static void AdvanceDestruction(Destruction& destruction);
 	static void AddAmmo();
 	static void LaunchMissile();
+	static void SpawnBomblets(Explosion& catalystExplosion, Explosion& clusterExplosion);
 	static void DropBombs(Schedule& schedule);
 	static void DropSpecificBombs(Source source, std::list<float>& drops);
 	static void UpdateBombNum(Source source);
 	static void AwardPoints(Source source);
 	static void CutPoints(Source source);
+	static void PenalizeDestruction(bool launcher);
 
 public:
 

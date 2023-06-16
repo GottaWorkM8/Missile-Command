@@ -4,6 +4,7 @@
 #include "Generator.h"
 #include "Verifier.h"
 
+/// <summary>description</summary>
 class Schedule {
 
 	std::list<float> normalDrops;

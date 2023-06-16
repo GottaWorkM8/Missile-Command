@@ -20,10 +20,6 @@ Launcher& ItemManager::GetLauncher() {
 	return launcher;
 }
 
-void ItemManager::SetLauncher(Launcher launch) {
-	launcher = launch;
-}
-
 std::list<Building>& ItemManager::GetBuildings() {
 	return buildings;
 }
@@ -61,11 +57,6 @@ void ItemManager::AddMissile(Missile missile) {
 void ItemManager::AddBomb(Bomb bomb) {
 
 	bombs.push_back(bomb);
-}
-
-void ItemManager::AddBombs(std::list<Bomb> newBombs) {
-
-	bombs.splice(bombs.end(), newBombs);
 }
 
 void ItemManager::AddExplosion(Explosion explosion) {

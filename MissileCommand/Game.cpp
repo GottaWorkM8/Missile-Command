@@ -153,8 +153,12 @@ void Game::Run(int difficulty) {
 		std::list<Bomb>& bombs = ItemManager::GetBombs();
 
 		if (!finished && Verifier::GameWon(bombs, time)) {
+
+			if (score <= 0)
+				won = false;
+
+			else won = true;
 			
-			won = true;
 			GameSave::Update(difficulty, score, won);
 			playing = false;
 			summary = new Summary();
@@ -254,7 +258,7 @@ void Game::HandleExplosions() {
 				else {
 
 					k->ReceiveDamage(j->GetDamage());
-					j->GetBombsHit().push_back(*k);
+					j->AddBombHit(*k);
 
 					if (k->GetHP() <= 0) {
 
@@ -263,6 +267,10 @@ void Game::HandleExplosions() {
 							Globals::EXPLOSION_INITIAL_RADIUS, k->GetSource()));
 						UpdateBombNum(k->GetSource());
 						AwardPoints(k->GetSource());
+
+						if (k->GetSource() == CLUSTER)
+							SpawnBomblets(*j, explosions.back());
+
 						k = bombs.erase(k);
 					}
 
@@ -289,13 +297,14 @@ void Game::HandleExplosions() {
 				else {
 
 					l->ReceiveDamage(j->GetDamage());
-					j->GetBuildingsHit().push_back(*l);
+					j->AddBuildingHit(*l);
 
 					if (l->GetHP() <= 0) {
 
 						Music::PlayExplosion();
 						ItemManager::AddDestruction(Destruction(l->GetCenter(),
 							Globals::DESTRUCTION_INITIAL_RADIUS));
+						PenalizeDestruction(false);
 						l = buildings.erase(l);
 					}
 
@@ -322,6 +331,7 @@ void Game::HandleExplosions() {
 					Music::PlayExplosion();
 					ItemManager::AddDestruction(Destruction(launcher.GetCenter(),
 						Globals::DESTRUCTION_INITIAL_RADIUS));
+					PenalizeDestruction(true);
 					launcher.SetDestroyed(true);
 				}
 			}
@@ -444,6 +454,9 @@ void Game::MoveBomb(Bomb& bomb) {
 		case CLUSTER: speed = Globals::CLUSTER_BOMB_SPEED;
 			break;
 
+		case BOMBLET: speed = Globals::BOMBLET_SPEED;
+			break;
+
 		case NAPALM: speed = Globals::NAPALM_BOMB_SPEED;
 			break;
 
@@ -486,6 +499,9 @@ void Game::AdvanceExplosion(Explosion& explosion) {
 				break;
 
 			case CLUSTER: newRadius += Globals::CLUSTER_EXPLOSION_RADIUS_GROWTH;
+				break;
+
+			case BOMBLET: newRadius += Globals::BOMBLET_EXPLOSION_RADIUS_GROWTH;
 				break;
 
 			case NAPALM: newRadius += Globals::NAPALM_EXPLOSION_RADIUS_GROWTH;
@@ -610,6 +626,23 @@ void Game::LaunchMissile() {
 		}
 }
 
+void Game::SpawnBomblets(Explosion& catalystExplosion, Explosion& clusterExplosion) {
+
+	for (int i = 0; i < Globals::BOMBLETS_SPAWNED; i++)
+		ItemManager::AddBomb(Generator::GenerateBomblet(clusterExplosion));
+	
+	std::list<Bomb>& bombs = ItemManager::GetBombs();
+	std::list<Bomb>::iterator b = bombs.end();
+	std::advance(b, -Globals::BOMBLETS_SPAWNED);
+
+	while (b != bombs.end()) {
+
+		catalystExplosion.AddBombHit(*b);
+		clusterExplosion.AddBombHit(*b);
+		b++;
+	}
+}
+
 void Game::DropBombs(Schedule& schedule) {
 
 	DropSpecificBombs(NORMAL, schedule.GetNormalDrops());
@@ -674,19 +707,19 @@ void Game::AwardPoints(Source source) {
 
 		switch (source) {
 
-			case NORMAL: score += 10;
+			case NORMAL: score += Globals::NORMAL_BOMB_POINTS;
 				break;
 
-			case NUCLEAR: score += 30;
+			case NUCLEAR: score += Globals::NUCLEAR_BOMB_POINTS;
 				break;
 
-			case CLUSTER: score += 10;
+			case CLUSTER: score += Globals::CLUSTER_BOMB_POINTS;
 				break;
 
-			case NAPALM: score += 40;
+			case NAPALM: score += Globals::NAPALM_BOMB_POINTS;
 				break;
 
-			case RODOFGOD: score += 80;
+			case RODOFGOD: score += Globals::ROD_BOMB_POINTS;
 				break;
 
 			default:
@@ -701,23 +734,34 @@ void Game::CutPoints(Source source) {
 
 		switch (source) {
 
-			case NORMAL: score -= 30;
+			case NORMAL: score -= Globals::NORMAL_BOMB_POINTS;
 				break;
 
-			case NUCLEAR: score -= 150;
+			case NUCLEAR: score -= Globals::NUCLEAR_BOMB_POINTS;
 				break;
 
-			case CLUSTER: score -= 30;
+			case CLUSTER: score -= Globals::CLUSTER_BOMB_POINTS;
 				break;
 
-			case NAPALM: score -= 200;
+			case BOMBLET: score -= Globals::BOMBLET_POINTS;
 				break;
 
-			case RODOFGOD: score -= 300;
+			case NAPALM: score -= Globals::NAPALM_BOMB_POINTS;
+				break;
+
+			case RODOFGOD: score -= Globals::ROD_BOMB_POINTS;
 				break;
 
 			default:
 				break;
 		}
 	}
+}
+
+void Game::PenalizeDestruction(bool launcher) {
+
+	if (launcher)
+		score -= maxScore * 0.2f;
+
+	else score -= maxScore * 0.1f;
 }

@@ -3,6 +3,7 @@
 #include "Point.h"
 #include "Globals.h"
 
+/// <summary>description</summary>
 class Building {
 
 	Point center;

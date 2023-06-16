@@ -5,6 +5,7 @@
 #include "Bitmapper.h"
 #include "Generator.h"
 
+/// <summary>description</summary>
 class BitmapManager {
 
 	static Bitmapper* bitmapper;
@@ -21,6 +22,7 @@ class BitmapManager {
 	static ID2D1Bitmap* normalBombBitmap;
 	static ID2D1Bitmap* nuclearBombBitmap;
 	static ID2D1Bitmap* clusterBombBitmap;
+	static ID2D1Bitmap* bombletBitmap;
 	static ID2D1Bitmap* napalmBombBitmap;
 	static ID2D1Bitmap* rodBombBitmap;
 	static ID2D1Bitmap* missileExplosionBitmap;
@@ -53,6 +55,7 @@ public:
 	static ID2D1Bitmap* GetNormalBombBitmap();
 	static ID2D1Bitmap* GetNuclearBombBitmap();
 	static ID2D1Bitmap* GetClusterBombBitmap();
+	static ID2D1Bitmap* GetBombletBitmap();
 	static ID2D1Bitmap* GetNapalmBombBitmap();
 	static ID2D1Bitmap* GetRodBombBitmap();
 	static ID2D1Bitmap* GetMissileExplosionBitmap();

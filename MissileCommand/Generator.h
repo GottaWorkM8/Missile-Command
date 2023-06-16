@@ -7,7 +7,9 @@
 #include <cmath>
 #include "Globals.h"
 #include "Bomb.h"
+#include "Explosion.h"
 
+/// <summary>description</summary>
 class Generator {
 
 	static std::random_device device;
@@ -19,6 +21,6 @@ public:
 	static float GetRandomUniform(float min, float max);
 	static float GetRandomNormal(float min, float max);
 	static Bomb GenerateBomb(Source source);
-	static std::list<Bomb> GenerateBombs(Source source, int count);
+	static Bomb GenerateBomblet(Explosion& clusterExplosion);
 };
 

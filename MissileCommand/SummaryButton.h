@@ -5,6 +5,7 @@
 
 class Summary;
 
+/// <summary>description</summary>
 class SummaryButton : public Button {
 
 	Point bottomRight;

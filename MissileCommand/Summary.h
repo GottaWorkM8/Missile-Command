@@ -13,6 +13,7 @@
 class Menu;
 class Game;
 
+/// <summary>description</summary>
 class Summary {
 
 	static bool finished;

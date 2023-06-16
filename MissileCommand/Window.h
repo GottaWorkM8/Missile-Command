@@ -9,6 +9,7 @@
 #include "resource.h"
 #include "Music.h"
 
+/// <summary>description</summary>
 class Window {
 
 	static const wchar_t* CLASS_NAME;

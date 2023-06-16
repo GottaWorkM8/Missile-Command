@@ -3,6 +3,7 @@
 #include <d2d1.h>
 #include "Point.h"
 
+/// <summary>Class responsible solely for storing public global constants, regulating many aspects of the application</summary>
 class Globals {
 
 public:
@@ -38,11 +39,14 @@ public:
 
 	static const Point CONTINUE_TOP_LEFT;
 	static const Point NEW_TOP_LEFT;
-	static const Point OPTIONS_TOP_LEFT;
 	static const Point HELP_TOP_LEFT;
 	static const Point EXIT_TOP_LEFT;
 
 	// Game
+
+	static const float FRAME_TIME;
+	static const float GAME_TIME;
+	static const float BOMB_SPAWN_TIME;
 
 	static constexpr int LEVELS_NUM = 5;
 	static const int LEVEL1;
@@ -154,10 +158,6 @@ public:
 	static const float FOURTH_BAR_BOMB_NUM_CENTER;
 	static const float FIFTH_BAR_BOMB_NUM_CENTER;
 
-	static const float FRAME_TIME;
-	static const float GAME_TIME;
-	static const float BOMB_SPAWN_TIME;
-
 	static const int MAX_AMMO;
 	static const float AMMO_LOAD_TIME;
 
@@ -206,20 +206,28 @@ public:
 	static const float NORMAL_BOMB_HP;
 	static const float NORMAL_BOMB_DAMAGE;
 	static const float NORMAL_BOMB_SPEED;
+	static const int NORMAL_BOMB_POINTS;
 	static const float NUCLEAR_BOMB_HP;
 	static const float NUCLEAR_BOMB_DAMAGE;
 	static const float NUCLEAR_BOMB_SPEED;
+	static const int NUCLEAR_BOMB_POINTS;
 	static const float CLUSTER_BOMB_HP;
+	static const float CLUSTER_BOMB_DAMAGE;
 	static const float CLUSTER_BOMB_SPEED;
+	static const int CLUSTER_BOMB_POINTS;
 	static const float BOMBLET_HP;
 	static const float BOMBLET_DAMAGE;
 	static const float BOMBLET_SPEED;
+	static const int BOMBLETS_SPAWNED;
+	static const int BOMBLET_POINTS;
 	static const float NAPALM_BOMB_HP;
 	static const float NAPALM_BOMB_DAMAGE;
 	static const float NAPALM_BOMB_SPEED;
+	static const int NAPALM_BOMB_POINTS;
 	static const float ROD_BOMB_HP;
 	static const float ROD_BOMB_DAMAGE;
 	static const float ROD_BOMB_SPEED;
+	static const int ROD_BOMB_POINTS;
 	static const float BOMB_LOAD_TIME;
 
 	static const float EXPLOSION_PROPAGATION_TIME;
@@ -228,12 +236,14 @@ public:
 	static const float NORMAL_EXPLOSION_FINAL_RADIUS;
 	static const float NUCLEAR_EXPLOSION_FINAL_RADIUS;
 	static const float CLUSTER_EXPLOSION_FINAL_RADIUS;
+	static const float BOMBLET_EXPLOSION_FINAL_RADIUS;
 	static const float NAPALM_EXPLOSION_FINAL_RADIUS;
 	static const float ROD_EXPLOSION_FINAL_RADIUS;
 	static const int EXPLOSION_STAGES;
 	static const float NORMAL_EXPLOSION_RADIUS_GROWTH;
 	static const float NUCLEAR_EXPLOSION_RADIUS_GROWTH;
 	static const float CLUSTER_EXPLOSION_RADIUS_GROWTH;
+	static const float BOMBLET_EXPLOSION_RADIUS_GROWTH;
 	static const float NAPALM_EXPLOSION_RADIUS_GROWTH;
 	static const float ROD_EXPLOSION_RADIUS_GROWTH;
 	static const float EXPLOSION_STAGE_TIME;

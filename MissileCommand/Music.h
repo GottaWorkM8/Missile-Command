@@ -6,6 +6,7 @@
 #include <thread>
 #include <string>
 
+/// <summary>description</summary>
 class Music {
 
 public:

@@ -2,6 +2,7 @@
 
 #include <mutex>
 
+/// <summary>description</summary>
 class ResourceManager {
 
 	static std::mutex launcherMutex;

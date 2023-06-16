@@ -12,6 +12,7 @@
 #include "Game.h"
 #include "GameSave.h"
 
+/// <summary>description</summary>
 class Menu {
 
 	static bool gameRunning;
@@ -26,7 +27,6 @@ class Menu {
 	static void AnimateButton(Point& topLeft, bool& hovered);
 	static void ContinueGame();
 	static void StartNewGame();
-	static void ShowOptions();
 	static void ShowHelp();
 	static void Exit();
 

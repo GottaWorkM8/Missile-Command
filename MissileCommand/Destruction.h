@@ -3,6 +3,7 @@
 #include "Item.h"
 #include "Timer.h"
 
+/// <summary>description</summary>
 class Destruction : public Item {
 
 	float radius;

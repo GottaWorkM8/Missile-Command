@@ -1,5 +1,6 @@
 #pragma once
 
+/// <summary>description</summary>
 class Color {
 
 public:

@@ -3,6 +3,7 @@
 #include "Item.h"
 #include "Globals.h"
 
+/// <summary>description</summary>
 class Launcher : public Item {
 
 	float hp;

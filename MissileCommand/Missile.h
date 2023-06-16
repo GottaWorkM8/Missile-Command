@@ -2,6 +2,7 @@
 
 #include "Item.h"
 
+/// <summary>description</summary>
 class Missile : public Item {
 
 	Point target;

@@ -7,6 +7,7 @@
 #include "Timer.h"
 #include "Source.h"
 
+/// <summary>description</summary>
 class Explosion : public Item {
 
 	float radius;
@@ -15,8 +16,8 @@ class Explosion : public Item {
 	Timer stageTimer;
 	Source source;
 	bool launcherHit;
-	std::list<Building> buildingsHit;
-	std::list<Bomb> bombsHit;
+	std::list<Building*> buildingsHit;
+	std::list<Bomb*> bombsHit;
 
 public:
 
@@ -33,11 +34,12 @@ public:
 	Source& GetSource();
 	bool IsLauncherHit();
 	void SetLauncherHit(bool launcherHit);
-	std::list<Building>& GetBuildingsHit();
-	void SetBuildingsHit(std::list<Building>& buildingsHit);
-	std::list<Bomb>& GetBombsHit();
-	void SetBombsHit(std::list<Bomb>& bombsHit);
+	std::list<Building*>& GetBuildingsHit();
+	std::list<Bomb*>& GetBombsHit();
 	
 	bool operator==(const Explosion& e) const;
+
+	void AddBuildingHit(Building& building);
+	void AddBombHit(Bomb& bomb);
 };
 

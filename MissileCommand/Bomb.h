@@ -4,6 +4,7 @@
 #include "Source.h"
 #include "Globals.h"
 
+/// <summary>description</summary>
 class Bomb : public Item {
 
 	Source source;

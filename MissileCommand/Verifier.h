@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "ItemManager.h"
 
+/// <summary>description</summary>
 class Verifier {
 
 public:
@@ -15,8 +16,8 @@ public:
 	static bool LauncherInRange(Launcher& launcher, Explosion& explosion);
 	static bool BuildingInRange(Building& building, Explosion& explosion);
 	static bool BombInRange(Bomb& bomb, Explosion& explosion);
-	static bool BuildingOnTheList(Building& building, std::list<Building>& buildings);
-	static bool BombOnTheList(Bomb& bomb, std::list<Bomb>& bombs);
+	static bool BuildingOnTheList(Building& building, std::list<Building*>& buildings);
+	static bool BombOnTheList(Bomb& bomb, std::list<Bomb*>& bombs);
 	static bool GameLost(Launcher& launcher, std::list<Building>& buildings);
 	static bool GameWon(std::list<Bomb>& bombs, float time);
 	static bool ValidLevel(int difficulty);

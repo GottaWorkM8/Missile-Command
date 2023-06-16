@@ -3,6 +3,7 @@
 #include <dwrite.h>
 #include "Button.h"
 
+/// <summary>description</summary>
 class MenuButton : public Button {
 
 	IDWriteTextLayout* textLayout;

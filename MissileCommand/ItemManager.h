@@ -10,6 +10,7 @@
 #include "Launcher.h"
 #include "Flash.h"
 
+/// <summary>description</summary>
 class ItemManager {
 
 	static Launcher launcher;
@@ -23,7 +24,6 @@ class ItemManager {
 public:
 
 	static Launcher& GetLauncher();
-	static void SetLauncher(Launcher launcher);
 	static std::list<Building>& GetBuildings();
 	static std::list<Missile>& GetMissiles();
 	static std::list<Bomb>& GetBombs();
@@ -34,7 +34,6 @@ public:
 	static void AddBuilding(Building building);
 	static void AddMissile(Missile missile);
 	static void AddBomb(Bomb bomb);
-	static void AddBombs(std::list<Bomb> bombs);
 	static void AddExplosion(Explosion explosion);
 	static void AddDestruction(Destruction destruction);
 	static void AddFlash(Flash flash);

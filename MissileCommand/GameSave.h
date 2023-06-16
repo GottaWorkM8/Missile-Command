@@ -6,8 +6,7 @@
 #include "Globals.h"
 #include "Verifier.h"
 
-class Globals;
-
+/// <summary>description</summary>
 class GameSave {
 
     static const std::string FILENAME;

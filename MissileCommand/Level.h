@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "Schedule.h"
 
+/// <summary>description</summary>
 class Level {
 
 	const wchar_t* location;

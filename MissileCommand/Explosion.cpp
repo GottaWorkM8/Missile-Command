@@ -33,7 +33,10 @@ Explosion::Explosion(Point center, float radius, Source source) {
 		case NUCLEAR: damage = Globals::NUCLEAR_BOMB_DAMAGE;
 			break;
 
-		case CLUSTER: damage = Globals::BOMBLET_DAMAGE;
+		case CLUSTER: damage = Globals::CLUSTER_BOMB_DAMAGE;
+			break;
+
+		case BOMBLET: damage = Globals::BOMBLET_DAMAGE;
 			break;
 
 		case NAPALM: damage = Globals::NAPALM_BOMB_DAMAGE;
@@ -94,24 +97,26 @@ void Explosion::SetLauncherHit(bool launcherHit) {
 	this->launcherHit = launcherHit;
 }
 
-std::list<Building>& Explosion::GetBuildingsHit() {
+std::list<Building*>& Explosion::GetBuildingsHit() {
 	return buildingsHit;
 }
 
-void Explosion::SetBuildingsHit(std::list<Building>& buildingsHit) {
-	this->buildingsHit = buildingsHit;
-}
-
-std::list<Bomb>& Explosion::GetBombsHit() {
+std::list<Bomb*>& Explosion::GetBombsHit() {
 	return bombsHit;
-}
-
-void Explosion::SetBombsHit(std::list<Bomb>& bombsHit) {
-	this->bombsHit = bombsHit;
 }
 
 bool Explosion::operator==(const Explosion& e) const {
 
 	return this->center == e.center && this->radius == e.radius &&
 		this->stage == e.stage && this->source == e.source;
+}
+
+void Explosion::AddBuildingHit(Building& building) {
+
+	buildingsHit.push_back(&building);
+}
+
+void Explosion::AddBombHit(Bomb& bomb) {
+
+	bombsHit.push_back(&bomb);
 }

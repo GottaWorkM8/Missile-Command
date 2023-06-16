@@ -3,6 +3,7 @@
 #include "Point.h"
 #include "Calculator.h"
 
+/// <summary>description</summary>
 class Item {
 
 protected:

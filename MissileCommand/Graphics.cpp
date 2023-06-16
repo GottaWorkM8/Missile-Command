@@ -241,6 +241,14 @@ void Graphics::DrawGame() {
 				renderTarget->DrawBitmap(BitmapManager::GetClusterBombBitmap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 				break;
 
+			case BOMBLET:
+				rect.left += 4.0f;
+				rect.top += 4.0f;
+				rect.right -= 4.0f;
+				rect.bottom -= 4.0f;
+				renderTarget->DrawBitmap(BitmapManager::GetBombletBitmap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+				break;
+
 			case NAPALM:
 				renderTarget->DrawBitmap(BitmapManager::GetNapalmBombBitmap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 				break;
@@ -285,6 +293,7 @@ void Graphics::DrawGame() {
 				break;
 
 			case CLUSTER:
+			case BOMBLET:
 				renderTarget->DrawBitmap(BitmapManager::GetClusterExplosionBitmap(), rect, 1.0f, D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 				break;
 
@@ -634,8 +643,5 @@ void Graphics::DrawTitle(const wchar_t* text, const wchar_t* font, float height,
 void Graphics::DrawSubtitles(const wchar_t* text, const wchar_t* font, float fontSize, float width, float height, Point topCenter, bool bold) {
 
 	IDWriteTextLayout* textLayout = textRenderer->GetTextLayout(text, font, fontSize, bold, width, height);
-	DWRITE_TEXT_METRICS textMetrics;
-	textLayout->GetMetrics(&textMetrics);
-	float textWidth = textMetrics.width;
-	renderTarget->DrawTextLayout(D2D1::Point2F(topCenter.x - (textWidth / 2), topCenter.y), textLayout, brush);
+	renderTarget->DrawTextLayout(D2D1::Point2F(topCenter.x - (width / 2), topCenter.y), textLayout, brush);
 }

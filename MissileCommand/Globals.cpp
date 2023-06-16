@@ -31,11 +31,14 @@ const float Globals::BUTTON_SPACE = MAX_Y / BUTTON_HEIGHT + MAX_Y / 25;
 
 const Point Globals::CONTINUE_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y);
 const Point Globals::NEW_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y + BUTTON_SPACE);
-const Point Globals::OPTIONS_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y + 2 * BUTTON_SPACE);
-const Point Globals::HELP_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y + 3 * BUTTON_SPACE);
-const Point Globals::EXIT_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y + 4 * BUTTON_SPACE);
+const Point Globals::HELP_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y + 2 * BUTTON_SPACE);
+const Point Globals::EXIT_TOP_LEFT = Point(BUTTON_X, FIRST_BUTTON_Y + 3 * BUTTON_SPACE);
 
 // Game
+
+const float Globals::FRAME_TIME = 100 / 12; // 120 fps
+const float Globals::GAME_TIME = 60.0f; // 60 second turn
+const float Globals::BOMB_SPAWN_TIME = 59.0f;
 
 const int Globals::LEVEL1 = 1;
 const int Globals::LEVEL2 = 2;
@@ -146,10 +149,6 @@ const float Globals::THIRD_BAR_BOMB_NUM_CENTER = THIRD_BAR_BOMB_X + BAR_BOMB_NUM
 const float Globals::FOURTH_BAR_BOMB_NUM_CENTER = FOURTH_BAR_BOMB_X + BAR_BOMB_NUM_SPACE;
 const float Globals::FIFTH_BAR_BOMB_NUM_CENTER = FIFTH_BAR_BOMB_X + BAR_BOMB_NUM_SPACE;
 
-const float Globals::FRAME_TIME = 100 / 12; // 120 fps
-const float Globals::GAME_TIME = 61.0f; // 60 second turn
-const float Globals::BOMB_SPAWN_TIME = 60.0f;
-
 const int Globals::MAX_AMMO = 5;
 const float Globals::AMMO_LOAD_TIME = 0.5f;
 
@@ -198,20 +197,28 @@ const float Globals::BOMB_TARGET_Y = GROUND_Y - BOMB_HALF_HEIGHT;
 const float Globals::NORMAL_BOMB_HP = 20.0f;
 const float Globals::NORMAL_BOMB_DAMAGE = 50.0f;
 const float Globals::NORMAL_BOMB_SPEED = 1.5f;
+const int Globals::NORMAL_BOMB_POINTS = 10;
 const float Globals::NUCLEAR_BOMB_HP = 20.0f;
 const float Globals::NUCLEAR_BOMB_DAMAGE = 100.0f;
 const float Globals::NUCLEAR_BOMB_SPEED = 1.0f;
+const int Globals::NUCLEAR_BOMB_POINTS = 20;
 const float Globals::CLUSTER_BOMB_HP = 20.0f;
-const float Globals::CLUSTER_BOMB_SPEED = 1.2f;
-const float Globals::BOMBLET_HP = 20.0f;
-const float Globals::BOMBLET_DAMAGE = 40.0f;
-const float Globals::BOMBLET_SPEED = NORMAL_BOMB_SPEED;
-const float Globals::NAPALM_BOMB_HP = 20.0f;
-const float Globals::NAPALM_BOMB_DAMAGE = 1.0f;
-const float Globals::NAPALM_BOMB_SPEED = 1.2f;
-const float Globals::ROD_BOMB_HP = 40.0f;
+const float Globals::CLUSTER_BOMB_DAMAGE = 30.0f;
+const float Globals::CLUSTER_BOMB_SPEED = 1.3f;
+const int Globals::CLUSTER_BOMB_POINTS = 30;
+const float Globals::BOMBLET_HP = 10.0f;
+const float Globals::BOMBLET_DAMAGE = 30.0f;
+const float Globals::BOMBLET_SPEED = 1.8f;
+const int Globals::BOMBLETS_SPAWNED = 3;
+const int Globals::BOMBLET_POINTS = 10;
+const float Globals::NAPALM_BOMB_HP = 40.0f;
+const float Globals::NAPALM_BOMB_DAMAGE = 70.0f;
+const float Globals::NAPALM_BOMB_SPEED = 1.0f;
+const int Globals::NAPALM_BOMB_POINTS = 40;
+const float Globals::ROD_BOMB_HP = 60.0f;
 const float Globals::ROD_BOMB_DAMAGE = 150.0f;
-const float Globals::ROD_BOMB_SPEED = 2.5f;
+const float Globals::ROD_BOMB_SPEED = 2.4f;
+const int Globals::ROD_BOMB_POINTS = 60;
 const float Globals::BOMB_LOAD_TIME = 1.0f;
 
 const float Globals::EXPLOSION_PROPAGATION_TIME = 0.5f;
@@ -219,8 +226,9 @@ const float Globals::EXPLOSION_FINAL_TIME = 0.2f;
 const float Globals::EXPLOSION_INITIAL_RADIUS = 20.0f;
 const float Globals::NORMAL_EXPLOSION_FINAL_RADIUS = 80.0f;
 const float Globals::NUCLEAR_EXPLOSION_FINAL_RADIUS = 160.0f;
-const float Globals::CLUSTER_EXPLOSION_FINAL_RADIUS = 40.0f;
-const float Globals::NAPALM_EXPLOSION_FINAL_RADIUS = 40.0f;
+const float Globals::CLUSTER_EXPLOSION_FINAL_RADIUS = 60.0f;
+const float Globals::BOMBLET_EXPLOSION_FINAL_RADIUS = 60.0f;
+const float Globals::NAPALM_EXPLOSION_FINAL_RADIUS = 120.0f;
 const float Globals::ROD_EXPLOSION_FINAL_RADIUS = 200.0f;
 const int Globals::EXPLOSION_STAGES = 20;
 const float Globals::NORMAL_EXPLOSION_RADIUS_GROWTH = (NORMAL_EXPLOSION_FINAL_RADIUS
@@ -228,6 +236,8 @@ const float Globals::NORMAL_EXPLOSION_RADIUS_GROWTH = (NORMAL_EXPLOSION_FINAL_RA
 const float Globals::NUCLEAR_EXPLOSION_RADIUS_GROWTH = (NUCLEAR_EXPLOSION_FINAL_RADIUS
 	- EXPLOSION_INITIAL_RADIUS) / EXPLOSION_STAGES;
 const float Globals::CLUSTER_EXPLOSION_RADIUS_GROWTH = (CLUSTER_EXPLOSION_FINAL_RADIUS
+	- EXPLOSION_INITIAL_RADIUS) / EXPLOSION_STAGES;
+const float Globals::BOMBLET_EXPLOSION_RADIUS_GROWTH = (BOMBLET_EXPLOSION_FINAL_RADIUS
 	- EXPLOSION_INITIAL_RADIUS) / EXPLOSION_STAGES;
 const float Globals::NAPALM_EXPLOSION_RADIUS_GROWTH = (NAPALM_EXPLOSION_FINAL_RADIUS
 	- EXPLOSION_INITIAL_RADIUS) / EXPLOSION_STAGES;

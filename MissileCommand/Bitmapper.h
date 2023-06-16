@@ -3,6 +3,7 @@
 #include <d2d1.h>
 #include <wincodec.h>
 
+/// <summary>description</summary>
 class Bitmapper {
 
 	ID2D1HwndRenderTarget* renderTarget;

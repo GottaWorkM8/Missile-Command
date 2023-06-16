@@ -14,6 +14,7 @@ ID2D1Bitmap* BitmapManager::missileBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::normalBombBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::nuclearBombBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::clusterBombBitmap = nullptr;
+ID2D1Bitmap* BitmapManager::bombletBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::napalmBombBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::rodBombBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::missileExplosionBitmap = nullptr;
@@ -150,6 +151,10 @@ ID2D1Bitmap* BitmapManager::GetClusterBombBitmap() {
 	return clusterBombBitmap;
 }
 
+ID2D1Bitmap* BitmapManager::GetBombletBitmap() {
+	return bombletBitmap;
+}
+
 ID2D1Bitmap* BitmapManager::GetNapalmBombBitmap() {
 	return napalmBombBitmap;
 }
@@ -223,6 +228,7 @@ void BitmapManager::Init(Bitmapper* btmpr) {
 	normalBombBitmap = bitmapper->GetBitmap(L"bomb-normal.png");
 	nuclearBombBitmap = bitmapper->GetBitmap(L"bomb-nuclear.png");
 	clusterBombBitmap = bitmapper->GetBitmap(L"bomb-cluster.png");
+	bombletBitmap = bitmapper->GetBitmap(L"bomblet.png");
 	napalmBombBitmap = bitmapper->GetBitmap(L"bomb-napalm.png");
 	rodBombBitmap = bitmapper->GetBitmap(L"bomb-rod.png");
 	missileExplosionBitmap = bitmapper->GetBitmap(L"explosion-blue.png");

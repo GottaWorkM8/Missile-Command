@@ -14,6 +14,7 @@
 #include "ItemManager.h"
 #include "Menu.h"
 
+/// <summary>description</summary>
 class Graphics {
 
 	HWND* hWnd;

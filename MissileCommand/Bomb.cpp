@@ -15,7 +15,7 @@ Bomb::Bomb(Point center, float angleRad, Source source) {
 	this->angleDeg = Calculator::GetDegrees(angleRad);
 	this->source = source;
 
-	switch (source) {
+	switch (this->source) {
 
 		case NORMAL: this->hp = Globals::NORMAL_BOMB_HP;
 			break;
@@ -24,6 +24,9 @@ Bomb::Bomb(Point center, float angleRad, Source source) {
 			break;
 
 		case CLUSTER: this->hp = Globals::CLUSTER_BOMB_HP;
+			break;
+
+		case BOMBLET: this->hp = Globals::BOMBLET_HP;
 			break;
 
 		case NAPALM: this->hp = Globals::NAPALM_BOMB_HP;
@@ -47,7 +50,7 @@ float Bomb::GetHP() {
 
 bool Bomb::operator==(const Bomb& b) const {
 
-	return this->center == b.center && this->angleRad == b.angleRad && this->source == b.source && this->hp == hp;
+	return this->center == b.center && this->angleRad == b.angleRad && this->source == b.source;
 }
 
 void Bomb::ReceiveDamage(float damage) {

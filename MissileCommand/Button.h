@@ -3,6 +3,7 @@
 #include <dwrite.h>
 #include "Point.h"
 
+/// <summary>description</summary>
 class Button {
 
 protected:
