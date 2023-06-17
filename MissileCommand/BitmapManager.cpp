@@ -4,6 +4,7 @@ Bitmapper* BitmapManager::bitmapper = nullptr;
 
 ID2D1Bitmap* BitmapManager::menuBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::titleBitmap = nullptr;
+ID2D1Bitmap* BitmapManager::helpBitmap = nullptr;
 
 ID2D1Bitmap* BitmapManager::mapBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::launcherBitmap = nullptr;
@@ -26,86 +27,12 @@ ID2D1Bitmap* BitmapManager::rodExplosionBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::destructionBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::ammoBitmap = nullptr;
 
+ID2D1Bitmap* BitmapManager::hollowStarBitmap = nullptr;
+ID2D1Bitmap* BitmapManager::goldStarBitmap = nullptr;
+ID2D1Bitmap* BitmapManager::shinyStarBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::homeBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::replayBitmap = nullptr;
 ID2D1Bitmap* BitmapManager::nextBitmap = nullptr;
-
-std::wstring BitmapManager::GetRandomName(int difficulty) {
-
-	std::wstring prefix;
-	std::wstring suffix;
-
-	switch (difficulty) {
-
-		case 1:
-			prefix = L"building-asian";
-			suffix = std::to_wstring(Generator::GetRandomUniform(1, 7));
-			break;
-
-		case 2:
-			prefix = L"building-ice";
-			suffix = std::to_wstring(Generator::GetRandomUniform(1, 5));
-			break;
-
-		case 3:
-			prefix = L"building-modern";
-			suffix = std::to_wstring(Generator::GetRandomUniform(1, 7));
-			break;
-
-		case 4:
-			prefix = L"building-desert";
-			suffix = std::to_wstring(Generator::GetRandomUniform(1, 8));
-			break;
-
-		case 5:
-			prefix = L"building-alien";
-			suffix = std::to_wstring(Generator::GetRandomUniform(1, 8));
-			break;
-
-		default:
-			prefix = L"building-asian";
-			suffix = std::to_wstring(Generator::GetRandomUniform(1, 7));
-			break;
-	}
-
-	return prefix + suffix + L".png";
-}
-
-void BitmapManager::SetMapBitmap(int difficulty) {
-
-	switch (difficulty) {
-
-		case 1:
-			mapBitmap = bitmapper->GetBitmap(L"map-grass.jpg");
-			break;
-
-		case 2:
-			mapBitmap = bitmapper->GetBitmap(L"map-ice.jpg");
-			break;
-
-		case 3:
-			mapBitmap = bitmapper->GetBitmap(L"map-river.jpg");
-			break;
-
-		case 4:
-			mapBitmap = bitmapper->GetBitmap(L"map-rocks.jpg");
-			break;
-
-		case 5:
-			mapBitmap = bitmapper->GetBitmap(L"map-planets.jpg");
-			break;
-
-		default:
-			mapBitmap = bitmapper->GetBitmap(L"map-grass.jpg");
-			break;
-	}
-}
-
-void BitmapManager::SetBuildingBitmaps(int difficulty) {
-
-	for (int i = 0; i < 8; i++)
-		buildingBitmaps[i] = bitmapper->GetBitmap(GetRandomName(difficulty).c_str());
-}
 
 ID2D1Bitmap* BitmapManager::GetMenuBitmap() {
 	return menuBitmap;
@@ -113,6 +40,10 @@ ID2D1Bitmap* BitmapManager::GetMenuBitmap() {
 
 ID2D1Bitmap* BitmapManager::GetTitleBitmap() {
 	return titleBitmap;
+}
+
+ID2D1Bitmap* BitmapManager::GetHelpBitmap() {
+	return helpBitmap;
 }
 
 ID2D1Bitmap* BitmapManager::GetMapBitmap() {
@@ -195,6 +126,18 @@ ID2D1Bitmap* BitmapManager::GetAmmoBitmap() {
 	return ammoBitmap;
 }
 
+ID2D1Bitmap* BitmapManager::GetHollowStarBitmap() {
+	return hollowStarBitmap;
+}
+
+ID2D1Bitmap* BitmapManager::GetGoldStarBitmap() {
+	return goldStarBitmap;
+}
+
+ID2D1Bitmap* BitmapManager::GetShinyStarBitmap() {
+	return shinyStarBitmap;
+}
+
 ID2D1Bitmap* BitmapManager::GetHomeBitmap() {
 	return homeBitmap;
 }
@@ -212,6 +155,7 @@ void BitmapManager::Init(Bitmapper* btmpr) {
 	bitmapper = btmpr;
 	menuBitmap = bitmapper->GetBitmap(L"menu-background.jpg");
 	titleBitmap = bitmapper->GetBitmap(L"menu-title.png");
+	helpBitmap = bitmapper->GetBitmap(L"help.png");
 	mapBitmap = bitmapper->GetBitmap(L"map-grass.jpg");
 	launcherBitmap = bitmapper->GetBitmap(L"launcher.png");
 	cannonBitmap = bitmapper->GetBitmap(L"launcher-cannon.png");
@@ -239,6 +183,9 @@ void BitmapManager::Init(Bitmapper* btmpr) {
 	rodExplosionBitmap = bitmapper->GetBitmap(L"explosion-cyan.png");
 	destructionBitmap = bitmapper->GetBitmap(L"destruction.png");
 	ammoBitmap = bitmapper->GetBitmap(L"ammo.png");
+	hollowStarBitmap = bitmapper->GetBitmap(L"hollow-star.png");
+	goldStarBitmap = bitmapper->GetBitmap(L"gold-star.png");
+	shinyStarBitmap = bitmapper->GetBitmap(L"shiny-star.png");
 	homeBitmap = bitmapper->GetBitmap(L"home.png");
 	replayBitmap = bitmapper->GetBitmap(L"replay.png");
 	nextBitmap = bitmapper->GetBitmap(L"next.png");
@@ -248,4 +195,81 @@ void BitmapManager::InitLevel(int difficulty) {
 
 	SetMapBitmap(difficulty);
 	SetBuildingBitmaps(difficulty);
+}
+
+std::wstring BitmapManager::GetRandomName(int difficulty) {
+
+	std::wstring prefix;
+	std::wstring suffix;
+
+	switch (difficulty) {
+
+		case 1:
+			prefix = L"building-asian";
+			suffix = std::to_wstring(Generator::GetRandomUniform(1, 7));
+			break;
+
+		case 2:
+			prefix = L"building-ice";
+			suffix = std::to_wstring(Generator::GetRandomUniform(1, 5));
+			break;
+
+		case 3:
+			prefix = L"building-modern";
+			suffix = std::to_wstring(Generator::GetRandomUniform(1, 7));
+			break;
+
+		case 4:
+			prefix = L"building-desert";
+			suffix = std::to_wstring(Generator::GetRandomUniform(1, 8));
+			break;
+
+		case 5:
+			prefix = L"building-alien";
+			suffix = std::to_wstring(Generator::GetRandomUniform(1, 8));
+			break;
+
+		default:
+			prefix = L"building-asian";
+			suffix = std::to_wstring(Generator::GetRandomUniform(1, 7));
+			break;
+	}
+
+	return prefix + suffix + L".png";
+}
+
+void BitmapManager::SetMapBitmap(int difficulty) {
+
+	switch (difficulty) {
+
+		case 1:
+			mapBitmap = bitmapper->GetBitmap(L"map-grass.jpg");
+			break;
+
+		case 2:
+			mapBitmap = bitmapper->GetBitmap(L"map-ice.jpg");
+			break;
+
+		case 3:
+			mapBitmap = bitmapper->GetBitmap(L"map-river.jpg");
+			break;
+
+		case 4:
+			mapBitmap = bitmapper->GetBitmap(L"map-rocks.jpg");
+			break;
+
+		case 5:
+			mapBitmap = bitmapper->GetBitmap(L"map-planets.jpg");
+			break;
+
+		default:
+			mapBitmap = bitmapper->GetBitmap(L"map-grass.jpg");
+			break;
+	}
+}
+
+void BitmapManager::SetBuildingBitmaps(int difficulty) {
+
+	for (int i = 0; i < 8; i++)
+		buildingBitmaps[i] = bitmapper->GetBitmap(GetRandomName(difficulty).c_str());
 }

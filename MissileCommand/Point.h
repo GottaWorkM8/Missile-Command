@@ -1,6 +1,8 @@
 #pragma once
 
-/// <summary>description</summary>
+/// <summary>
+/// Class representing a point on a two-dimensional plane
+/// </summary>
 class Point {
 
 public:

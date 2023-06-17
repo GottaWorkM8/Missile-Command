@@ -13,7 +13,10 @@ LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 				if (Game::IsFinished())
 					Game::GetSummary()->HandlePress(hWnd);
 				else Game::UpdateTarget(hWnd);
-			else Menu::HandlePress(hWnd);
+			else {
+				if (Menu::IsHelpDisplayed())
+					Menu::SetHelpDisplayed(false);
+				else Menu::HandlePress(hWnd); }
 			break;
 
 		case WM_MOUSEMOVE:
@@ -79,7 +82,7 @@ Window::Window(): hInstance(GetModuleHandle(nullptr)) {
 	graphics = Graphics(&hWnd);
 	graphics.Init();
 
-	Music::ClearSounds();
+
 	Music::PlayMenu();
 
 	GameSave::LoadFromFile();
@@ -112,7 +115,13 @@ bool Window::ProcessMessages() {
 			if (Menu::IsGameRunning())
 				graphics.DrawGame();
 
-			else graphics.DrawMenu();
+			else {
+
+				if (Menu::IsHelpDisplayed())
+					graphics.DrawHelp();
+
+				else graphics.DrawMenu();
+			}
 
 			graphics.EndDraw();
 		}

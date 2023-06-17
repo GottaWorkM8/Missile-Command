@@ -1,6 +1,7 @@
 #include "Menu.h"
 
 bool Menu::gameRunning = false;
+bool Menu::helpDisplayed = false;
 Timer Menu::animationTimer = Timer();
 Point Menu::pressPos = Point();
 Point Menu::cursorPos = Point();
@@ -16,6 +17,14 @@ bool Menu::IsGameRunning() {
 
 void Menu::SetGameRunning(bool running) {
 	gameRunning = running;
+}
+
+bool Menu::IsHelpDisplayed() {
+	return helpDisplayed;
+}
+
+void Menu::SetHelpDisplayed(bool displayed) {
+	helpDisplayed = displayed;
 }
 
 std::list<MenuButton>& Menu::GetButtons() {
@@ -141,7 +150,7 @@ void Menu::AnimateButton(Point& topLeft, bool& hovered) {
 		Sleep(1);
 	}
 
-	topLeft.x = Globals::BUTTON_X;
+	topLeft.x = Globals::BUTTON_LEFT;
 }
 
 void Menu::ContinueGame() {
@@ -168,6 +177,7 @@ void Menu::StartNewGame() {
 
 void Menu::ShowHelp() {
 
+	helpDisplayed = true;
 }
 
 void Menu::Exit() {

@@ -3,7 +3,9 @@
 #include "Point.h"
 #include "Globals.h"
 
-/// <summary>description</summary>
+/// <summary>
+/// Class representing every building in the game
+/// </summary>
 class Building {
 
 	Point center;
@@ -15,12 +17,16 @@ public:
 	Building();
 	Building(Point center, int index);
 
+	// Returns the center point of the building
 	Point GetCenter();
+	// Returns the current amount of health points of the building
 	float GetHP();
+	// Returns the position on the map [0-7] of the building
 	int GetIndex();
 
 	bool operator==(const Building& b) const;
 
+	// Subtracts building health points by the amount given as an argument
 	void ReceiveDamage(float damage);
 };
 

@@ -4,11 +4,14 @@
 #include <thread>
 #include "Globals.h"
 
-/// <summary>description</summary>
+/// <summary>
+/// Class responsible for animating introduction at the start of every game 
+/// </summary>
 class Intro {
 
 	std::thread thread;
 
+	// Animates intro by changing background color and text color of the introduction at the start of the game
 	void AnimateIntro();
 
 public:

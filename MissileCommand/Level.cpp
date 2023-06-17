@@ -60,7 +60,7 @@ Level::Level() {
 
 	SetLevelOne();
 
-	maxScore = Calculator::GetMaxScore(normalNum, nuclearNum, clusterNum, napalmNum, rodNum);
+	maxScore = Calculator::GetHighscore(normalNum, nuclearNum, clusterNum, napalmNum, rodNum);
 	duration = Globals::BOMB_SPAWN_TIME;
 	schedule = Schedule(normalNum, nuclearNum, clusterNum, napalmNum, rodNum, duration);
 }
@@ -94,7 +94,7 @@ Level::Level(int difficulty) {
 			break;
 	}
 
-	maxScore = Calculator::GetMaxScore(normalNum, nuclearNum, clusterNum, napalmNum, rodNum);
+	maxScore = Calculator::GetHighscore(normalNum, nuclearNum, clusterNum, napalmNum, rodNum);
 	duration = Globals::BOMB_SPAWN_TIME;
 	schedule = Schedule(normalNum, nuclearNum, clusterNum, napalmNum, rodNum, duration);
 }

@@ -100,7 +100,7 @@ void Game::Run(int difficulty) {
 	Level level = Level(difficulty);
 	location = level.GetLocation();
 	score = 0;
-	maxScore = level.GetMaxScore();
+	maxScore = level.GetHighscore();
 	diff = level.GetDifficulty();
 	normalNum = level.GetNormalNum();
 	nuclearNum = level.GetNuclearNum();
@@ -146,7 +146,7 @@ void Game::Run(int difficulty) {
 
 			GameSave::Update(difficulty, score, won);
 			playing = false;
-			summary = new Summary();
+			summary = new Summary(won, score, maxScore);
 			finished = true;
 		}
 
@@ -161,7 +161,7 @@ void Game::Run(int difficulty) {
 			
 			GameSave::Update(difficulty, score, won);
 			playing = false;
-			summary = new Summary();
+			summary = new Summary(won, score, maxScore);
 			finished = true;
 		}
 
@@ -761,7 +761,7 @@ void Game::CutPoints(Source source) {
 void Game::PenalizeDestruction(bool launcher) {
 
 	if (launcher)
-		score -= maxScore * 0.2f;
+		score -= maxScore * Globals::LAUNCHER_PENALTY;
 
-	else score -= maxScore * 0.1f;
+	else score -= maxScore * Globals::BUILDING_PENALTY;
 }

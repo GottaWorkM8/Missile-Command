@@ -9,7 +9,9 @@
 #include "resource.h"
 #include "Music.h"
 
-/// <summary>description</summary>
+/// <summary>
+/// Class representing the application window, handles user inputs and provides a render target for the Graphics class
+/// </summary>
 class Window {
 
 	static const wchar_t* CLASS_NAME;
@@ -29,6 +31,7 @@ public:
 
 	Window& operator = (const Window&) = delete;
 
+	// Processes messages from the operating system's message queue and handles them accordingly
 	bool ProcessMessages();
 };
 
