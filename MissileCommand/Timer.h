@@ -20,5 +20,8 @@ public:
 	float GetDeltaTime();
 	// Returns time in milliseconds that passed trom the last call of Restart method (if there were none returns time passed from object initialization)
 	float GetElapsedTime();
+	// Increments the timestamp of the beginning, that is used as reference to calculate elapsed time, by the given value 
+	// (used to correct the timer when the game is paused)
+	void IncrementStartTime(std::chrono::milliseconds duration);
 };
 

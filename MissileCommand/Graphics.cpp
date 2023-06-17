@@ -452,7 +452,7 @@ void Graphics::DrawGame() {
 			DrawIntro();
 
 	// Summary at the end of the game
-	if (Game::IsFinished())
+	if (Game::IsFinished() || Game::IsPaused())
 		if (Game::GetSummary() != nullptr)
 			DrawSummary();
 }
@@ -480,32 +480,44 @@ void Graphics::DrawSummary() {
 	// Title and subtitles
 	brush->SetColor(Game::GetSummary()->textColor);
 
-	if (Game::GetSummary()->IsWon()) {
+	if (Game::IsPaused()) {
 
-		brush->SetColor(Globals::GREEN);
-		DrawTitle(L"Mission completed", L"Courier New", Globals::SUMMARY_TITLE_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TITLE_TOP), true);
 		brush->SetColor(Globals::BRUSH_DEFAULT_COLOR);
+		DrawTitle(L"Game paused", L"Courier New", Globals::SUMMARY_TITLE_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TITLE_TOP), true);
 
-		if (Game::GetScore() == Game::GetMaxScore())
-			DrawSubtitles(L"Exceptional performance! You managed to destroy all the bombs without letting a single one harm the city. Great job!", L"Times New Roman",
-				18.0f, Globals::SUMMARY_TEXT_WIDTH, Globals::SUMMARY_TEXT_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TEXT_TOP), false);
-
-		else DrawSubtitles(L"We won the battle! You managed to protect the city with little harm to the infrastructure and its inhabitants. Good job!", L"Times New Roman",
-			18.0f, Globals::SUMMARY_TEXT_WIDTH, Globals::SUMMARY_TEXT_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TEXT_TOP), false);
+		DrawSubtitles(L"Press Esc to resume the game!", L"Times New Roman",
+			22.0f, Globals::SUMMARY_TEXT_WIDTH, Globals::SUMMARY_TEXT_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TEXT_TOP), false);
 	}
 
 	else {
 
-		brush->SetColor(Globals::RED);
-		DrawTitle(L"Mission failed", L"Courier New", Globals::SUMMARY_TITLE_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TITLE_TOP), true);
-		brush->SetColor(Globals::BRUSH_DEFAULT_COLOR);
+		if (Game::GetSummary()->IsWon()) {
 
-		if (Game::GetSummary()->GetScore() > 0)
-			DrawSubtitles(L"The battle has been lost! You dealt some damage to the enemy forces, but the cost was far too great. In the end we were not able to defeat the enemy.",
+			brush->SetColor(Globals::GREEN);
+			DrawTitle(L"Mission completed", L"Courier New", Globals::SUMMARY_TITLE_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TITLE_TOP), true);
+			brush->SetColor(Globals::BRUSH_DEFAULT_COLOR);
+
+			if (Game::GetScore() == Game::GetMaxScore())
+				DrawSubtitles(L"Exceptional performance! You managed to destroy all the bombs without letting a single one harm the city. Great job!", L"Times New Roman",
+					18.0f, Globals::SUMMARY_TEXT_WIDTH, Globals::SUMMARY_TEXT_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TEXT_TOP), false);
+
+			else DrawSubtitles(L"We won the battle! You managed to protect the city with little harm to the infrastructure and its inhabitants. Good job!", L"Times New Roman",
+				18.0f, Globals::SUMMARY_TEXT_WIDTH, Globals::SUMMARY_TEXT_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TEXT_TOP), false);
+		}
+
+		else {
+
+			brush->SetColor(Globals::RED);
+			DrawTitle(L"Mission failed", L"Courier New", Globals::SUMMARY_TITLE_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TITLE_TOP), true);
+			brush->SetColor(Globals::BRUSH_DEFAULT_COLOR);
+
+			if (Game::GetSummary()->GetScore() > 0)
+				DrawSubtitles(L"The battle has been lost! You dealt some damage to the enemy forces, but the cost was far too great. In the end we were not able to defeat the enemy.",
+					L"Times New Roman", 18.0f, Globals::SUMMARY_TEXT_WIDTH, Globals::SUMMARY_TEXT_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TEXT_TOP), false);
+
+			else DrawSubtitles(L"What a disaster! Our defenses got completely compromised and loses in civilians are uncountable. That was a shameful display!",
 				L"Times New Roman", 18.0f, Globals::SUMMARY_TEXT_WIDTH, Globals::SUMMARY_TEXT_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TEXT_TOP), false);
-
-		else DrawSubtitles(L"What a disaster! Our defenses got completely compromised and loses in civilians are uncountable. That was a shameful display!",
-			L"Times New Roman", 18.0f, Globals::SUMMARY_TEXT_WIDTH, Globals::SUMMARY_TEXT_HEIGHT, Point(Globals::CENTER_X, Globals::SUMMARY_TEXT_TOP), false);
+		}
 	}
 
 	D2D1_RECT_F rect;
