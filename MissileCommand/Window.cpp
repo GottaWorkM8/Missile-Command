@@ -10,7 +10,7 @@ LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 
 		case WM_LBUTTONDOWN:
 			if (Menu::IsGameRunning())
-				if (Game::IsFinished() || Game::IsPaused())
+				if (Game::IsPopupUp())
 					Game::GetSummary()->HandlePress(hWnd);
 				else Game::UpdateTarget(hWnd);
 			else {
@@ -21,9 +21,9 @@ LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 
 		case WM_MOUSEMOVE:
 			if (Menu::IsGameRunning()) {
-				if (Game::IsFinished() || Game::IsPaused())
-					Game::GetSummary()->HandleMove(hWnd);
-				Game::UpdateLauncherCannon(hWnd); }
+				Game::UpdateLauncherCannon(hWnd);
+				if (Game::IsPopupUp())
+					Game::GetSummary()->HandleMove(hWnd); }
 			else
 				if (!Menu::IsHelpDisplayed())
 					Menu::HandleMove(hWnd);
@@ -39,9 +39,10 @@ LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 			if (wParam == VK_ESCAPE) {
 				if (Menu::IsGameRunning()) {
 					if (!Game::IsFinished()) {
-						if (Game::IsPaused())
-							Game::SetPaused(false);
-						else Game::SetPaused(true); }}}
+						if (Game::IsPausable()) {
+							if (Game::IsPaused())
+								Game::SetPaused(false);
+							else Game::SetPaused(true); }}}}
 			break;
 
 		case WM_CLOSE:
