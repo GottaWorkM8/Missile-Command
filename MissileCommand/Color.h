@@ -1,5 +1,8 @@
 #pragma once
 
+/// <summary>
+/// Class representing RGBA colors
+/// </summary>
 class Color {
 
 public:

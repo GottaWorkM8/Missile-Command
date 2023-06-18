@@ -1,5 +1,6 @@
 #include "Window.h"
 
+// Main method being the starting point of the application
 int main() {
 
 	Window* window = new Window();

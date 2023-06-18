@@ -27,3 +27,9 @@ float Timer::GetElapsedTime() {
 
 	return elapsedTime.count();
 }
+
+void Timer::IncrementStartTime(std::chrono::milliseconds duration) {
+
+	startTime += duration;
+	lastDeltaTick += duration;
+}

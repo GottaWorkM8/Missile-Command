@@ -21,11 +21,15 @@ Destruction::Destruction(Point center, float radius) {
 }
 
 void Destruction::SetAngleRad(float& angleRad) {
+
 	this->angleRad = angleRad;
+	this->angleDeg = Calculator::GetDegrees(angleRad);
 }
 
 void Destruction::SetAngleDeg(float& angleDeg) {
+
 	this->angleDeg = angleDeg;
+	this->angleRad = Calculator::GetRadians(angleDeg);
 }
 
 float& Destruction::GetRadius() {

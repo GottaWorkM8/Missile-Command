@@ -1,15 +1,15 @@
 #include "Menu.h"
 
 bool Menu::gameRunning = false;
+bool Menu::helpDisplayed = false;
 Timer Menu::animationTimer = Timer();
 Point Menu::pressPos = Point();
 Point Menu::cursorPos = Point();
 std::list<MenuButton> Menu::buttons = {
-	MenuButton(L"CONTINUE", Point(Globals::BUTTON_X, Globals::FIRST_BUTTON_Y), Globals::BUTTON_HEIGHT, &ContinueGame),
-	MenuButton(L"NEW GAME", Point(Globals::BUTTON_X, Globals::FIRST_BUTTON_Y + Globals::BUTTON_SPACE), Globals::BUTTON_HEIGHT, &StartNewGame),
-	MenuButton(L"OPTIONS", Point(Globals::BUTTON_X, Globals::FIRST_BUTTON_Y + 2 * Globals::BUTTON_SPACE), Globals::BUTTON_HEIGHT, &ShowOptions),
-	MenuButton(L"HELP", Point(Globals::BUTTON_X, Globals::FIRST_BUTTON_Y + 3 * Globals::BUTTON_SPACE), Globals::BUTTON_HEIGHT, &ShowHelp),
-	MenuButton(L"EXIT", Point(Globals::BUTTON_X, Globals::FIRST_BUTTON_Y + 4 * Globals::BUTTON_SPACE), Globals::BUTTON_HEIGHT, &Exit) };
+	MenuButton(L"CONTINUE", Globals::CONTINUE_TOP_LEFT, Globals::BUTTON_HEIGHT, &ContinueGame),
+	MenuButton(L"NEW GAME", Globals::NEW_TOP_LEFT, Globals::BUTTON_HEIGHT, &StartNewGame),
+	MenuButton(L"HELP", Globals::HELP_TOP_LEFT, Globals::BUTTON_HEIGHT, &ShowHelp),
+	MenuButton(L"EXIT", Globals::EXIT_TOP_LEFT, Globals::BUTTON_HEIGHT, &Exit) };
 
 bool Menu::IsGameRunning() {
 	return gameRunning;
@@ -17,6 +17,14 @@ bool Menu::IsGameRunning() {
 
 void Menu::SetGameRunning(bool running) {
 	gameRunning = running;
+}
+
+bool Menu::IsHelpDisplayed() {
+	return helpDisplayed;
+}
+
+void Menu::SetHelpDisplayed(bool displayed) {
+	helpDisplayed = displayed;
 }
 
 std::list<MenuButton>& Menu::GetButtons() {
@@ -142,7 +150,7 @@ void Menu::AnimateButton(Point& topLeft, bool& hovered) {
 		Sleep(1);
 	}
 
-	topLeft.x = Globals::BUTTON_X;
+	topLeft.x = Globals::BUTTON_LEFT;
 }
 
 void Menu::ContinueGame() {
@@ -167,11 +175,9 @@ void Menu::StartNewGame() {
 	Music::PlayLevel();
 }
 
-void Menu::ShowOptions() {
-}
-
 void Menu::ShowHelp() {
 
+	helpDisplayed = true;
 }
 
 void Menu::Exit() {

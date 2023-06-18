@@ -108,6 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -244,6 +245,8 @@
     <Image Include="building-modern7.png" />
     <Image Include="explosion-blue.png" />
     <Image Include="destruction.png" />
+    <Image Include="help.png" />
+    <Image Include="hollow-star.png" />
     <Image Include="home.png" />
     <Image Include="launcher-cannon.png" />
     <Image Include="logo.ico" />
@@ -269,6 +272,8 @@
     <Image Include="explosion-yellow.png" />
     <Image Include="next.png" />
     <Image Include="replay.png" />
+    <Image Include="gold-star.png" />
+    <Image Include="shiny-star.png" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
@@ -279,14 +284,17 @@
     <None Include="radioactive-select.ani" />
   </ItemGroup>
   <ItemGroup>
-    <Media Include="soundShortExplosion.wav" />
-    <Media Include="soundExplosion.wav" />
-    <Media Include="soundMissile.wav" />
+    <Media Include="musicLevel.mp3" />
     <Media Include="musicLevel.wav" />
+    <Media Include="musicMenu.mp3" />
     <Media Include="musicMenu.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="savefile.txt" />
+    <Media Include="soundClick.mp3" />
+    <Media Include="soundExplosion.mp3" />
+    <Media Include="soundExplosion.wav" />
+    <Media Include="soundMissile.mp3" />
+    <Media Include="soundMissile.wav" />
+    <Media Include="soundShortExplosion.mp3" />
+    <Media Include="soundShortExplosion.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

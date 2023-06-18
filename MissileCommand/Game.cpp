@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <iostream>
 
+bool Game::paused = false;
 bool Game::ready = true;
 bool Game::introTime = true;
 bool Game::won = false;
@@ -23,6 +24,14 @@ Point Game::missileOrigin = Point();
 Point Game::missileTarget = Point();
 Intro* Game::intro = nullptr;
 Summary* Game::summary = nullptr;
+
+bool Game::IsPaused() {
+	return paused;
+}
+
+void Game::SetPaused(bool pause) {
+	paused = pause;
+}
 
 bool Game::IsReady() {
 	return ready;
@@ -95,6 +104,7 @@ Summary*& Game::GetSummary() {
 
 void Game::Run(int difficulty) {
 
+	paused = false;
 	ready = false;
 
 	Level level = Level(difficulty);
@@ -114,10 +124,36 @@ void Game::Run(int difficulty) {
 	introTime = false;
 	playing = true;
 
+	// Reset both timers
+	float levelTime = 0;
+	float ammoTime = 0;
 	levelTimer.Restart();
 	ammoTimer.Restart();
+	levelTimer.GetDeltaTime();
+	ammoTimer.GetDeltaTime();
 
 	while (true) {
+
+		if (paused) {
+
+			playing = false;
+			summary = new Summary(won, score, maxScore);
+
+			while (paused && !summary->IsFinished())
+				Sleep(10);
+
+			if (!paused) {
+
+				/*summary = nullptr;*/
+				playing = true;
+				levelTimer.GetDeltaTime();
+				ammoTimer.GetDeltaTime();
+			}
+
+			else finished = true;
+
+			paused = false;
+		}
 
 		std::thread missilesThread(HandleMissiles);
 		std::thread explosionsThread(HandleExplosions);
@@ -131,13 +167,18 @@ void Game::Run(int difficulty) {
 		flashesThread.join();
 		destructionsThread.join();
 
-		if (ammoTimer.GetElapsedTime() > Globals::AMMO_LOAD_TIME)
+		ammoTime += ammoTimer.GetDeltaTime();
+
+		if (ammoTime > Globals::AMMO_LOAD_TIME) {
+
 			AddAmmo();
+			ammoTime = 0;
+		}
 
-		float time = levelTimer.GetElapsedTime();
+		levelTime += levelTimer.GetDeltaTime();
 
-		if (time <= Globals::GAME_TIME)
-			DropBombs(level.GetSchedule());
+		if (levelTime <= Globals::GAME_TIME)
+			DropBombs(level.GetSchedule(), levelTime);
 
 		Launcher& launcher = ItemManager::GetLauncher();
 		std::list<Building>& buildings = ItemManager::GetBuildings();
@@ -146,24 +187,31 @@ void Game::Run(int difficulty) {
 
 			GameSave::Update(difficulty, score, won);
 			playing = false;
-			summary = new Summary();
+			summary = new Summary(won, score, maxScore);
 			finished = true;
 		}
 
 		std::list<Bomb>& bombs = ItemManager::GetBombs();
 
-		if (!finished && Verifier::GameWon(bombs, time)) {
+		levelTime += levelTimer.GetDeltaTime();
+
+		if (!finished && Verifier::GameWon(bombs, levelTime)) {
+
+			if (score <= 0)
+				won = false;
+
+			else won = true;
 			
-			won = true;
 			GameSave::Update(difficulty, score, won);
 			playing = false;
-			summary = new Summary();
+			summary = new Summary(won, score, maxScore);
 			finished = true;
 		}
 
 		if (summary != nullptr)
 			if (summary->IsFinished()) {
 			
+				paused = false;
 				introTime = true;
 				won = false;
 				playing = false;
@@ -193,6 +241,7 @@ void Game::Run(int difficulty) {
 			}
 
 		float deltaTime = levelTimer.GetDeltaTime();
+		levelTime += deltaTime;
 
 		if (deltaTime < Globals::FRAME_TIME)
 			Sleep(Globals::FRAME_TIME - deltaTime);
@@ -254,7 +303,7 @@ void Game::HandleExplosions() {
 				else {
 
 					k->ReceiveDamage(j->GetDamage());
-					j->GetBombsHit().push_back(*k);
+					j->AddBombHit(*k);
 
 					if (k->GetHP() <= 0) {
 
@@ -263,6 +312,10 @@ void Game::HandleExplosions() {
 							Globals::EXPLOSION_INITIAL_RADIUS, k->GetSource()));
 						UpdateBombNum(k->GetSource());
 						AwardPoints(k->GetSource());
+
+						if (k->GetSource() == CLUSTER)
+							SpawnBomblets(*j, explosions.back());
+
 						k = bombs.erase(k);
 					}
 
@@ -289,13 +342,14 @@ void Game::HandleExplosions() {
 				else {
 
 					l->ReceiveDamage(j->GetDamage());
-					j->GetBuildingsHit().push_back(*l);
+					j->AddBuildingHit(*l);
 
 					if (l->GetHP() <= 0) {
 
 						Music::PlayExplosion();
 						ItemManager::AddDestruction(Destruction(l->GetCenter(),
 							Globals::DESTRUCTION_INITIAL_RADIUS));
+						PenalizeDestruction(false);
 						l = buildings.erase(l);
 					}
 
@@ -322,6 +376,7 @@ void Game::HandleExplosions() {
 					Music::PlayExplosion();
 					ItemManager::AddDestruction(Destruction(launcher.GetCenter(),
 						Globals::DESTRUCTION_INITIAL_RADIUS));
+					PenalizeDestruction(true);
 					launcher.SetDestroyed(true);
 				}
 			}
@@ -444,6 +499,9 @@ void Game::MoveBomb(Bomb& bomb) {
 		case CLUSTER: speed = Globals::CLUSTER_BOMB_SPEED;
 			break;
 
+		case BOMBLET: speed = Globals::BOMBLET_SPEED;
+			break;
+
 		case NAPALM: speed = Globals::NAPALM_BOMB_SPEED;
 			break;
 
@@ -486,6 +544,9 @@ void Game::AdvanceExplosion(Explosion& explosion) {
 				break;
 
 			case CLUSTER: newRadius += Globals::CLUSTER_EXPLOSION_RADIUS_GROWTH;
+				break;
+
+			case BOMBLET: newRadius += Globals::BOMBLET_EXPLOSION_RADIUS_GROWTH;
 				break;
 
 			case NAPALM: newRadius += Globals::NAPALM_EXPLOSION_RADIUS_GROWTH;
@@ -582,8 +643,6 @@ void Game::UpdateLauncherCannon(HWND& hWnd) {
 
 void Game::AddAmmo() {
 
-	ammoTimer.Restart();
-
 	if (ammo < Globals::MAX_AMMO)
 		ammo++;
 }
@@ -610,16 +669,33 @@ void Game::LaunchMissile() {
 		}
 }
 
-void Game::DropBombs(Schedule& schedule) {
+void Game::SpawnBomblets(Explosion& catalystExplosion, Explosion& clusterExplosion) {
 
-	DropSpecificBombs(NORMAL, schedule.GetNormalDrops());
-	DropSpecificBombs(NUCLEAR, schedule.GetNuclearDrops());
-	DropSpecificBombs(CLUSTER, schedule.GetClusterDrops());
-	DropSpecificBombs(NAPALM, schedule.GetNapalmDrops());
-	DropSpecificBombs(RODOFGOD, schedule.GetRodDrops());
+	for (int i = 0; i < Globals::BOMBLETS_SPAWNED; i++)
+		ItemManager::AddBomb(Generator::GenerateBomblet(clusterExplosion));
+	
+	std::list<Bomb>& bombs = ItemManager::GetBombs();
+	std::list<Bomb>::iterator b = bombs.end();
+	std::advance(b, -Globals::BOMBLETS_SPAWNED);
+
+	while (b != bombs.end()) {
+
+		catalystExplosion.AddBombHit(*b);
+		clusterExplosion.AddBombHit(*b);
+		b++;
+	}
 }
 
-void Game::DropSpecificBombs(Source source, std::list<float>& drops) {
+void Game::DropBombs(Schedule& schedule, float& time) {
+
+	DropSpecificBombs(NORMAL, schedule.GetNormalDrops(), time);
+	DropSpecificBombs(NUCLEAR, schedule.GetNuclearDrops(), time);
+	DropSpecificBombs(CLUSTER, schedule.GetClusterDrops(), time);
+	DropSpecificBombs(NAPALM, schedule.GetNapalmDrops(), time);
+	DropSpecificBombs(RODOFGOD, schedule.GetRodDrops(), time);
+}
+
+void Game::DropSpecificBombs(Source source, std::list<float>& drops, float& time) {
 
 	switch (source) {
 
@@ -630,7 +706,7 @@ void Game::DropSpecificBombs(Source source, std::list<float>& drops) {
 		case RODOFGOD: {
 			std::list<float>::iterator i = drops.begin();
 			while (i != drops.end()) {
-				if (*i <= levelTimer.GetElapsedTime()) {
+				if (*i <= time) {
 					ItemManager::AddBomb(Generator::GenerateBomb(source));
 					i = drops.erase(i);
 				}
@@ -674,19 +750,19 @@ void Game::AwardPoints(Source source) {
 
 		switch (source) {
 
-			case NORMAL: score += 10;
+			case NORMAL: score += Globals::NORMAL_BOMB_POINTS;
 				break;
 
-			case NUCLEAR: score += 30;
+			case NUCLEAR: score += Globals::NUCLEAR_BOMB_POINTS;
 				break;
 
-			case CLUSTER: score += 10;
+			case CLUSTER: score += Globals::CLUSTER_BOMB_POINTS;
 				break;
 
-			case NAPALM: score += 40;
+			case NAPALM: score += Globals::NAPALM_BOMB_POINTS;
 				break;
 
-			case RODOFGOD: score += 80;
+			case RODOFGOD: score += Globals::ROD_BOMB_POINTS;
 				break;
 
 			default:
@@ -701,23 +777,34 @@ void Game::CutPoints(Source source) {
 
 		switch (source) {
 
-			case NORMAL: score -= 30;
+			case NORMAL: score -= Globals::NORMAL_BOMB_POINTS;
 				break;
 
-			case NUCLEAR: score -= 150;
+			case NUCLEAR: score -= Globals::NUCLEAR_BOMB_POINTS;
 				break;
 
-			case CLUSTER: score -= 30;
+			case CLUSTER: score -= Globals::CLUSTER_BOMB_POINTS;
 				break;
 
-			case NAPALM: score -= 200;
+			case BOMBLET: score -= Globals::BOMBLET_POINTS;
 				break;
 
-			case RODOFGOD: score -= 300;
+			case NAPALM: score -= Globals::NAPALM_BOMB_POINTS;
+				break;
+
+			case RODOFGOD: score -= Globals::ROD_BOMB_POINTS;
 				break;
 
 			default:
 				break;
 		}
 	}
+}
+
+void Game::PenalizeDestruction(bool launcher) {
+
+	if (launcher)
+		score -= maxScore * Globals::LAUNCHER_PENALTY;
+
+	else score -= maxScore * Globals::BUILDING_PENALTY;
 }

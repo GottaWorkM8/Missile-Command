@@ -10,24 +10,38 @@ LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 
 		case WM_LBUTTONDOWN:
 			if (Menu::IsGameRunning())
-				if (Game::IsFinished())
+				if (Game::IsFinished() || Game::IsPaused())
 					Game::GetSummary()->HandlePress(hWnd);
 				else Game::UpdateTarget(hWnd);
-			else Menu::HandlePress(hWnd);
+			else {
+				if (Menu::IsHelpDisplayed())
+					Menu::SetHelpDisplayed(false);
+				else Menu::HandlePress(hWnd); }
 			break;
 
 		case WM_MOUSEMOVE:
 			if (Menu::IsGameRunning()) {
-				if (Game::IsFinished())
+				if (Game::IsFinished() || Game::IsPaused())
 					Game::GetSummary()->HandleMove(hWnd);
 				Game::UpdateLauncherCannon(hWnd); }
-			else Menu::HandleMove(hWnd);
+			else
+				if (!Menu::IsHelpDisplayed())
+					Menu::HandleMove(hWnd);
 			break;
 
 		case WM_SETCURSOR:
 			if (Menu::IsGameRunning())
 				SetCursor(hGameCursor);
 			else SetCursor(hCursor);
+			break;
+
+		case WM_KEYDOWN:
+			if (wParam == VK_ESCAPE) {
+				if (Menu::IsGameRunning()) {
+					if (!Game::IsFinished()) {
+						if (Game::IsPaused())
+							Game::SetPaused(false);
+						else Game::SetPaused(true); }}}
 			break;
 
 		case WM_CLOSE:
@@ -79,7 +93,7 @@ Window::Window(): hInstance(GetModuleHandle(nullptr)) {
 	graphics = Graphics(&hWnd);
 	graphics.Init();
 
-	Music::ClearSounds();
+
 	Music::PlayMenu();
 
 	GameSave::LoadFromFile();
@@ -112,7 +126,13 @@ bool Window::ProcessMessages() {
 			if (Menu::IsGameRunning())
 				graphics.DrawGame();
 
-			else graphics.DrawMenu();
+			else {
+
+				if (Menu::IsHelpDisplayed())
+					graphics.DrawHelp();
+
+				else graphics.DrawMenu();
+			}
 
 			graphics.EndDraw();
 		}

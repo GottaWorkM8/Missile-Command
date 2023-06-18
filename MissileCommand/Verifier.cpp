@@ -75,19 +75,19 @@ bool Verifier::BombInRange(Bomb& bomb, Explosion& explosion) {
         explosion.GetCenter(), explosion.GetRadius());
 }
 
-bool Verifier::BuildingOnTheList(Building& building, std::list<Building>& buildings) {
+bool Verifier::BuildingOnTheList(Building& building, std::list<Building*>& buildings) {
 
-    for (Building& b : buildings)
-        if (b == building)
+    for (Building*& b : buildings)
+        if (*b == building)
             return true;
 
     return false;
 }
 
-bool Verifier::BombOnTheList(Bomb& bomb, std::list<Bomb>& bombs) {
+bool Verifier::BombOnTheList(Bomb& bomb, std::list<Bomb*>& bombs) {
     
-    for (Bomb& b : bombs)
-        if (b == bomb)
+    for (Bomb*& b : bombs)
+        if (*b == bomb)
             return true;
 
     return false;

@@ -2,11 +2,24 @@
 
 bool Summary::finished = false;
 
-Summary::Summary() {
+Summary::Summary(bool won, int score, int maxScore) {
 
 	backgroundColor = Globals::POPUP_BACKGROUND_COLOR;
 	textColor = Globals::BRUSH_DEFAULT_COLOR;
 	finished = false;
+	this->won = won;
+	this->score = score;
+	highscore = GameSave::GetHighscore(Game::GetDiff());
+	this->maxScore = maxScore;
+
+	if (score >= 0)
+		scoreStarsNum = score / (maxScore / Globals::SUMMARY_STAR_NUM) + 1;
+
+	else scoreStarsNum = 0;
+
+	scoreHollowStarsNum = Globals::SUMMARY_STAR_NUM - scoreStarsNum;
+	highscoreStarsNum = highscore / (maxScore / Globals::SUMMARY_STAR_NUM) + 1;
+	highscoreHollowStarsNum = Globals::SUMMARY_STAR_NUM - highscoreStarsNum;
 	pressPos = Point();
 	cursorPos = Point();
 	animationTimer = Timer();
@@ -18,6 +31,38 @@ Summary::Summary() {
 
 bool Summary::IsFinished() {
 	return finished;
+}
+
+bool Summary::IsWon() {
+	return won;
+}
+
+int Summary::GetScore() {
+	return score;
+}
+
+int Summary::GetHighscore() {
+	return highscore;
+}
+
+int Summary::GetMaxScore() {
+	return maxScore;
+}
+
+int Summary::GetScoreStarsNum() {
+	return scoreStarsNum;
+}
+
+int Summary::GetScoreHollowStarsNum() {
+	return scoreHollowStarsNum;
+}
+
+int Summary::GetHighscoreStarsNum() {
+	return highscoreStarsNum;
+}
+
+int Summary::GetHighscoreHollowStarsNum() {
+	return highscoreHollowStarsNum;
 }
 
 std::list<SummaryButton>& Summary::GetButtons() {

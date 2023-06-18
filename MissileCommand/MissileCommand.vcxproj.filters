@@ -37,9 +37,6 @@
     <Filter Include="Resource Files\cursors">
       <UniqueIdentifier>{e1e934cd-e61b-42aa-bb86-f6219156871f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\other">
-      <UniqueIdentifier>{e4bc4260-9b9e-4767-a4da-11bc9b4bd5b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\menu">
       <UniqueIdentifier>{035c25a5-53bb-4f9a-af56-3b6fdf022430}</UniqueIdentifier>
     </Filter>
@@ -66,6 +63,12 @@
     </Filter>
     <Filter Include="Source Files\constants">
       <UniqueIdentifier>{17b6dfff-a890-4121-b6e6-68245b89c74c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\summary">
+      <UniqueIdentifier>{50259b94-69b8-41a3-a5cc-b0c27a5ea055}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\logo">
+      <UniqueIdentifier>{20491928-9e4b-49c4-b923-ef8b1a8a7173}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -346,9 +349,6 @@
     <Image Include="map-rocks.jpg">
       <Filter>Resource Files\maps</Filter>
     </Image>
-    <Image Include="logo.ico">
-      <Filter>Resource Files\other</Filter>
-    </Image>
     <Image Include="building-alien1.png">
       <Filter>Resource Files\buildings</Filter>
     </Image>
@@ -463,14 +463,29 @@
     <Image Include="menu-title.png">
       <Filter>Resource Files\menu</Filter>
     </Image>
-    <Image Include="home.png">
-      <Filter>Resource Files\other</Filter>
-    </Image>
     <Image Include="next.png">
-      <Filter>Resource Files\other</Filter>
+      <Filter>Resource Files\summary</Filter>
     </Image>
     <Image Include="replay.png">
-      <Filter>Resource Files\other</Filter>
+      <Filter>Resource Files\summary</Filter>
+    </Image>
+    <Image Include="home.png">
+      <Filter>Resource Files\summary</Filter>
+    </Image>
+    <Image Include="hollow-star.png">
+      <Filter>Resource Files\summary</Filter>
+    </Image>
+    <Image Include="gold-star.png">
+      <Filter>Resource Files\summary</Filter>
+    </Image>
+    <Image Include="logo.ico">
+      <Filter>Resource Files\logo</Filter>
+    </Image>
+    <Image Include="shiny-star.png">
+      <Filter>Resource Files\summary</Filter>
+    </Image>
+    <Image Include="help.png">
+      <Filter>Resource Files\menu</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
@@ -512,6 +527,29 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="musicLevel.mp3">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="musicMenu.mp3">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="soundClick.mp3">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="soundExplosion.mp3">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="soundMissile.mp3">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
+    <Media Include="soundShortExplosion.mp3">
+      <Filter>Resource Files\sounds</Filter>
+    </Media>
     <Media Include="musicLevel.wav">
       <Filter>Resource Files\sounds</Filter>
     </Media>
@@ -527,15 +565,5 @@
     <Media Include="soundShortExplosion.wav">
       <Filter>Resource Files\sounds</Filter>
     </Media>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="savefile.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
   </ItemGroup>
 </Project>

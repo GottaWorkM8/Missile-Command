@@ -28,7 +28,7 @@ int Building::GetIndex() {
 
 bool Building::operator==(const Building& b) const {
 
-	return this->center == b.center && this->hp == hp;
+	return this->center == b.center && this->index == b.index;
 }
 
 void Building::ReceiveDamage(float damage) {
