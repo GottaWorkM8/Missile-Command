@@ -30,7 +30,7 @@ which can make winning the game difficult. Even if no structure gets damaged pla
 *Paused game*
 <br><br>
 
-Is it possible to pause the game at any time (after initial introduction) by pressing Esc key. Resuming the game is also done by pressing the same key. From the pause menu there is an option to go back to the menu (left button), replay the level from the beginning (middle button) or go to the next level, if it has been unlocked in the past by beating the current level (right button).
+It is possible to pause the game at any time (after initial introduction) by pressing Esc key. Resuming the game is also done by pressing the same key. From the pause menu there is an option to go back to the menu (left button), replay the level from the beginning (middle button) or go to the next level, if it has been unlocked in the past by beating the current level (right button).
 <br><br>
 
 Threads used in the whole application: <br>
