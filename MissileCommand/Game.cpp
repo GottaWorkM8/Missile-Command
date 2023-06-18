@@ -1,9 +1,11 @@
 #include "Game.h"
 #include <iostream>
 
+bool Game::pausable = false;
 bool Game::paused = false;
-bool Game::ready = true;
+bool Game::ready = false;
 bool Game::introTime = true;
+bool Game::popupUp = false;
 bool Game::won = false;
 bool Game::playing = false;
 bool Game::finished = false;
@@ -25,6 +27,10 @@ Point Game::missileTarget = Point();
 Intro* Game::intro = nullptr;
 Summary* Game::summary = nullptr;
 
+bool Game::IsPausable() {
+	return pausable;
+}
+
 bool Game::IsPaused() {
 	return paused;
 }
@@ -39,6 +45,10 @@ bool Game::IsReady() {
 
 bool Game::IsIntroTime() {
 	return introTime;
+}
+
+bool Game::IsPopupUp() {
+	return popupUp;
 }
 
 bool Game::IsWon() {
@@ -104,9 +114,9 @@ Summary*& Game::GetSummary() {
 
 void Game::Run(int difficulty) {
 
-	paused = false;
 	ready = false;
 
+	// Setting the level
 	Level level = Level(difficulty);
 	location = level.GetLocation();
 	score = 0;
@@ -119,12 +129,18 @@ void Game::Run(int difficulty) {
 	rodNum = level.GetRodNum();
 	ItemManager::Reset();
 
+	// Performing level introduction
 	intro = new Intro();
+	introTime = true;
 	Sleep(Globals::INTRO_TIME * 1000);
 	introTime = false;
-	playing = true;
+	delete intro;
+	intro = nullptr;
 
-	// Reset both timers
+	playing = true;
+	pausable = true;
+
+	// Reseting both timers
 	float levelTime = 0;
 	float ammoTime = 0;
 	levelTimer.Restart();
@@ -134,17 +150,21 @@ void Game::Run(int difficulty) {
 
 	while (true) {
 
+		// Pausing and unpausing the game (popup) 
 		if (paused) {
 
 			playing = false;
 			summary = new Summary(won, score, maxScore);
+			popupUp = true;
 
 			while (paused && !summary->IsFinished())
 				Sleep(10);
 
 			if (!paused) {
 
-				/*summary = nullptr;*/
+				popupUp = false;
+				delete summary;
+				summary = nullptr;
 				playing = true;
 				levelTimer.GetDeltaTime();
 				ammoTimer.GetDeltaTime();
@@ -155,18 +175,21 @@ void Game::Run(int difficulty) {
 			paused = false;
 		}
 
+		// Creating multiple threads handling game objects
 		std::thread missilesThread(HandleMissiles);
 		std::thread explosionsThread(HandleExplosions);
 		std::thread bombsThread(HandleBombs);
 		std::thread flashesThread(HandleFlashes);
 		std::thread destructionsThread(HandleDestructions);
 
+		// Joining created threads
 		missilesThread.join();
 		explosionsThread.join();
 		bombsThread.join();
 		flashesThread.join();
 		destructionsThread.join();
 
+		// Handling ammo restoration
 		ammoTime += ammoTimer.GetDeltaTime();
 
 		if (ammoTime > Globals::AMMO_LOAD_TIME) {
@@ -175,19 +198,23 @@ void Game::Run(int difficulty) {
 			ammoTime = 0;
 		}
 
+		// Handling bomb drops
 		levelTime += levelTimer.GetDeltaTime();
 
 		if (levelTime <= Globals::GAME_TIME)
 			DropBombs(level.GetSchedule(), levelTime);
 
+		// Handling checks for game loss and game win
 		Launcher& launcher = ItemManager::GetLauncher();
 		std::list<Building>& buildings = ItemManager::GetBuildings();
 
 		if (!finished && Verifier::GameLost(launcher, buildings)) {
 
+			pausable = false;
 			GameSave::Update(difficulty, score, won);
 			playing = false;
 			summary = new Summary(won, score, maxScore);
+			popupUp = true;
 			finished = true;
 		}
 
@@ -197,6 +224,8 @@ void Game::Run(int difficulty) {
 
 		if (!finished && Verifier::GameWon(bombs, levelTime)) {
 
+			pausable = false;
+
 			if (score <= 0)
 				won = false;
 
@@ -205,14 +234,17 @@ void Game::Run(int difficulty) {
 			GameSave::Update(difficulty, score, won);
 			playing = false;
 			summary = new Summary(won, score, maxScore);
+			popupUp = true;
 			finished = true;
 		}
 
+		// Handling summary popup at the end of the game
 		if (summary != nullptr)
 			if (summary->IsFinished()) {
 			
+				// Reseting all values for the next future game
+				pausable = false;
 				paused = false;
-				introTime = true;
 				won = false;
 				playing = false;
 				finished = false;
@@ -230,9 +262,8 @@ void Game::Run(int difficulty) {
 				levelTimer = Timer();
 				ammoTimer = Timer();
 				missileTimer = Timer();
-				missileOrigin = Point();
-				missileTarget = Point();
-				intro = nullptr;
+				popupUp = false;
+				delete summary;
 				summary = nullptr;
 
 				ready = true;
@@ -240,6 +271,7 @@ void Game::Run(int difficulty) {
 				return;
 			}
 
+		// Maintaining stable framerate (120 fps)
 		float deltaTime = levelTimer.GetDeltaTime();
 		levelTime += deltaTime;
 

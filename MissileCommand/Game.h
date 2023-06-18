@@ -21,9 +21,11 @@
 /// </summary>
 class Game {
 
+	static bool pausable;
 	static bool paused;
 	static bool ready;
 	static bool introTime;
+	static bool popupUp;
 	static bool won;
 	static bool playing;
 	static bool finished;
@@ -94,19 +96,23 @@ class Game {
 
 public:
 
-	// Returns the boolean telling if the game has been interrupted in the middle
+	// Returns the boolean telling if the game can be paused at the time (after introduction, before end of the game)
+	static bool IsPausable();
+	// Returns the boolean telling if the game is paused
 	static bool IsPaused();
-	// Sets the boolean telling if the game has been interrupted in the middle
+	// Sets the boolean telling if the game is paused
 	static void SetPaused(bool pause);
-	// Returns the boolean telling if the game is ready to be started
+	// Returns the boolean telling if the game is ready to be started again (second and following games)
 	static bool IsReady();
 	// Returns the boolean telling if the introduction is progressing
 	static bool IsIntroTime();
+	// Returns the boolean telling if the popup is displayed (pause or end of the game summary)
+	static bool IsPopupUp();
 	// Returns the boolean telling if the game has been won
 	static bool IsWon();
-	// Returns the boolean telling if the game is currently played
+	// Returns the boolean telling if the game is currently played (not paused)
 	static bool IsPlaying();
-	// Returns the boolean telling if the game, including summary is finished
+	// Returns the boolean telling if the game is finished and summary is to be displayed
 	static bool IsFinished();
 	// Returns string containing the name of the location of the current level
 	static const wchar_t* GetLocation();
