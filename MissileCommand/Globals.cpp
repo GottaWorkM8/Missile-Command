@@ -42,8 +42,8 @@ const float Globals::HELP_BOTTOM = MAX_Y - HELP_TOP;
 // Game
 
 const float Globals::FRAME_TIME = 1000 / 120; // 120 fps
-const float Globals::GAME_TIME = 2.0f; // 60 second turn
-const float Globals::BOMB_SPAWN_TIME = 1.0f;
+const float Globals::GAME_TIME = 60.0f; // 60 second turn
+const float Globals::BOMB_SPAWN_TIME = 59.0f;
 
 const int Globals::LEVEL1 = 1;
 const int Globals::LEVEL2 = 2;
