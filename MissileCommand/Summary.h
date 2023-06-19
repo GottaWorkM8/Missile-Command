@@ -14,12 +14,13 @@ class Menu;
 class Game;
 
 /// <summary>
-/// Class responsible for handling everything present in the summary at the end of every game 
+/// Class responsible for handling everything present in the summary at the end of every game and during pause 
 /// (points, stars, buttons, going back to menu, replaying the level or playing the next one)
 /// </summary>
 class Summary {
 
 	static bool finished;
+	static bool deletable;
 	bool won;
 	int score;
 	int highscore;
@@ -59,6 +60,8 @@ public:
 
 	// Returns the boolean telling if user is finished with the summary, i.e. if user clicked on any button present on the summary popup
 	bool IsFinished();
+	// Returns the boolean telling if all detached threads have completed their work and the object is ready to be deleted
+	bool IsDeletable();
 	// Returns the boolean telling if user won recently played level
 	bool IsWon();
 	// Returns the integer representing the amount of points user accumulated after playing the recent level

@@ -40,8 +40,9 @@ LRESULT CALLBACK Window::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 				if (Menu::IsGameRunning()) {
 					if (!Game::IsFinished()) {
 						if (Game::IsPausable()) {
-							if (Game::IsPaused())
-								Game::SetPaused(false);
+							if (Game::IsPaused()) {
+								if (Game::GetSummary()->IsDeletable())
+									Game::SetPaused(false); }
 							else Game::SetPaused(true); }}}}
 			break;
 
