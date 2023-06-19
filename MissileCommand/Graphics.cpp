@@ -451,7 +451,7 @@ void Graphics::DrawGame() {
 		if (Game::GetIntro() != nullptr)
 			DrawIntro();
 
-	// Summary at the end of the game
+	// Summary at the end of the game or during pause
 	if (Game::IsFinished() || Game::IsPaused())
 		if (Game::GetSummary() != nullptr)
 			DrawSummary();

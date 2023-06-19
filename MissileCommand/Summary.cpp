@@ -1,12 +1,14 @@
 #include "Summary.h"
 
 bool Summary::finished = false;
+bool Summary::deletable = true;
 
 Summary::Summary(bool won, int score, int maxScore) {
 
 	backgroundColor = Globals::POPUP_BACKGROUND_COLOR;
 	textColor = Globals::BRUSH_DEFAULT_COLOR;
 	finished = false;
+
 	this->won = won;
 	this->score = score;
 	highscore = GameSave::GetHighscore(Game::GetDiff());
@@ -31,6 +33,10 @@ Summary::Summary(bool won, int score, int maxScore) {
 
 bool Summary::IsFinished() {
 	return finished;
+}
+
+bool Summary::IsDeletable() {
+	return deletable;
 }
 
 bool Summary::IsWon() {
@@ -142,6 +148,8 @@ void Summary::ApplyAnimation() {
 
 void Summary::CreateAnimationThread(SummaryButton& button) {
 
+	deletable = false;
+
 	std::thread thread = std::thread([this, &button]() {
 		this->AnimateButton(button);
 	});
@@ -176,6 +184,8 @@ void Summary::AnimateButton(SummaryButton& button) {
 
 	button.SetTopLeft(originalTopLeft);
 	button.SetBottomRight(originalBottomRight);
+
+	deletable = true;
 }
 
 void Summary::GoToMenu() {
